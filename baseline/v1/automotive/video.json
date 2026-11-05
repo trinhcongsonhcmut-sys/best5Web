@@ -1,0 +1,30 @@
+{
+  "demo": "automotive",
+  "base": "http://localhost:5181",
+  "viewport": "1440x900",
+  "seconds": 75.8,
+  "frames": 3618,
+  "consoleErrors": [],
+  "endState": {
+    "scroll": {
+      "raw": 0,
+      "smooth": 0
+    },
+    "orbit": {
+      "yaw": -8.881784197001252e-16,
+      "yawTotal": -6.283185307179587,
+      "pitch": 2.233173828895058e-211,
+      "dolly": 1
+    },
+    "variant": {
+      "id": "stainless",
+      "index": 0,
+      "count": 4
+    },
+    "fps": {
+      "avg": 61.823048435302596,
+      "frames": 4324
+    }
+  },
+  "recordedAt": "2026-11-05T03:30:10.797Z"
+}

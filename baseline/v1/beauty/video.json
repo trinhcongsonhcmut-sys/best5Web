@@ -1,0 +1,30 @@
+{
+  "demo": "beauty",
+  "base": "http://localhost:5181",
+  "viewport": "1440x900",
+  "seconds": 87.9,
+  "frames": 3206,
+  "consoleErrors": [],
+  "endState": {
+    "scroll": {
+      "raw": 0,
+      "smooth": 0
+    },
+    "orbit": {
+      "yaw": -8.881784197001252e-16,
+      "yawTotal": -6.283185307179587,
+      "pitch": 3.3657346579504416e-240,
+      "dolly": 1
+    },
+    "variant": {
+      "id": "aloe",
+      "index": 0,
+      "count": 3
+    },
+    "fps": {
+      "avg": 55.20015533597646,
+      "frames": 4584
+    }
+  },
+  "recordedAt": "2026-11-05T03:32:45.039Z"
+}

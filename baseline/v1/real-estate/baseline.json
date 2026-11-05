@@ -1,0 +1,1365 @@
+{
+  "demo": "real-estate",
+  "route": "/real-estate",
+  "base": "http://localhost:5181",
+  "capturedAt": "2026-11-05T03:24:05.409Z",
+  "viewport": "1440x900",
+  "marks": [
+    {
+      "p": 0,
+      "scroll": 0,
+      "position": [
+        25,
+        6.4,
+        38
+      ],
+      "target": [
+        -3.4,
+        6.4,
+        0
+      ],
+      "fov": 34,
+      "extra": {
+        "facade": "travertine",
+        "level": "overview",
+        "night": 0
+      },
+      "hover": 0,
+      "fps": 74.918
+    },
+    {
+      "p": 0.125,
+      "scroll": 0.125,
+      "position": [
+        17.055,
+        3.266,
+        26.528
+      ],
+      "target": [
+        -0.223,
+        3.891,
+        2.959
+      ],
+      "fov": 40.245,
+      "extra": {
+        "facade": "travertine",
+        "level": "rooftop",
+        "night": 0.016
+      },
+      "hover": 0,
+      "fps": 74.656
+    },
+    {
+      "p": 0.25,
+      "scroll": 0.25,
+      "position": [
+        9.6,
+        1.75,
+        19.5
+      ],
+      "target": [
+        1.6,
+        2.5,
+        5
+      ],
+      "fov": 43.998,
+      "extra": {
+        "facade": "travertine",
+        "level": "ground",
+        "night": 0.125
+      },
+      "hover": 0,
+      "fps": 75.008
+    },
+    {
+      "p": 0.375,
+      "scroll": 0.375,
+      "position": [
+        4.986,
+        3.988,
+        24.372
+      ],
+      "target": [
+        -0.676,
+        4.237,
+        4.363
+      ],
+      "fov": 41.625,
+      "extra": {
+        "facade": "travertine",
+        "level": "ground",
+        "night": 0.304
+      },
+      "hover": 0,
+      "fps": 74.585
+    },
+    {
+      "p": 0.5,
+      "scroll": 0.5,
+      "position": [
+        0.4,
+        7,
+        29.5
+      ],
+      "target": [
+        -3.6,
+        7,
+        3
+      ],
+      "fov": 38.001,
+      "extra": {
+        "facade": "travertine",
+        "level": "level1",
+        "night": 0.517
+      },
+      "hover": 0,
+      "fps": 74.875
+    },
+    {
+      "p": 0.625,
+      "scroll": 0.625,
+      "position": [
+        -11.339,
+        11.098,
+        19.135
+      ],
+      "target": [
+        -4.593,
+        10.509,
+        1.982
+      ],
+      "fov": 35.018,
+      "extra": {
+        "facade": "travertine",
+        "level": "level2",
+        "night": 0.728
+      },
+      "hover": 0,
+      "fps": 75.01
+    },
+    {
+      "p": 0.75,
+      "scroll": 0.75,
+      "position": [
+        9.8,
+        16.4,
+        13.2
+      ],
+      "target": [
+        -3.6,
+        13,
+        1.8
+      ],
+      "fov": 39.997,
+      "extra": {
+        "facade": "travertine",
+        "level": "rooftop",
+        "night": 0.898
+      },
+      "hover": 0,
+      "fps": 75.033
+    },
+    {
+      "p": 0.875,
+      "scroll": 0.875,
+      "position": [
+        -5.337,
+        17.451,
+        22.679
+      ],
+      "target": [
+        -1.528,
+        10.574,
+        1.015
+      ],
+      "fov": 39.252,
+      "extra": {
+        "facade": "travertine",
+        "level": "rooftop",
+        "night": 0.992
+      },
+      "hover": 0,
+      "fps": 73.67
+    },
+    {
+      "p": 1,
+      "scroll": 1,
+      "position": [
+        -31,
+        17.5,
+        37
+      ],
+      "target": [
+        1,
+        6.4,
+        0
+      ],
+      "fov": 38.001,
+      "extra": {
+        "facade": "travertine",
+        "level": "overview",
+        "night": 1
+      },
+      "hover": 0,
+      "fps": 74.518
+    }
+  ],
+  "cameraPath": [
+    {
+      "scroll": 0,
+      "position": [
+        25,
+        6.4,
+        38
+      ],
+      "target": [
+        -3.4,
+        6.4,
+        0
+      ],
+      "fov": 34.005,
+      "extra": {
+        "facade": "travertine",
+        "level": "overview",
+        "night": 0
+      }
+    },
+    {
+      "scroll": 0.025,
+      "position": [
+        23.442,
+        5.877,
+        35.99
+      ],
+      "target": [
+        -2.851,
+        5.97,
+        0.533
+      ],
+      "fov": 35.085,
+      "extra": {
+        "facade": "travertine",
+        "level": "overview",
+        "night": 0
+      }
+    },
+    {
+      "scroll": 0.05,
+      "position": [
+        21.857,
+        5.263,
+        33.731
+      ],
+      "target": [
+        -2.227,
+        5.477,
+        1.117
+      ],
+      "fov": 36.317,
+      "extra": {
+        "facade": "travertine",
+        "level": "overview",
+        "night": 0
+      }
+    },
+    {
+      "scroll": 0.075,
+      "position": [
+        20.257,
+        4.597,
+        31.33
+      ],
+      "target": [
+        -1.559,
+        4.948,
+        1.731
+      ],
+      "fov": 37.628,
+      "extra": {
+        "facade": "travertine",
+        "level": "overview",
+        "night": 0.001
+      }
+    },
+    {
+      "scroll": 0.1,
+      "position": [
+        18.652,
+        3.919,
+        28.894
+      ],
+      "target": [
+        -0.88,
+        4.411,
+        2.352
+      ],
+      "fov": 38.957,
+      "extra": {
+        "facade": "travertine",
+        "level": "overview",
+        "night": 0.006
+      }
+    },
+    {
+      "scroll": 0.125,
+      "position": [
+        17.055,
+        3.266,
+        26.528
+      ],
+      "target": [
+        -0.223,
+        3.891,
+        2.959
+      ],
+      "fov": 40.249,
+      "extra": {
+        "facade": "travertine",
+        "level": "rooftop",
+        "night": 0.016
+      }
+    },
+    {
+      "scroll": 0.15,
+      "position": [
+        15.478,
+        2.678,
+        24.341
+      ],
+      "target": [
+        0.38,
+        3.416,
+        3.528
+      ],
+      "fov": 41.438,
+      "extra": {
+        "facade": "travertine",
+        "level": "level2",
+        "night": 0.031
+      }
+    },
+    {
+      "scroll": 0.175,
+      "position": [
+        13.932,
+        2.194,
+        22.437
+      ],
+      "target": [
+        0.897,
+        3.013,
+        4.039
+      ],
+      "fov": 42.467,
+      "extra": {
+        "facade": "travertine",
+        "level": "level1",
+        "night": 0.049
+      }
+    },
+    {
+      "scroll": 0.2,
+      "position": [
+        12.43,
+        1.852,
+        20.925
+      ],
+      "target": [
+        1.294,
+        2.708,
+        4.47
+      ],
+      "fov": 43.276,
+      "extra": {
+        "facade": "travertine",
+        "level": "level1",
+        "night": 0.071
+      }
+    },
+    {
+      "scroll": 0.225,
+      "position": [
+        10.982,
+        1.691,
+        19.91
+      ],
+      "target": [
+        1.539,
+        2.528,
+        4.797
+      ],
+      "fov": 43.81,
+      "extra": {
+        "facade": "travertine",
+        "level": "ground",
+        "night": 0.096
+      }
+    },
+    {
+      "scroll": 0.25,
+      "position": [
+        9.6,
+        1.75,
+        19.5
+      ],
+      "target": [
+        1.6,
+        2.5,
+        5
+      ],
+      "fov": 44,
+      "extra": {
+        "facade": "travertine",
+        "level": "ground",
+        "night": 0.125
+      }
+    },
+    {
+      "scroll": 0.275,
+      "position": [
+        8.595,
+        1.97,
+        19.73
+      ],
+      "target": [
+        1.449,
+        2.628,
+        5.06
+      ],
+      "fov": 43.88,
+      "extra": {
+        "facade": "travertine",
+        "level": "ground",
+        "night": 0.156
+      }
+    },
+    {
+      "scroll": 0.3,
+      "position": [
+        7.645,
+        2.332,
+        20.453
+      ],
+      "target": [
+        1.104,
+        2.888,
+        5.005
+      ],
+      "fov": 43.538,
+      "extra": {
+        "facade": "travertine",
+        "level": "ground",
+        "night": 0.19
+      }
+    },
+    {
+      "scroll": 0.325,
+      "position": [
+        6.735,
+        2.807,
+        21.548
+      ],
+      "target": [
+        0.607,
+        3.258,
+        4.856
+      ],
+      "fov": 43.022,
+      "extra": {
+        "facade": "travertine",
+        "level": "ground",
+        "night": 0.226
+      }
+    },
+    {
+      "scroll": 0.35,
+      "position": [
+        5.853,
+        3.368,
+        22.895
+      ],
+      "target": [
+        -0.001,
+        3.716,
+        4.635
+      ],
+      "fov": 42.366,
+      "extra": {
+        "facade": "travertine",
+        "level": "ground",
+        "night": 0.264
+      }
+    },
+    {
+      "scroll": 0.375,
+      "position": [
+        4.986,
+        3.988,
+        24.372
+      ],
+      "target": [
+        -0.676,
+        4.237,
+        4.363
+      ],
+      "fov": 41.624,
+      "extra": {
+        "facade": "travertine",
+        "level": "ground",
+        "night": 0.304
+      }
+    },
+    {
+      "scroll": 0.4,
+      "position": [
+        4.119,
+        4.638,
+        25.859
+      ],
+      "target": [
+        -1.378,
+        4.799,
+        4.062
+      ],
+      "fov": 40.828,
+      "extra": {
+        "facade": "travertine",
+        "level": "ground",
+        "night": 0.345
+      }
+    },
+    {
+      "scroll": 0.425,
+      "position": [
+        3.241,
+        5.293,
+        27.236
+      ],
+      "target": [
+        -2.063,
+        5.38,
+        3.753
+      ],
+      "fov": 40.029,
+      "extra": {
+        "facade": "travertine",
+        "level": "ground",
+        "night": 0.387
+      }
+    },
+    {
+      "scroll": 0.45,
+      "position": [
+        2.337,
+        5.923,
+        28.382
+      ],
+      "target": [
+        -2.69,
+        5.955,
+        3.459
+      ],
+      "fov": 39.262,
+      "extra": {
+        "facade": "travertine",
+        "level": "level1",
+        "night": 0.43
+      }
+    },
+    {
+      "scroll": 0.475,
+      "position": [
+        1.394,
+        6.501,
+        29.177
+      ],
+      "target": [
+        -3.216,
+        6.503,
+        3.201
+      ],
+      "fov": 38.574,
+      "extra": {
+        "facade": "travertine",
+        "level": "level1",
+        "night": 0.474
+      }
+    },
+    {
+      "scroll": 0.5,
+      "position": [
+        0.4,
+        7,
+        29.5
+      ],
+      "target": [
+        -3.6,
+        7,
+        3
+      ],
+      "fov": 38.003,
+      "extra": {
+        "facade": "travertine",
+        "level": "level1",
+        "night": 0.517
+      }
+    },
+    {
+      "scroll": 0.525,
+      "position": [
+        -2.394,
+        7.909,
+        28.712
+      ],
+      "target": [
+        -3.997,
+        7.707,
+        2.754
+      ],
+      "fov": 37.207,
+      "extra": {
+        "facade": "travertine",
+        "level": "level1",
+        "night": 0.561
+      }
+    },
+    {
+      "scroll": 0.55,
+      "position": [
+        -5.766,
+        8.709,
+        26.602
+      ],
+      "target": [
+        -4.295,
+        8.429,
+        2.516
+      ],
+      "fov": 36.373,
+      "extra": {
+        "facade": "travertine",
+        "level": "level1",
+        "night": 0.604
+      }
+    },
+    {
+      "scroll": 0.575,
+      "position": [
+        -8.92,
+        9.463,
+        23.856
+      ],
+      "target": [
+        -4.493,
+        9.151,
+        2.299
+      ],
+      "fov": 35.64,
+      "extra": {
+        "facade": "travertine",
+        "level": "level2",
+        "night": 0.646
+      }
+    },
+    {
+      "scroll": 0.6,
+      "position": [
+        -11.057,
+        10.232,
+        21.16
+      ],
+      "target": [
+        -4.593,
+        9.857,
+        2.115
+      ],
+      "fov": 35.141,
+      "extra": {
+        "facade": "travertine",
+        "level": "level2",
+        "night": 0.688
+      }
+    },
+    {
+      "scroll": 0.625,
+      "position": [
+        -11.339,
+        11.098,
+        19.135
+      ],
+      "target": [
+        -4.593,
+        10.509,
+        1.982
+      ],
+      "fov": 35.019,
+      "extra": {
+        "facade": "travertine",
+        "level": "level2",
+        "night": 0.728
+      }
+    },
+    {
+      "scroll": 0.65,
+      "position": [
+        -8.39,
+        12.186,
+        17.242
+      ],
+      "target": [
+        -4.513,
+        11.12,
+        1.924
+      ],
+      "fov": 35.675,
+      "extra": {
+        "facade": "travertine",
+        "level": "level2",
+        "night": 0.766
+      }
+    },
+    {
+      "scroll": 0.675,
+      "position": [
+        -3.106,
+        13.363,
+        15.433
+      ],
+      "target": [
+        -4.363,
+        11.768,
+        1.904
+      ],
+      "fov": 36.927,
+      "extra": {
+        "facade": "travertine",
+        "level": "level2",
+        "night": 0.803
+      }
+    },
+    {
+      "scroll": 0.7,
+      "position": [
+        2.818,
+        14.526,
+        13.977
+      ],
+      "target": [
+        -4.154,
+        12.36,
+        1.894
+      ],
+      "fov": 38.35,
+      "extra": {
+        "facade": "travertine",
+        "level": "rooftop",
+        "night": 0.837
+      }
+    },
+    {
+      "scroll": 0.725,
+      "position": [
+        7.685,
+        15.572,
+        13.143
+      ],
+      "target": [
+        -3.896,
+        12.802,
+        1.868
+      ],
+      "fov": 39.514,
+      "extra": {
+        "facade": "travertine",
+        "level": "rooftop",
+        "night": 0.869
+      }
+    },
+    {
+      "scroll": 0.75,
+      "position": [
+        9.8,
+        16.4,
+        13.2
+      ],
+      "target": [
+        -3.6,
+        13,
+        1.8
+      ],
+      "fov": 39.996,
+      "extra": {
+        "facade": "travertine",
+        "level": "rooftop",
+        "night": 0.898
+      }
+    },
+    {
+      "scroll": 0.775,
+      "position": [
+        9.13,
+        16.835,
+        14.011
+      ],
+      "target": [
+        -3.288,
+        12.907,
+        1.695
+      ],
+      "fov": 39.966,
+      "extra": {
+        "facade": "travertine",
+        "level": "rooftop",
+        "night": 0.924
+      }
+    },
+    {
+      "scroll": 0.8,
+      "position": [
+        7.029,
+        17.133,
+        15.48
+      ],
+      "target": [
+        -2.913,
+        12.575,
+        1.558
+      ],
+      "fov": 39.858,
+      "extra": {
+        "facade": "travertine",
+        "level": "rooftop",
+        "night": 0.947
+      }
+    },
+    {
+      "scroll": 0.825,
+      "position": [
+        3.749,
+        17.32,
+        17.492
+      ],
+      "target": [
+        -2.488,
+        12.048,
+        1.395
+      ],
+      "fov": 39.695,
+      "extra": {
+        "facade": "travertine",
+        "level": "rooftop",
+        "night": 0.966
+      }
+    },
+    {
+      "scroll": 0.85,
+      "position": [
+        -0.457,
+        17.418,
+        19.931
+      ],
+      "target": [
+        -2.022,
+        11.367,
+        1.213
+      ],
+      "fov": 39.493,
+      "extra": {
+        "facade": "travertine",
+        "level": "rooftop",
+        "night": 0.981
+      }
+    },
+    {
+      "scroll": 0.875,
+      "position": [
+        -5.337,
+        17.451,
+        22.679
+      ],
+      "target": [
+        -1.528,
+        10.574,
+        1.015
+      ],
+      "fov": 39.255,
+      "extra": {
+        "facade": "travertine",
+        "level": "rooftop",
+        "night": 0.992
+      }
+    },
+    {
+      "scroll": 0.9,
+      "position": [
+        -10.638,
+        17.445,
+        25.62
+      ],
+      "target": [
+        -1.015,
+        9.712,
+        0.808
+      ],
+      "fov": 38.992,
+      "extra": {
+        "facade": "travertine",
+        "level": "rooftop",
+        "night": 0.998
+      }
+    },
+    {
+      "scroll": 0.925,
+      "position": [
+        -16.107,
+        17.423,
+        28.64
+      ],
+      "target": [
+        -0.495,
+        8.821,
+        0.598
+      ],
+      "fov": 38.729,
+      "extra": {
+        "facade": "travertine",
+        "level": "overview",
+        "night": 1
+      }
+    },
+    {
+      "scroll": 0.95,
+      "position": [
+        -21.493,
+        17.408,
+        31.62
+      ],
+      "target": [
+        0.022,
+        7.944,
+        0.389
+      ],
+      "fov": 38.464,
+      "extra": {
+        "facade": "travertine",
+        "level": "overview",
+        "night": 1
+      }
+    },
+    {
+      "scroll": 0.975,
+      "position": [
+        -26.541,
+        17.426,
+        34.446
+      ],
+      "target": [
+        0.524,
+        7.123,
+        0.188
+      ],
+      "fov": 38.219,
+      "extra": {
+        "facade": "travertine",
+        "level": "overview",
+        "night": 1
+      }
+    },
+    {
+      "scroll": 1,
+      "position": [
+        -31,
+        17.5,
+        37
+      ],
+      "target": [
+        1,
+        6.4,
+        0
+      ],
+      "fov": 38.003,
+      "extra": {
+        "facade": "travertine",
+        "level": "overview",
+        "night": 1
+      }
+    }
+  ],
+  "orbit": [
+    {
+      "step": 0,
+      "requestedDeg": 0,
+      "yawDeg": 0,
+      "yawTotalDeg": 0,
+      "pitch": 0,
+      "dolly": 1,
+      "camera": {
+        "scroll": 0,
+        "position": [
+          25,
+          6.4,
+          38
+        ],
+        "target": [
+          -3.4,
+          6.4,
+          0
+        ],
+        "fov": 34,
+        "extra": {
+          "facade": "travertine",
+          "level": "overview",
+          "night": 0
+        }
+      }
+    },
+    {
+      "step": 1,
+      "requestedDeg": 45,
+      "yawDeg": -45,
+      "yawTotalDeg": -45,
+      "pitch": 0,
+      "dolly": 1,
+      "camera": {
+        "scroll": 0,
+        "position": [
+          -10.188,
+          6.4,
+          46.952
+        ],
+        "target": [
+          -3.4,
+          6.4,
+          0
+        ],
+        "fov": 34,
+        "extra": {
+          "facade": "travertine",
+          "level": "overview",
+          "night": 0
+        }
+      }
+    },
+    {
+      "step": 2,
+      "requestedDeg": 90,
+      "yawDeg": -90,
+      "yawTotalDeg": -90,
+      "pitch": 0,
+      "dolly": 1,
+      "camera": {
+        "scroll": 0,
+        "position": [
+          -41.4,
+          6.4,
+          28.4
+        ],
+        "target": [
+          -3.4,
+          6.4,
+          0
+        ],
+        "fov": 34,
+        "extra": {
+          "facade": "travertine",
+          "level": "overview",
+          "night": 0
+        }
+      }
+    },
+    {
+      "step": 3,
+      "requestedDeg": 135,
+      "yawDeg": -135,
+      "yawTotalDeg": -135,
+      "pitch": 0,
+      "dolly": 1,
+      "camera": {
+        "scroll": 0,
+        "position": [
+          -50.352,
+          6.4,
+          -6.788
+        ],
+        "target": [
+          -3.4,
+          6.4,
+          0
+        ],
+        "fov": 34,
+        "extra": {
+          "facade": "travertine",
+          "level": "overview",
+          "night": 0
+        }
+      }
+    },
+    {
+      "step": 4,
+      "requestedDeg": 180,
+      "yawDeg": -180,
+      "yawTotalDeg": -180,
+      "pitch": 0,
+      "dolly": 1,
+      "camera": {
+        "scroll": 0,
+        "position": [
+          -31.8,
+          6.4,
+          -38
+        ],
+        "target": [
+          -3.4,
+          6.4,
+          0
+        ],
+        "fov": 34,
+        "extra": {
+          "facade": "travertine",
+          "level": "overview",
+          "night": 0
+        }
+      }
+    },
+    {
+      "step": 5,
+      "requestedDeg": 225,
+      "yawDeg": 135,
+      "yawTotalDeg": -225,
+      "pitch": 0,
+      "dolly": 1,
+      "camera": {
+        "scroll": 0,
+        "position": [
+          3.388,
+          6.4,
+          -46.952
+        ],
+        "target": [
+          -3.4,
+          6.4,
+          0
+        ],
+        "fov": 34,
+        "extra": {
+          "facade": "travertine",
+          "level": "overview",
+          "night": 0
+        }
+      }
+    },
+    {
+      "step": 6,
+      "requestedDeg": 270,
+      "yawDeg": 90,
+      "yawTotalDeg": -270,
+      "pitch": 0,
+      "dolly": 1,
+      "camera": {
+        "scroll": 0,
+        "position": [
+          34.6,
+          6.4,
+          -28.4
+        ],
+        "target": [
+          -3.4,
+          6.4,
+          0
+        ],
+        "fov": 34,
+        "extra": {
+          "facade": "travertine",
+          "level": "overview",
+          "night": 0
+        }
+      }
+    },
+    {
+      "step": 7,
+      "requestedDeg": 315,
+      "yawDeg": 45,
+      "yawTotalDeg": -315,
+      "pitch": 0,
+      "dolly": 1,
+      "camera": {
+        "scroll": 0,
+        "position": [
+          43.552,
+          6.4,
+          6.788
+        ],
+        "target": [
+          -3.4,
+          6.4,
+          0
+        ],
+        "fov": 34,
+        "extra": {
+          "facade": "travertine",
+          "level": "overview",
+          "night": 0
+        }
+      }
+    }
+  ],
+  "variants": [
+    {
+      "index": 0,
+      "id": "travertine",
+      "label": "Travertine",
+      "primary": {
+        "color": "#e7dcc6",
+        "emissive": "#3a2610",
+        "emissiveIntensity": 0,
+        "roughness": 0.95,
+        "metalness": 0,
+        "transmission": null,
+        "clearcoat": null,
+        "rim": 0,
+        "opacity": 1
+      },
+      "extra": {
+        "facade": "travertine",
+        "level": "overview",
+        "night": 0
+      }
+    },
+    {
+      "index": 1,
+      "id": "basalt",
+      "label": "Basalt · Teak",
+      "primary": {
+        "color": "#4b5053",
+        "emissive": "#3a2610",
+        "emissiveIntensity": 0,
+        "roughness": 0.8200001550185841,
+        "metalness": 0,
+        "transmission": null,
+        "clearcoat": null,
+        "rim": 0,
+        "opacity": 1
+      },
+      "extra": {
+        "facade": "basalt",
+        "level": "overview",
+        "night": 0
+      }
+    },
+    {
+      "index": 2,
+      "id": "terracotta",
+      "label": "Terracotta",
+      "primary": {
+        "color": "#c46e48",
+        "emissive": "#3a2610",
+        "emissiveIntensity": 0,
+        "roughness": 0.9999998174056417,
+        "metalness": 0,
+        "transmission": null,
+        "clearcoat": null,
+        "rim": 0,
+        "opacity": 1
+      },
+      "extra": {
+        "facade": "terracotta",
+        "level": "overview",
+        "night": 0
+      }
+    }
+  ],
+  "hover": {
+    "idle": 0,
+    "on": 1,
+    "onId": "glass",
+    "afterLeave": 0,
+    "primaryWhileHovered": {
+      "color": "#e7dcc6",
+      "emissive": "#3a2610",
+      "emissiveIntensity": 0.15749993002514132,
+      "roughness": 0.95,
+      "metalness": 0,
+      "transmission": null,
+      "clearcoat": null,
+      "rim": 0.4049998200646491,
+      "opacity": 1
+    }
+  },
+  "mobile": [
+    {
+      "p": 0,
+      "scroll": 0,
+      "position": [
+        60.681,
+        13.625,
+        81.1
+      ],
+      "target": [
+        -3.4,
+        6.4,
+        0
+      ],
+      "fov": 34,
+      "extra": {
+        "facade": "travertine",
+        "level": "overview",
+        "night": 0
+      }
+    },
+    {
+      "p": 0.5,
+      "scroll": 0.5,
+      "position": [
+        6.664,
+        11.082,
+        60.483
+      ],
+      "target": [
+        -3.6,
+        7,
+        3
+      ],
+      "fov": 38.004,
+      "extra": {
+        "facade": "travertine",
+        "level": "level1",
+        "night": 0.517
+      }
+    },
+    {
+      "p": 1,
+      "scroll": 1,
+      "position": [
+        -65.368,
+        38.026,
+        81.229
+      ],
+      "target": [
+        1,
+        6.4,
+        0
+      ],
+      "fov": 38.005,
+      "extra": {
+        "facade": "travertine",
+        "level": "overview",
+        "night": 1
+      }
+    }
+  ],
+  "gpu": {
+    "renderer": "ANGLE (Intel, Intel(R) HD Graphics 530 (0x00001912) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36"
+  },
+  "materials": [
+    "primary",
+    "glass",
+    "water"
+  ],
+  "fps": {
+    "avg": 74.701,
+    "frames": 8310
+  },
+  "consoleErrors": [],
+  "mobileErrors": []
+}

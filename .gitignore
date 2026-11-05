@@ -6,3 +6,10 @@ playwright-report/
 .vite/
 # Third-party reference imagery: kept locally as observation evidence, not redistributed
 reference/shots/
+# Founder-supplied v2 quality references (third-party imagery): local only
+reference/v2/*.webp
+reference/v2/*.jpg
+reference/v2/*.png
+# full-resolution baseline videos stay local; compressed *-preview.mp4 are committed
+baseline/**/*.mp4
+!baseline/**/*-preview.mp4

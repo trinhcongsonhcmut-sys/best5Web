@@ -1,0 +1,1429 @@
+{
+  "demo": "beauty",
+  "route": "/beauty",
+  "base": "http://localhost:5181",
+  "capturedAt": "2026-11-05T03:21:56.147Z",
+  "viewport": "1440x900",
+  "marks": [
+    {
+      "p": 0,
+      "scroll": 0,
+      "position": [
+        0,
+        0.9,
+        4.65
+      ],
+      "target": [
+        0,
+        0.6,
+        0
+      ],
+      "fov": 30,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0,
+        "explode": 0,
+        "ingredients": 0
+      },
+      "hover": 0,
+      "fps": 74.814
+    },
+    {
+      "p": 0.125,
+      "scroll": 0.125,
+      "position": [
+        0.765,
+        1.908,
+        4.719
+      ],
+      "target": [
+        0,
+        0.674,
+        0
+      ],
+      "fov": 29.927,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0.013,
+        "explode": 0,
+        "ingredients": 0
+      },
+      "hover": 0,
+      "fps": 74.987
+    },
+    {
+      "p": 0.25,
+      "scroll": 0.25,
+      "position": [
+        1.188,
+        2.625,
+        4.937
+      ],
+      "target": [
+        0,
+        0.75,
+        0
+      ],
+      "fov": 29.999,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0.36,
+        "explode": 0,
+        "ingredients": 0
+      },
+      "hover": 0,
+      "fps": 74.358
+    },
+    {
+      "p": 0.375,
+      "scroll": 0.375,
+      "position": [
+        -0.065,
+        2.201,
+        6.078
+      ],
+      "target": [
+        0,
+        0.846,
+        0
+      ],
+      "fov": 31.123,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0.36,
+        "explode": 0,
+        "ingredients": 0.601
+      },
+      "hover": 0,
+      "fps": 74.73
+    },
+    {
+      "p": 0.5,
+      "scroll": 0.5,
+      "position": [
+        -1.187,
+        1.5,
+        7
+      ],
+      "target": [
+        0,
+        0.95,
+        0
+      ],
+      "fov": 31.997,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0.36,
+        "explode": 0,
+        "ingredients": 1
+      },
+      "hover": 0,
+      "fps": 74.949
+    },
+    {
+      "p": 0.625,
+      "scroll": 0.625,
+      "position": [
+        0.514,
+        1.672,
+        5.959
+      ],
+      "target": [
+        -0.013,
+        1.13,
+        0
+      ],
+      "fov": 31.662,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0.427,
+        "explode": 0.109,
+        "ingredients": 0.913
+      },
+      "hover": 0,
+      "fps": 75.034
+    },
+    {
+      "p": 0.75,
+      "scroll": 0.75,
+      "position": [
+        2.375,
+        1.938,
+        5.062
+      ],
+      "target": [
+        0,
+        1.25,
+        0
+      ],
+      "fov": 31.003,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0.98,
+        "explode": 1,
+        "ingredients": 0
+      },
+      "hover": 0,
+      "fps": 75.05
+    },
+    {
+      "p": 0.875,
+      "scroll": 0.875,
+      "position": [
+        2.057,
+        1.766,
+        6.22
+      ],
+      "target": [
+        0.211,
+        0.975,
+        0
+      ],
+      "fov": 29.601,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0.33,
+        "explode": 0.301,
+        "ingredients": 0
+      },
+      "hover": 0,
+      "fps": 75.02
+    },
+    {
+      "p": 1,
+      "scroll": 1,
+      "position": [
+        1.25,
+        1.5,
+        7.9
+      ],
+      "target": [
+        0.5,
+        0.5,
+        0
+      ],
+      "fov": 28.002,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0,
+        "explode": 0,
+        "ingredients": 0
+      },
+      "hover": 0,
+      "fps": 74.263
+    }
+  ],
+  "cameraPath": [
+    {
+      "scroll": 0,
+      "position": [
+        0,
+        0.9,
+        4.65
+      ],
+      "target": [
+        0,
+        0.6,
+        0
+      ],
+      "fov": 29.999,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0,
+        "explode": 0,
+        "ingredients": 0
+      }
+    },
+    {
+      "scroll": 0.025,
+      "position": [
+        0.132,
+        1.084,
+        4.673
+      ],
+      "target": [
+        0,
+        0.615,
+        0
+      ],
+      "fov": 29.999,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0,
+        "explode": 0,
+        "ingredients": 0
+      }
+    },
+    {
+      "scroll": 0.05,
+      "position": [
+        0.281,
+        1.282,
+        4.688
+      ],
+      "target": [
+        0,
+        0.63,
+        0
+      ],
+      "fov": 29.983,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0,
+        "explode": 0,
+        "ingredients": 0
+      }
+    },
+    {
+      "scroll": 0.075,
+      "position": [
+        0.443,
+        1.491,
+        4.699
+      ],
+      "target": [
+        0,
+        0.644,
+        0
+      ],
+      "fov": 29.967,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0,
+        "explode": 0,
+        "ingredients": 0
+      }
+    },
+    {
+      "scroll": 0.1,
+      "position": [
+        0.606,
+        1.701,
+        4.707
+      ],
+      "target": [
+        0,
+        0.659,
+        0
+      ],
+      "fov": 29.944,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0,
+        "explode": 0,
+        "ingredients": 0
+      }
+    },
+    {
+      "scroll": 0.125,
+      "position": [
+        0.765,
+        1.908,
+        4.719
+      ],
+      "target": [
+        0,
+        0.674,
+        0
+      ],
+      "fov": 29.928,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0.013,
+        "explode": 0,
+        "ingredients": 0
+      }
+    },
+    {
+      "scroll": 0.15,
+      "position": [
+        0.909,
+        2.102,
+        4.736
+      ],
+      "target": [
+        0,
+        0.688,
+        0
+      ],
+      "fov": 29.917,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0.063,
+        "explode": 0,
+        "ingredients": 0
+      }
+    },
+    {
+      "scroll": 0.175,
+      "position": [
+        1.032,
+        2.279,
+        4.763
+      ],
+      "target": [
+        0,
+        0.703,
+        0
+      ],
+      "fov": 29.917,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0.181,
+        "explode": 0,
+        "ingredients": 0
+      }
+    },
+    {
+      "scroll": 0.2,
+      "position": [
+        1.124,
+        2.429,
+        4.803
+      ],
+      "target": [
+        0,
+        0.719,
+        0
+      ],
+      "fov": 29.922,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0.297,
+        "explode": 0,
+        "ingredients": 0
+      }
+    },
+    {
+      "scroll": 0.225,
+      "position": [
+        1.179,
+        2.547,
+        4.86
+      ],
+      "target": [
+        0,
+        0.734,
+        0
+      ],
+      "fov": 29.95,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0.348,
+        "explode": 0,
+        "ingredients": 0
+      }
+    },
+    {
+      "scroll": 0.25,
+      "position": [
+        1.188,
+        2.625,
+        4.937
+      ],
+      "target": [
+        0,
+        0.75,
+        0
+      ],
+      "fov": 29.997,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0.36,
+        "explode": 0,
+        "ingredients": 0
+      }
+    },
+    {
+      "scroll": 0.275,
+      "position": [
+        1.1,
+        2.655,
+        5.084
+      ],
+      "target": [
+        0,
+        0.769,
+        0
+      ],
+      "fov": 30.137,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0.36,
+        "explode": 0,
+        "ingredients": 0
+      }
+    },
+    {
+      "scroll": 0.3,
+      "position": [
+        0.903,
+        2.612,
+        5.287
+      ],
+      "target": [
+        0,
+        0.788,
+        0
+      ],
+      "fov": 30.336,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0.36,
+        "explode": 0,
+        "ingredients": 0
+      }
+    },
+    {
+      "scroll": 0.325,
+      "position": [
+        0.623,
+        2.511,
+        5.532
+      ],
+      "target": [
+        0,
+        0.807,
+        0
+      ],
+      "fov": 30.576,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0.36,
+        "explode": 0,
+        "ingredients": 0.023
+      }
+    },
+    {
+      "scroll": 0.35,
+      "position": [
+        0.292,
+        2.37,
+        5.8
+      ],
+      "target": [
+        0,
+        0.826,
+        0
+      ],
+      "fov": 30.844,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0.36,
+        "explode": 0,
+        "ingredients": 0.182
+      }
+    },
+    {
+      "scroll": 0.375,
+      "position": [
+        -0.065,
+        2.201,
+        6.078
+      ],
+      "target": [
+        0,
+        0.846,
+        0
+      ],
+      "fov": 31.123,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0.36,
+        "explode": 0,
+        "ingredients": 0.601
+      }
+    },
+    {
+      "scroll": 0.4,
+      "position": [
+        -0.414,
+        2.022,
+        6.345
+      ],
+      "target": [
+        0,
+        0.866,
+        0
+      ],
+      "fov": 31.388,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0.36,
+        "explode": 0,
+        "ingredients": 0.907
+      }
+    },
+    {
+      "scroll": 0.425,
+      "position": [
+        -0.731,
+        1.846,
+        6.589
+      ],
+      "target": [
+        0,
+        0.886,
+        0
+      ],
+      "fov": 31.632,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0.36,
+        "explode": 0,
+        "ingredients": 0.995
+      }
+    },
+    {
+      "scroll": 0.45,
+      "position": [
+        -0.984,
+        1.691,
+        6.789
+      ],
+      "target": [
+        0,
+        0.907,
+        0
+      ],
+      "fov": 31.822,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0.36,
+        "explode": 0,
+        "ingredients": 1
+      }
+    },
+    {
+      "scroll": 0.475,
+      "position": [
+        -1.146,
+        1.57,
+        6.932
+      ],
+      "target": [
+        0,
+        0.928,
+        0
+      ],
+      "fov": 31.948,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0.36,
+        "explode": 0,
+        "ingredients": 1
+      }
+    },
+    {
+      "scroll": 0.5,
+      "position": [
+        -1.187,
+        1.5,
+        7
+      ],
+      "target": [
+        0,
+        0.95,
+        0
+      ],
+      "fov": 31.996,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0.36,
+        "explode": 0,
+        "ingredients": 1
+      }
+    },
+    {
+      "scroll": 0.525,
+      "position": [
+        -1.07,
+        1.477,
+        6.96
+      ],
+      "target": [
+        -0.001,
+        0.98,
+        0
+      ],
+      "fov": 31.985,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0.36,
+        "explode": 0,
+        "ingredients": 1
+      }
+    },
+    {
+      "scroll": 0.55,
+      "position": [
+        -0.808,
+        1.491,
+        6.807
+      ],
+      "target": [
+        -0.003,
+        1.015,
+        0
+      ],
+      "fov": 31.937,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0.36,
+        "explode": 0,
+        "ingredients": 1
+      }
+    },
+    {
+      "scroll": 0.575,
+      "position": [
+        -0.431,
+        1.533,
+        6.568
+      ],
+      "target": [
+        -0.007,
+        1.053,
+        0
+      ],
+      "fov": 31.868,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0.36,
+        "explode": 0,
+        "ingredients": 1
+      }
+    },
+    {
+      "scroll": 0.6,
+      "position": [
+        0.019,
+        1.596,
+        6.277
+      ],
+      "target": [
+        -0.01,
+        1.091,
+        0
+      ],
+      "fov": 31.771,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0.366,
+        "explode": 0.009,
+        "ingredients": 1
+      }
+    },
+    {
+      "scroll": 0.625,
+      "position": [
+        0.514,
+        1.672,
+        5.959
+      ],
+      "target": [
+        -0.013,
+        1.13,
+        0
+      ],
+      "fov": 31.663,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0.427,
+        "explode": 0.109,
+        "ingredients": 0.913
+      }
+    },
+    {
+      "scroll": 0.65,
+      "position": [
+        1.012,
+        1.75,
+        5.649
+      ],
+      "target": [
+        -0.015,
+        1.166,
+        0
+      ],
+      "fov": 31.535,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0.612,
+        "explode": 0.407,
+        "ingredients": 0.351
+      }
+    },
+    {
+      "scroll": 0.675,
+      "position": [
+        1.485,
+        1.825,
+        5.373
+      ],
+      "target": [
+        -0.016,
+        1.198,
+        0
+      ],
+      "fov": 31.407,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0.858,
+        "explode": 0.804,
+        "ingredients": 0.018
+      }
+    },
+    {
+      "scroll": 0.7,
+      "position": [
+        1.891,
+        1.886,
+        5.165
+      ],
+      "target": [
+        -0.014,
+        1.223,
+        0
+      ],
+      "fov": 31.268,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0.96,
+        "explode": 0.968,
+        "ingredients": 0
+      }
+    },
+    {
+      "scroll": 0.725,
+      "position": [
+        2.201,
+        1.927,
+        5.051
+      ],
+      "target": [
+        -0.009,
+        1.241,
+        0
+      ],
+      "fov": 31.135,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0.98,
+        "explode": 1,
+        "ingredients": 0
+      }
+    },
+    {
+      "scroll": 0.75,
+      "position": [
+        2.375,
+        1.938,
+        5.062
+      ],
+      "target": [
+        0,
+        1.25,
+        0
+      ],
+      "fov": 31,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0.98,
+        "explode": 1,
+        "ingredients": 0
+      }
+    },
+    {
+      "scroll": 0.775,
+      "position": [
+        2.422,
+        1.924,
+        5.176
+      ],
+      "target": [
+        0.024,
+        1.24,
+        0
+      ],
+      "fov": 30.765,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0.98,
+        "explode": 1,
+        "ingredients": 0
+      }
+    },
+    {
+      "scroll": 0.8,
+      "position": [
+        2.401,
+        1.899,
+        5.361
+      ],
+      "target": [
+        0.059,
+        1.203,
+        0
+      ],
+      "fov": 30.503,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0.98,
+        "explode": 1,
+        "ingredients": 0
+      }
+    },
+    {
+      "scroll": 0.825,
+      "position": [
+        2.326,
+        1.862,
+        5.606
+      ],
+      "target": [
+        0.104,
+        1.143,
+        0
+      ],
+      "fov": 30.221,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0.954,
+        "explode": 0.971,
+        "ingredients": 0
+      }
+    },
+    {
+      "scroll": 0.85,
+      "position": [
+        2.208,
+        1.817,
+        5.895
+      ],
+      "target": [
+        0.154,
+        1.066,
+        0
+      ],
+      "fov": 29.919,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0.773,
+        "explode": 0.772,
+        "ingredients": 0
+      }
+    },
+    {
+      "scroll": 0.875,
+      "position": [
+        2.057,
+        1.766,
+        6.22
+      ],
+      "target": [
+        0.211,
+        0.975,
+        0
+      ],
+      "fov": 29.603,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0.33,
+        "explode": 0.301,
+        "ingredients": 0
+      }
+    },
+    {
+      "scroll": 0.9,
+      "position": [
+        1.889,
+        1.712,
+        6.563
+      ],
+      "target": [
+        0.27,
+        0.877,
+        0
+      ],
+      "fov": 29.281,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0.064,
+        "explode": 0.049,
+        "ingredients": 0
+      }
+    },
+    {
+      "scroll": 0.925,
+      "position": [
+        1.711,
+        1.655,
+        6.918
+      ],
+      "target": [
+        0.33,
+        0.775,
+        0
+      ],
+      "fov": 28.954,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0.002,
+        "explode": 0,
+        "ingredients": 0
+      }
+    },
+    {
+      "scroll": 0.95,
+      "position": [
+        1.538,
+        1.6,
+        7.265
+      ],
+      "target": [
+        0.39,
+        0.676,
+        0
+      ],
+      "fov": 28.629,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0,
+        "explode": 0,
+        "ingredients": 0
+      }
+    },
+    {
+      "scroll": 0.975,
+      "position": [
+        1.38,
+        1.547,
+        7.598
+      ],
+      "target": [
+        0.447,
+        0.582,
+        0
+      ],
+      "fov": 28.31,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0,
+        "explode": 0,
+        "ingredients": 0
+      }
+    },
+    {
+      "scroll": 1,
+      "position": [
+        1.25,
+        1.5,
+        7.9
+      ],
+      "target": [
+        0.5,
+        0.5,
+        0
+      ],
+      "fov": 28.003,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0,
+        "explode": 0,
+        "ingredients": 0
+      }
+    }
+  ],
+  "orbit": [
+    {
+      "step": 0,
+      "requestedDeg": 0,
+      "yawDeg": 0,
+      "yawTotalDeg": 0,
+      "pitch": 0,
+      "dolly": 1,
+      "camera": {
+        "scroll": 0,
+        "position": [
+          0,
+          0.9,
+          4.65
+        ],
+        "target": [
+          0,
+          0.6,
+          0
+        ],
+        "fov": 30,
+        "extra": {
+          "world": "aloe",
+          "capLift": 0,
+          "explode": 0,
+          "ingredients": 0
+        }
+      }
+    },
+    {
+      "step": 1,
+      "requestedDeg": 45,
+      "yawDeg": -45,
+      "yawTotalDeg": -45,
+      "pitch": 0,
+      "dolly": 1,
+      "camera": {
+        "scroll": 0,
+        "position": [
+          -3.288,
+          0.9,
+          3.288
+        ],
+        "target": [
+          0,
+          0.6,
+          0
+        ],
+        "fov": 30,
+        "extra": {
+          "world": "aloe",
+          "capLift": 0,
+          "explode": 0,
+          "ingredients": 0
+        }
+      }
+    },
+    {
+      "step": 2,
+      "requestedDeg": 90,
+      "yawDeg": -90,
+      "yawTotalDeg": -90,
+      "pitch": 0,
+      "dolly": 1,
+      "camera": {
+        "scroll": 0,
+        "position": [
+          -4.65,
+          0.9,
+          0
+        ],
+        "target": [
+          0,
+          0.6,
+          0
+        ],
+        "fov": 30,
+        "extra": {
+          "world": "aloe",
+          "capLift": 0,
+          "explode": 0,
+          "ingredients": 0
+        }
+      }
+    },
+    {
+      "step": 3,
+      "requestedDeg": 135,
+      "yawDeg": -135,
+      "yawTotalDeg": -135,
+      "pitch": 0,
+      "dolly": 1,
+      "camera": {
+        "scroll": 0,
+        "position": [
+          -3.288,
+          0.9,
+          -3.288
+        ],
+        "target": [
+          0,
+          0.6,
+          0
+        ],
+        "fov": 30,
+        "extra": {
+          "world": "aloe",
+          "capLift": 0,
+          "explode": 0,
+          "ingredients": 0
+        }
+      }
+    },
+    {
+      "step": 4,
+      "requestedDeg": 180,
+      "yawDeg": -180,
+      "yawTotalDeg": -180,
+      "pitch": 0,
+      "dolly": 1,
+      "camera": {
+        "scroll": 0,
+        "position": [
+          0,
+          0.9,
+          -4.65
+        ],
+        "target": [
+          0,
+          0.6,
+          0
+        ],
+        "fov": 30,
+        "extra": {
+          "world": "aloe",
+          "capLift": 0,
+          "explode": 0,
+          "ingredients": 0
+        }
+      }
+    },
+    {
+      "step": 5,
+      "requestedDeg": 225,
+      "yawDeg": 135,
+      "yawTotalDeg": -225,
+      "pitch": 0,
+      "dolly": 1,
+      "camera": {
+        "scroll": 0,
+        "position": [
+          3.288,
+          0.9,
+          -3.288
+        ],
+        "target": [
+          0,
+          0.6,
+          0
+        ],
+        "fov": 30,
+        "extra": {
+          "world": "aloe",
+          "capLift": 0,
+          "explode": 0,
+          "ingredients": 0
+        }
+      }
+    },
+    {
+      "step": 6,
+      "requestedDeg": 270,
+      "yawDeg": 90,
+      "yawTotalDeg": -270,
+      "pitch": 0,
+      "dolly": 1,
+      "camera": {
+        "scroll": 0,
+        "position": [
+          4.65,
+          0.9,
+          0
+        ],
+        "target": [
+          0,
+          0.6,
+          0
+        ],
+        "fov": 30,
+        "extra": {
+          "world": "aloe",
+          "capLift": 0,
+          "explode": 0,
+          "ingredients": 0
+        }
+      }
+    },
+    {
+      "step": 7,
+      "requestedDeg": 315,
+      "yawDeg": 45,
+      "yawTotalDeg": -315,
+      "pitch": 0,
+      "dolly": 1,
+      "camera": {
+        "scroll": 0,
+        "position": [
+          3.288,
+          0.9,
+          3.288
+        ],
+        "target": [
+          0,
+          0.6,
+          0
+        ],
+        "fov": 30,
+        "extra": {
+          "world": "aloe",
+          "capLift": 0,
+          "explode": 0,
+          "ingredients": 0
+        }
+      }
+    }
+  ],
+  "variants": [
+    {
+      "index": 0,
+      "id": "aloe",
+      "label": "Aloe Mist",
+      "primary": {
+        "color": "#0f4a2a",
+        "emissive": "#000000",
+        "emissiveIntensity": 1,
+        "roughness": 0.2,
+        "metalness": 0,
+        "transmission": 0.45,
+        "clearcoat": 0.6,
+        "rim": 0,
+        "opacity": 1
+      },
+      "extra": {
+        "world": "aloe",
+        "capLift": 0,
+        "explode": 0,
+        "ingredients": 0
+      }
+    },
+    {
+      "index": 1,
+      "id": "rose",
+      "label": "Rose Quartz",
+      "primary": {
+        "color": "#c9768a",
+        "emissive": "#000000",
+        "emissiveIntensity": 1,
+        "roughness": 0.2,
+        "metalness": 0,
+        "transmission": 0.45,
+        "clearcoat": 0.6,
+        "rim": 0,
+        "opacity": 1
+      },
+      "extra": {
+        "world": "rose",
+        "capLift": 0,
+        "explode": 0,
+        "ingredients": 0
+      }
+    },
+    {
+      "index": 2,
+      "id": "amber",
+      "label": "Amber Dew",
+      "primary": {
+        "color": "#a8561a",
+        "emissive": "#000000",
+        "emissiveIntensity": 1,
+        "roughness": 0.2,
+        "metalness": 0,
+        "transmission": 0.45,
+        "clearcoat": 0.6,
+        "rim": 0,
+        "opacity": 1
+      },
+      "extra": {
+        "world": "amber",
+        "capLift": 0,
+        "explode": 0,
+        "ingredients": 0
+      }
+    }
+  ],
+  "hover": {
+    "idle": 0,
+    "on": 1,
+    "onId": "jar",
+    "afterLeave": 0,
+    "primaryWhileHovered": {
+      "color": "#0f4a2a",
+      "emissive": "#052714",
+      "emissiveIntensity": 1,
+      "roughness": 0.2,
+      "metalness": 0,
+      "transmission": 0.45,
+      "clearcoat": 0.6,
+      "rim": 1.4999998297052182,
+      "opacity": 1
+    }
+  },
+  "mobile": [
+    {
+      "p": 0,
+      "scroll": 0,
+      "position": [
+        0,
+        1.049,
+        10.055
+      ],
+      "target": [
+        0,
+        0.4,
+        0
+      ],
+      "fov": 30,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0,
+        "explode": 0,
+        "ingredients": 0
+      }
+    },
+    {
+      "p": 0.5,
+      "scroll": 0.5,
+      "position": [
+        -1.975,
+        1.664,
+        11.643
+      ],
+      "target": [
+        0,
+        0.75,
+        0
+      ],
+      "fov": 31.999,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0.36,
+        "explode": 0,
+        "ingredients": 1
+      }
+    },
+    {
+      "p": 1,
+      "scroll": 1,
+      "position": [
+        1.587,
+        2.043,
+        13.14
+      ],
+      "target": [
+        0.34,
+        0.38,
+        0
+      ],
+      "fov": 28.005,
+      "extra": {
+        "world": "aloe",
+        "capLift": 0,
+        "explode": 0,
+        "ingredients": 0
+      }
+    }
+  ],
+  "gpu": {
+    "renderer": "ANGLE (Intel, Intel(R) HD Graphics 530 (0x00001912) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36"
+  },
+  "materials": [
+    "primary",
+    "cap",
+    "cream"
+  ],
+  "fps": {
+    "avg": 73.609,
+    "frames": 8300
+  },
+  "consoleErrors": [],
+  "mobileErrors": []
+}

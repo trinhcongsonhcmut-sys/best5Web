@@ -1,0 +1,30 @@
+{
+  "demo": "real-estate",
+  "base": "http://localhost:5181",
+  "viewport": "1440x900",
+  "seconds": 73.5,
+  "frames": 3584,
+  "consoleErrors": [],
+  "endState": {
+    "scroll": {
+      "raw": 0,
+      "smooth": 0
+    },
+    "orbit": {
+      "yaw": -8.881784197001252e-16,
+      "yawTotal": -6.283185307179587,
+      "pitch": 3.4950344943439486e-202,
+      "dolly": 1
+    },
+    "variant": {
+      "id": "travertine",
+      "index": 0,
+      "count": 3
+    },
+    "fps": {
+      "avg": 72.13995173913094,
+      "frames": 4621
+    }
+  },
+  "recordedAt": "2026-11-05T03:35:23.115Z"
+}

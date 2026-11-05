@@ -1,0 +1,1386 @@
+{
+  "demo": "automotive",
+  "route": "/automotive",
+  "base": "http://localhost:5181",
+  "capturedAt": "2026-11-05T03:19:46.107Z",
+  "viewport": "1440x900",
+  "marks": [
+    {
+      "p": 0,
+      "scroll": 0,
+      "position": [
+        6.7,
+        1.6,
+        11.5
+      ],
+      "target": [
+        0.15,
+        1.62,
+        0
+      ],
+      "fov": 27,
+      "extra": {
+        "exploded": 0,
+        "rearLight": 0,
+        "hoverPart": ""
+      },
+      "hover": 0,
+      "fps": 75.041
+    },
+    {
+      "p": 0.125,
+      "scroll": 0.125,
+      "position": [
+        2.748,
+        1.167,
+        12.395
+      ],
+      "target": [
+        0.183,
+        1.514,
+        0
+      ],
+      "fov": 26.925,
+      "extra": {
+        "exploded": 0,
+        "rearLight": 0,
+        "hoverPart": "body"
+      },
+      "hover": 1,
+      "fps": 74.85
+    },
+    {
+      "p": 0.25,
+      "scroll": 0.25,
+      "position": [
+        0.25,
+        1.2,
+        12.8
+      ],
+      "target": [
+        0.2,
+        1.45,
+        0
+      ],
+      "fov": 26.999,
+      "extra": {
+        "exploded": 0,
+        "rearLight": 0,
+        "hoverPart": "lights"
+      },
+      "hover": 1,
+      "fps": 73.842
+    },
+    {
+      "p": 0.375,
+      "scroll": 0.375,
+      "position": [
+        3.777,
+        3.344,
+        11.087
+      ],
+      "target": [
+        0.169,
+        1.544,
+        0
+      ],
+      "fov": 28.687,
+      "extra": {
+        "exploded": 0.179,
+        "rearLight": 0,
+        "hoverPart": "body"
+      },
+      "hover": 1,
+      "fps": 74.943
+    },
+    {
+      "p": 0.5,
+      "scroll": 0.5,
+      "position": [
+        7.3,
+        5.4,
+        9.4
+      ],
+      "target": [
+        0.1,
+        1.65,
+        0
+      ],
+      "fov": 29.996,
+      "extra": {
+        "exploded": 1,
+        "rearLight": 0,
+        "hoverPart": "chassis"
+      },
+      "hover": 1,
+      "fps": 74.983
+    },
+    {
+      "p": 0.625,
+      "scroll": 0.625,
+      "position": [
+        -2.405,
+        3.599,
+        11.799
+      ],
+      "target": [
+        -0.3,
+        1.38,
+        0
+      ],
+      "fov": 29.001,
+      "extra": {
+        "exploded": 0.573,
+        "rearLight": 0.097,
+        "hoverPart": "chassis"
+      },
+      "hover": 1,
+      "fps": 74.992
+    },
+    {
+      "p": 0.75,
+      "scroll": 0.75,
+      "position": [
+        -8.4,
+        2.4,
+        6.8
+      ],
+      "target": [
+        -0.45,
+        1.28,
+        0
+      ],
+      "fov": 27.003,
+      "extra": {
+        "exploded": 0,
+        "rearLight": 1,
+        "hoverPart": "body"
+      },
+      "hover": 1,
+      "fps": 74.921
+    },
+    {
+      "p": 0.875,
+      "scroll": 0.875,
+      "position": [
+        -0.594,
+        1.449,
+        12.401
+      ],
+      "target": [
+        0,
+        1.28,
+        0
+      ],
+      "fov": 27.999,
+      "extra": {
+        "exploded": 0,
+        "rearLight": 1,
+        "hoverPart": "chassis"
+      },
+      "hover": 1,
+      "fps": 74.927
+    },
+    {
+      "p": 1,
+      "scroll": 1,
+      "position": [
+        8.5,
+        1,
+        8.7
+      ],
+      "target": [
+        0.2,
+        1.38,
+        0
+      ],
+      "fov": 28.997,
+      "extra": {
+        "exploded": 0,
+        "rearLight": 0.5,
+        "hoverPart": "wheels"
+      },
+      "hover": 1,
+      "fps": 74.745
+    }
+  ],
+  "cameraPath": [
+    {
+      "scroll": 0,
+      "position": [
+        6.7,
+        1.6,
+        11.5
+      ],
+      "target": [
+        0.15,
+        1.62,
+        0
+      ],
+      "fov": 26.996,
+      "extra": {
+        "exploded": 0,
+        "rearLight": 0,
+        "hoverPart": "body"
+      }
+    },
+    {
+      "scroll": 0.025,
+      "position": [
+        6,
+        1.543,
+        11.648
+      ],
+      "target": [
+        0.156,
+        1.601,
+        0
+      ],
+      "fov": 26.996,
+      "extra": {
+        "exploded": 0,
+        "rearLight": 0,
+        "hoverPart": "body"
+      }
+    },
+    {
+      "scroll": 0.05,
+      "position": [
+        5.225,
+        1.46,
+        11.823
+      ],
+      "target": [
+        0.162,
+        1.581,
+        0
+      ],
+      "fov": 26.981,
+      "extra": {
+        "exploded": 0,
+        "rearLight": 0,
+        "hoverPart": "body"
+      }
+    },
+    {
+      "scroll": 0.075,
+      "position": [
+        4.397,
+        1.362,
+        12.014
+      ],
+      "target": [
+        0.169,
+        1.559,
+        0
+      ],
+      "fov": 26.964,
+      "extra": {
+        "exploded": 0,
+        "rearLight": 0,
+        "hoverPart": "body"
+      }
+    },
+    {
+      "scroll": 0.1,
+      "position": [
+        3.564,
+        1.261,
+        12.208
+      ],
+      "target": [
+        0.176,
+        1.536,
+        0
+      ],
+      "fov": 26.94,
+      "extra": {
+        "exploded": 0,
+        "rearLight": 0,
+        "hoverPart": "body"
+      }
+    },
+    {
+      "scroll": 0.125,
+      "position": [
+        2.748,
+        1.167,
+        12.395
+      ],
+      "target": [
+        0.183,
+        1.514,
+        0
+      ],
+      "fov": 26.923,
+      "extra": {
+        "exploded": 0,
+        "rearLight": 0,
+        "hoverPart": "body"
+      }
+    },
+    {
+      "scroll": 0.15,
+      "position": [
+        1.995,
+        1.092,
+        12.562
+      ],
+      "target": [
+        0.189,
+        1.494,
+        0
+      ],
+      "fov": 26.912,
+      "extra": {
+        "exploded": 0,
+        "rearLight": 0,
+        "hoverPart": "body"
+      }
+    },
+    {
+      "scroll": 0.175,
+      "position": [
+        1.331,
+        1.047,
+        12.698
+      ],
+      "target": [
+        0.195,
+        1.477,
+        0
+      ],
+      "fov": 26.907,
+      "extra": {
+        "exploded": 0,
+        "rearLight": 0,
+        "hoverPart": "body"
+      }
+    },
+    {
+      "scroll": 0.2,
+      "position": [
+        0.798,
+        1.042,
+        12.791
+      ],
+      "target": [
+        0.198,
+        1.463,
+        0
+      ],
+      "fov": 26.917,
+      "extra": {
+        "exploded": 0,
+        "rearLight": 0,
+        "hoverPart": "lights"
+      }
+    },
+    {
+      "scroll": 0.225,
+      "position": [
+        0.425,
+        1.09,
+        12.829
+      ],
+      "target": [
+        0.2,
+        1.454,
+        0
+      ],
+      "fov": 26.948,
+      "extra": {
+        "exploded": 0,
+        "rearLight": 0,
+        "hoverPart": "chassis"
+      }
+    },
+    {
+      "scroll": 0.25,
+      "position": [
+        0.25,
+        1.2,
+        12.8
+      ],
+      "target": [
+        0.2,
+        1.45,
+        0
+      ],
+      "fov": 26.999,
+      "extra": {
+        "exploded": 0,
+        "rearLight": 0,
+        "hoverPart": "lights"
+      }
+    },
+    {
+      "scroll": 0.275,
+      "position": [
+        0.394,
+        1.444,
+        12.648
+      ],
+      "target": [
+        0.197,
+        1.455,
+        0
+      ],
+      "fov": 27.203,
+      "extra": {
+        "exploded": 0,
+        "rearLight": 0,
+        "hoverPart": "body"
+      }
+    },
+    {
+      "scroll": 0.3,
+      "position": [
+        0.91,
+        1.81,
+        12.37
+      ],
+      "target": [
+        0.193,
+        1.468,
+        0
+      ],
+      "fov": 27.504,
+      "extra": {
+        "exploded": 0,
+        "rearLight": 0,
+        "hoverPart": "body"
+      }
+    },
+    {
+      "scroll": 0.325,
+      "position": [
+        1.711,
+        2.273,
+        11.994
+      ],
+      "target": [
+        0.187,
+        1.489,
+        0
+      ],
+      "fov": 27.866,
+      "extra": {
+        "exploded": 0,
+        "rearLight": 0,
+        "hoverPart": "body"
+      }
+    },
+    {
+      "scroll": 0.35,
+      "position": [
+        2.693,
+        2.792,
+        11.558
+      ],
+      "target": [
+        0.179,
+        1.515,
+        0
+      ],
+      "fov": 28.272,
+      "extra": {
+        "exploded": 0.017,
+        "rearLight": 0,
+        "hoverPart": "body"
+      }
+    },
+    {
+      "scroll": 0.375,
+      "position": [
+        3.777,
+        3.344,
+        11.087
+      ],
+      "target": [
+        0.169,
+        1.544,
+        0
+      ],
+      "fov": 28.686,
+      "extra": {
+        "exploded": 0.179,
+        "rearLight": 0,
+        "hoverPart": "body"
+      }
+    },
+    {
+      "scroll": 0.4,
+      "position": [
+        4.852,
+        3.889,
+        10.62
+      ],
+      "target": [
+        0.158,
+        1.573,
+        0
+      ],
+      "fov": 29.084,
+      "extra": {
+        "exploded": 0.442,
+        "rearLight": 0,
+        "hoverPart": "body"
+      }
+    },
+    {
+      "scroll": 0.425,
+      "position": [
+        5.842,
+        4.402,
+        10.184
+      ],
+      "target": [
+        0.145,
+        1.6,
+        0
+      ],
+      "fov": 29.444,
+      "extra": {
+        "exploded": 0.724,
+        "rearLight": 0,
+        "hoverPart": "chassis"
+      }
+    },
+    {
+      "scroll": 0.45,
+      "position": [
+        6.637,
+        4.844,
+        9.815
+      ],
+      "target": [
+        0.132,
+        1.623,
+        0
+      ],
+      "fov": 29.735,
+      "extra": {
+        "exploded": 0.936,
+        "rearLight": 0,
+        "hoverPart": "chassis"
+      }
+    },
+    {
+      "scroll": 0.475,
+      "position": [
+        7.157,
+        5.189,
+        9.542
+      ],
+      "target": [
+        0.116,
+        1.641,
+        0
+      ],
+      "fov": 29.926,
+      "extra": {
+        "exploded": 1,
+        "rearLight": 0,
+        "hoverPart": "chassis"
+      }
+    },
+    {
+      "scroll": 0.5,
+      "position": [
+        7.3,
+        5.4,
+        9.4
+      ],
+      "target": [
+        0.1,
+        1.65,
+        0
+      ],
+      "fov": 29.997,
+      "extra": {
+        "exploded": 1,
+        "rearLight": 0,
+        "hoverPart": "chassis"
+      }
+    },
+    {
+      "scroll": 0.525,
+      "position": [
+        6.446,
+        5.448,
+        9.62
+      ],
+      "target": [
+        0.036,
+        1.637,
+        0
+      ],
+      "fov": 29.936,
+      "extra": {
+        "exploded": 1,
+        "rearLight": 0,
+        "hoverPart": "chassis"
+      }
+    },
+    {
+      "scroll": 0.55,
+      "position": [
+        4.555,
+        5.126,
+        10.322
+      ],
+      "target": [
+        -0.048,
+        1.584,
+        0
+      ],
+      "fov": 29.761,
+      "extra": {
+        "exploded": 1,
+        "rearLight": 0,
+        "hoverPart": "chassis"
+      }
+    },
+    {
+      "scroll": 0.575,
+      "position": [
+        2.104,
+        4.596,
+        11.161
+      ],
+      "target": [
+        -0.14,
+        1.51,
+        0
+      ],
+      "fov": 29.52,
+      "extra": {
+        "exploded": 1,
+        "rearLight": 0,
+        "hoverPart": "chassis"
+      }
+    },
+    {
+      "scroll": 0.6,
+      "position": [
+        -0.372,
+        4.034,
+        11.769
+      ],
+      "target": [
+        -0.227,
+        1.436,
+        0
+      ],
+      "fov": 29.254,
+      "extra": {
+        "exploded": 0.896,
+        "rearLight": 0,
+        "hoverPart": "chassis"
+      }
+    },
+    {
+      "scroll": 0.625,
+      "position": [
+        -2.405,
+        3.599,
+        11.799
+      ],
+      "target": [
+        -0.3,
+        1.38,
+        0
+      ],
+      "fov": 29,
+      "extra": {
+        "exploded": 0.573,
+        "rearLight": 0.097,
+        "hoverPart": "chassis"
+      }
+    },
+    {
+      "scroll": 0.65,
+      "position": [
+        -3.952,
+        3.332,
+        11.074
+      ],
+      "target": [
+        -0.34,
+        1.356,
+        0
+      ],
+      "fov": 28.583,
+      "extra": {
+        "exploded": 0.216,
+        "rearLight": 0.33,
+        "hoverPart": "chassis"
+      }
+    },
+    {
+      "scroll": 0.675,
+      "position": [
+        -5.574,
+        3.077,
+        9.816
+      ],
+      "target": [
+        -0.381,
+        1.333,
+        0
+      ],
+      "fov": 28.059,
+      "extra": {
+        "exploded": 0.007,
+        "rearLight": 0.615,
+        "hoverPart": "body"
+      }
+    },
+    {
+      "scroll": 0.7,
+      "position": [
+        -7.008,
+        2.839,
+        8.432
+      ],
+      "target": [
+        -0.418,
+        1.312,
+        0
+      ],
+      "fov": 27.546,
+      "extra": {
+        "exploded": 0,
+        "rearLight": 0.865,
+        "hoverPart": "body"
+      }
+    },
+    {
+      "scroll": 0.725,
+      "position": [
+        -8.035,
+        2.613,
+        7.291
+      ],
+      "target": [
+        -0.443,
+        1.294,
+        0
+      ],
+      "fov": 27.156,
+      "extra": {
+        "exploded": 0,
+        "rearLight": 0.996,
+        "hoverPart": "body"
+      }
+    },
+    {
+      "scroll": 0.75,
+      "position": [
+        -8.4,
+        2.4,
+        6.8
+      ],
+      "target": [
+        -0.45,
+        1.28,
+        0
+      ],
+      "fov": 27.004,
+      "extra": {
+        "exploded": 0,
+        "rearLight": 1,
+        "hoverPart": "body"
+      }
+    },
+    {
+      "scroll": 0.775,
+      "position": [
+        -7.825,
+        2.176,
+        7.324
+      ],
+      "target": [
+        -0.41,
+        1.265,
+        0
+      ],
+      "fov": 27.07,
+      "extra": {
+        "exploded": 0,
+        "rearLight": 1,
+        "hoverPart": "body"
+      }
+    },
+    {
+      "scroll": 0.8,
+      "position": [
+        -6.429,
+        1.967,
+        8.642
+      ],
+      "target": [
+        -0.321,
+        1.258,
+        0
+      ],
+      "fov": 27.252,
+      "extra": {
+        "exploded": 0,
+        "rearLight": 1,
+        "hoverPart": "body"
+      }
+    },
+    {
+      "scroll": 0.825,
+      "position": [
+        -4.527,
+        1.774,
+        10.269
+      ],
+      "target": [
+        -0.206,
+        1.259,
+        0
+      ],
+      "fov": 27.501,
+      "extra": {
+        "exploded": 0,
+        "rearLight": 1,
+        "hoverPart": "chassis"
+      }
+    },
+    {
+      "scroll": 0.85,
+      "position": [
+        -2.48,
+        1.602,
+        11.683
+      ],
+      "target": [
+        -0.091,
+        1.266,
+        0
+      ],
+      "fov": 27.767,
+      "extra": {
+        "exploded": 0,
+        "rearLight": 1,
+        "hoverPart": "chassis"
+      }
+    },
+    {
+      "scroll": 0.875,
+      "position": [
+        -0.594,
+        1.449,
+        12.401
+      ],
+      "target": [
+        0,
+        1.28,
+        0
+      ],
+      "fov": 27.997,
+      "extra": {
+        "exploded": 0,
+        "rearLight": 1,
+        "hoverPart": "chassis"
+      }
+    },
+    {
+      "scroll": 0.9,
+      "position": [
+        1.141,
+        1.327,
+        12.261
+      ],
+      "target": [
+        0.046,
+        1.295,
+        0
+      ],
+      "fov": 28.197,
+      "extra": {
+        "exploded": 0,
+        "rearLight": 0.963,
+        "hoverPart": "chassis"
+      }
+    },
+    {
+      "scroll": 0.925,
+      "position": [
+        2.958,
+        1.233,
+        11.594
+      ],
+      "target": [
+        0.087,
+        1.314,
+        0
+      ],
+      "fov": 28.398,
+      "extra": {
+        "exploded": 0,
+        "rearLight": 0.841,
+        "hoverPart": "chassis"
+      }
+    },
+    {
+      "scroll": 0.95,
+      "position": [
+        4.801,
+        1.155,
+        10.631
+      ],
+      "target": [
+        0.125,
+        1.336,
+        0
+      ],
+      "fov": 28.597,
+      "extra": {
+        "exploded": 0,
+        "rearLight": 0.688,
+        "hoverPart": "chassis"
+      }
+    },
+    {
+      "scroll": 0.975,
+      "position": [
+        6.667,
+        1.082,
+        9.587
+      ],
+      "target": [
+        0.162,
+        1.359,
+        0
+      ],
+      "fov": 28.797,
+      "extra": {
+        "exploded": 0,
+        "rearLight": 0.556,
+        "hoverPart": "body"
+      }
+    },
+    {
+      "scroll": 1,
+      "position": [
+        8.5,
+        1,
+        8.7
+      ],
+      "target": [
+        0.2,
+        1.38,
+        0
+      ],
+      "fov": 29,
+      "extra": {
+        "exploded": 0,
+        "rearLight": 0.5,
+        "hoverPart": "body"
+      }
+    }
+  ],
+  "orbit": [
+    {
+      "step": 0,
+      "requestedDeg": 0,
+      "yawDeg": 0,
+      "yawTotalDeg": 0,
+      "pitch": 0,
+      "dolly": 1,
+      "camera": {
+        "scroll": 0,
+        "position": [
+          6.7,
+          1.6,
+          11.5
+        ],
+        "target": [
+          0.15,
+          1.62,
+          0
+        ],
+        "fov": 27,
+        "extra": {
+          "exploded": 0,
+          "rearLight": 0,
+          "hoverPart": ""
+        }
+      }
+    },
+    {
+      "step": 1,
+      "requestedDeg": 45,
+      "yawDeg": -45,
+      "yawTotalDeg": -45,
+      "pitch": 0,
+      "dolly": 1,
+      "camera": {
+        "scroll": 0,
+        "position": [
+          -3.35,
+          1.6,
+          12.763
+        ],
+        "target": [
+          0.15,
+          1.62,
+          0
+        ],
+        "fov": 27,
+        "extra": {
+          "exploded": 0,
+          "rearLight": 0,
+          "hoverPart": ""
+        }
+      }
+    },
+    {
+      "step": 2,
+      "requestedDeg": 90,
+      "yawDeg": -90,
+      "yawTotalDeg": -90,
+      "pitch": 0,
+      "dolly": 1,
+      "camera": {
+        "scroll": 0,
+        "position": [
+          -11.35,
+          1.6,
+          6.55
+        ],
+        "target": [
+          0.15,
+          1.62,
+          0
+        ],
+        "fov": 27,
+        "extra": {
+          "exploded": 0,
+          "rearLight": 0,
+          "hoverPart": ""
+        }
+      }
+    },
+    {
+      "step": 3,
+      "requestedDeg": 135,
+      "yawDeg": -135,
+      "yawTotalDeg": -135,
+      "pitch": 0,
+      "dolly": 1,
+      "camera": {
+        "scroll": 0,
+        "position": [
+          -12.613,
+          1.6,
+          -3.5
+        ],
+        "target": [
+          0.15,
+          1.62,
+          0
+        ],
+        "fov": 27,
+        "extra": {
+          "exploded": 0,
+          "rearLight": 0,
+          "hoverPart": ""
+        }
+      }
+    },
+    {
+      "step": 4,
+      "requestedDeg": 180,
+      "yawDeg": -180,
+      "yawTotalDeg": -180,
+      "pitch": 0,
+      "dolly": 1,
+      "camera": {
+        "scroll": 0,
+        "position": [
+          -6.4,
+          1.6,
+          -11.5
+        ],
+        "target": [
+          0.15,
+          1.62,
+          0
+        ],
+        "fov": 27,
+        "extra": {
+          "exploded": 0,
+          "rearLight": 0,
+          "hoverPart": ""
+        }
+      }
+    },
+    {
+      "step": 5,
+      "requestedDeg": 225,
+      "yawDeg": 135,
+      "yawTotalDeg": -225,
+      "pitch": 0,
+      "dolly": 1,
+      "camera": {
+        "scroll": 0,
+        "position": [
+          3.65,
+          1.6,
+          -12.763
+        ],
+        "target": [
+          0.15,
+          1.62,
+          0
+        ],
+        "fov": 27,
+        "extra": {
+          "exploded": 0,
+          "rearLight": 0,
+          "hoverPart": ""
+        }
+      }
+    },
+    {
+      "step": 6,
+      "requestedDeg": 270,
+      "yawDeg": 90,
+      "yawTotalDeg": -270,
+      "pitch": 0,
+      "dolly": 1,
+      "camera": {
+        "scroll": 0,
+        "position": [
+          11.65,
+          1.6,
+          -6.55
+        ],
+        "target": [
+          0.15,
+          1.62,
+          0
+        ],
+        "fov": 27,
+        "extra": {
+          "exploded": 0,
+          "rearLight": 0,
+          "hoverPart": ""
+        }
+      }
+    },
+    {
+      "step": 7,
+      "requestedDeg": 315,
+      "yawDeg": 45,
+      "yawTotalDeg": -315,
+      "pitch": 0,
+      "dolly": 1,
+      "camera": {
+        "scroll": 0,
+        "position": [
+          12.913,
+          1.6,
+          3.5
+        ],
+        "target": [
+          0.15,
+          1.62,
+          0
+        ],
+        "fov": 27,
+        "extra": {
+          "exploded": 0,
+          "rearLight": 0,
+          "hoverPart": ""
+        }
+      }
+    }
+  ],
+  "variants": [
+    {
+      "index": 0,
+      "id": "stainless",
+      "label": "Brushed Stainless",
+      "primary": {
+        "color": "#cfd1d2",
+        "emissive": "#000000",
+        "emissiveIntensity": 1,
+        "roughness": 0.32,
+        "metalness": 1,
+        "transmission": 0,
+        "clearcoat": 0,
+        "rim": 0,
+        "opacity": 1
+      },
+      "extra": {
+        "exploded": 0,
+        "rearLight": 0,
+        "hoverPart": ""
+      }
+    },
+    {
+      "index": 1,
+      "id": "graphite",
+      "label": "Graphite Matte",
+      "primary": {
+        "color": "#2f3134",
+        "emissive": "#000000",
+        "emissiveIntensity": 1,
+        "roughness": 0.4199993089026171,
+        "metalness": 0.4000041465842969,
+        "transmission": 0,
+        "clearcoat": 0.5999958534157032,
+        "rim": 0,
+        "opacity": 1
+      },
+      "extra": {
+        "exploded": 0,
+        "rearLight": 0,
+        "hoverPart": ""
+      }
+    },
+    {
+      "index": 2,
+      "id": "dune",
+      "label": "Dune Metallic",
+      "primary": {
+        "color": "#b39f7f",
+        "emissive": "#000000",
+        "emissiveIntensity": 1,
+        "roughness": 0.3400006715127193,
+        "metalness": 0.5499987409253835,
+        "transmission": 0,
+        "clearcoat": 0.999996642405119,
+        "rim": 0,
+        "opacity": 1
+      },
+      "extra": {
+        "exploded": 0,
+        "rearLight": 0,
+        "hoverPart": ""
+      }
+    },
+    {
+      "index": 3,
+      "id": "mist",
+      "label": "Mist Blue",
+      "primary": {
+        "color": "#6f8e9a",
+        "emissive": "#000000",
+        "emissiveIntensity": 1,
+        "roughness": 0.30000036693996734,
+        "metalness": 0.5999995413231499,
+        "transmission": 0,
+        "clearcoat": 0.9999999999848721,
+        "rim": 0,
+        "opacity": 1
+      },
+      "extra": {
+        "exploded": 0,
+        "rearLight": 0,
+        "hoverPart": ""
+      }
+    }
+  ],
+  "hover": {
+    "idle": 0,
+    "on": 1,
+    "onId": "axiom-t1",
+    "afterLeave": 0,
+    "primaryWhileHovered": {
+      "color": "#cfd1d2",
+      "emissive": "#000000",
+      "emissiveIntensity": 1,
+      "roughness": 0.32,
+      "metalness": 1,
+      "transmission": 0,
+      "clearcoat": 0,
+      "rim": 0.5499972945356597,
+      "opacity": 1
+    }
+  },
+  "mobile": [
+    {
+      "p": 0,
+      "scroll": 0,
+      "position": [
+        15.136,
+        1.67,
+        26.312
+      ],
+      "target": [
+        0.15,
+        2.42,
+        0
+      ],
+      "fov": 27,
+      "extra": {
+        "exploded": 0,
+        "rearLight": 0,
+        "hoverPart": ""
+      }
+    },
+    {
+      "p": 0.5,
+      "scroll": 0.5,
+      "position": [
+        16.572,
+        10.328,
+        21.506
+      ],
+      "target": [
+        0.1,
+        2.45,
+        0
+      ],
+      "fov": 29.998,
+      "extra": {
+        "exploded": 1,
+        "rearLight": 0,
+        "hoverPart": ""
+      }
+    },
+    {
+      "p": 1,
+      "scroll": 1,
+      "position": [
+        19.19,
+        0.607,
+        19.906
+      ],
+      "target": [
+        0.2,
+        2.18,
+        0
+      ],
+      "fov": 28.999,
+      "extra": {
+        "exploded": 0,
+        "rearLight": 0.5,
+        "hoverPart": ""
+      }
+    }
+  ],
+  "gpu": {
+    "renderer": "ANGLE (Intel, Intel(R) HD Graphics 530 (0x00001912) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36"
+  },
+  "materials": [
+    "primary",
+    "glass",
+    "rearLight"
+  ],
+  "fps": {
+    "avg": 74.275,
+    "frames": 8532
+  },
+  "consoleErrors": [],
+  "mobileErrors": []
+}
