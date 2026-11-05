@@ -1,0 +1,195 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\Baha Group\\Desktop\\repWeb\\BAHA_3D_SHOWCASE\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "-g",
+      "beauty · loads",
+      "--project=desktop"
+    ],
+    "configFile": "C:\\Users\\Baha Group\\Desktop\\repWeb\\BAHA_3D_SHOWCASE\\playwright.config.ts",
+    "rootDir": "C:/Users/Baha Group/Desktop/repWeb/BAHA_3D_SHOWCASE/tests/qc",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/Baha Group/Desktop/repWeb/BAHA_3D_SHOWCASE/qc-evidence/artifacts-smoke",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "desktop",
+        "name": "desktop",
+        "testDir": "C:/Users/Baha Group/Desktop/repWeb/BAHA_3D_SHOWCASE/tests/qc",
+        "testIgnore": [
+          "/mobile\\.spec/"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "C:/Users/Baha Group/Desktop/repWeb/BAHA_3D_SHOWCASE/qc-evidence/artifacts-smoke",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "mobile",
+        "name": "mobile",
+        "testDir": "C:/Users/Baha Group/Desktop/repWeb/BAHA_3D_SHOWCASE/tests/qc",
+        "testIgnore": [],
+        "testMatch": [
+          "/mobile\\.spec/"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "C:\\Users\\Baha Group\\Desktop\\repWeb\\BAHA_3D_SHOWCASE\\qc-evidence\\artifacts-smoke",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "desktop",
+        "testDir": "C:\\Users\\Baha Group\\Desktop\\repWeb\\BAHA_3D_SHOWCASE\\tests\\qc",
+        "snapshotDir": "C:\\Users\\Baha Group\\Desktop\\repWeb\\BAHA_3D_SHOWCASE\\tests\\qc",
+        "testIgnore": {},
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 180000,
+        "use": {
+          "baseURL": "http://localhost:5191",
+          "channel": "chrome",
+          "launchOptions": {
+            "args": [
+              "--enable-gpu",
+              "--ignore-gpu-blocklist",
+              "--use-angle=d3d11"
+            ]
+          },
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "screenshot": "only-on-failure",
+          "trace": "retain-on-failure",
+          "actionTimeout": 15000
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "desktop"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "qc-evidence/results-smoke.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": {
+      "command": "npx vite --port 5191 --strictPort",
+      "url": "http://localhost:5191",
+      "reuseExistingServer": true,
+      "timeout": 240000,
+      "stdout": "pipe",
+      "stderr": "pipe"
+    }
+  },
+  "suites": [
+    {
+      "title": "demo.spec.ts",
+      "file": "demo.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "beauty",
+          "file": "demo.spec.ts",
+          "line": 10,
+          "column": 8,
+          "specs": [
+            {
+              "title": "beauty · loads, renders frames, no errors",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop",
+                  "projectName": "desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 5601,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-04T15:46:05.636Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05384557491ebd602dd7-f7ba2dfc8c225954b137",
+              "file": "demo.spec.ts",
+              "line": 11,
+              "column": 5
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-04T15:46:01.175Z",
+    "duration": 11572.495,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

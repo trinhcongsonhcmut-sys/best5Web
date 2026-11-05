@@ -1,0 +1,489 @@
+{
+ "poses": {
+  "f0": {
+   "pos": [
+    0,
+    0.18,
+    5.4
+   ],
+   "fov": 30,
+   "extra": {
+    "scene": "cafe",
+    "sceneMix": 0,
+    "glaze": "cream"
+   }
+  },
+  "f0.25": {
+   "pos": [
+    2.25,
+    0.85,
+    3.9
+   ],
+   "fov": 30.996,
+   "extra": {
+    "scene": "cafe",
+    "sceneMix": 0,
+    "glaze": "cream"
+   }
+  },
+  "f0.5": {
+   "pos": [
+    0.15,
+    0.95,
+    4.3
+   ],
+   "fov": 34.996,
+   "extra": {
+    "scene": "transition",
+    "sceneMix": 0.606,
+    "glaze": "cream"
+   }
+  },
+  "f0.75": {
+   "pos": [
+    -3.2,
+    1.05,
+    3.25
+   ],
+   "fov": 35.997,
+   "extra": {
+    "scene": "restaurant",
+    "sceneMix": 1,
+    "glaze": "cream"
+   }
+  },
+  "f1": {
+   "pos": [
+    0,
+    2.05,
+    3.55
+   ],
+   "fov": 28.001,
+   "extra": {
+    "scene": "restaurant",
+    "sceneMix": 1,
+    "glaze": "cream"
+   }
+  },
+  "b0.75": {
+   "pos": [
+    -3.2,
+    1.05,
+    3.25
+   ],
+   "fov": 35.995
+  },
+  "b0.5": {
+   "pos": [
+    0.15,
+    0.95,
+    4.3
+   ],
+   "fov": 35.002
+  },
+  "b0.25": {
+   "pos": [
+    2.25,
+    0.85,
+    3.9
+   ],
+   "fov": 31.005
+  },
+  "b0": {
+   "pos": [
+    0,
+    0.18,
+    5.4
+   ],
+   "fov": 30.003
+  }
+ },
+ "jump": [
+  [
+   1,
+   [
+    0,
+    2.05,
+    3.55
+   ]
+  ],
+  [
+   0.59,
+   [
+    -2.392,
+    0.946,
+    3.624
+   ]
+  ],
+  [
+   0.442,
+   [
+    0.25,
+    0.947,
+    4.302
+   ]
+  ],
+  [
+   0.355,
+   [
+    1.468,
+    0.93,
+    4.066
+   ]
+  ],
+  [
+   0.321,
+   [
+    1.876,
+    0.916,
+    3.946
+   ]
+  ],
+  [
+   0.309,
+   [
+    1.999,
+    0.908,
+    3.913
+   ]
+  ],
+  [
+   0.302,
+   [
+    2.056,
+    0.902,
+    3.9
+   ]
+  ],
+  [
+   0.301,
+   [
+    2.071,
+    0.901,
+    3.897
+   ]
+  ],
+  [
+   0.3,
+   [
+    2.079,
+    0.9,
+    3.895
+   ]
+  ],
+  [
+   0.3,
+   [
+    2.08,
+    0.899,
+    3.895
+   ]
+  ],
+  [
+   0.3,
+   [
+    2.081,
+    0.899,
+    3.895
+   ]
+  ],
+  [
+   0.3,
+   [
+    2.081,
+    0.899,
+    3.895
+   ]
+  ],
+  [
+   0.3,
+   [
+    2.081,
+    0.899,
+    3.895
+   ]
+  ],
+  [
+   0.3,
+   [
+    2.081,
+    0.899,
+    3.895
+   ]
+  ],
+  [
+   0.3,
+   [
+    2.081,
+    0.899,
+    3.895
+   ]
+  ],
+  [
+   0.3,
+   [
+    2.081,
+    0.899,
+    3.895
+   ]
+  ]
+ ],
+ "wheelJitter": [
+  0.037,
+  0.018,
+  0.008,
+  0.003,
+  0.002,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0
+ ],
+ "pxPer90": 271,
+ "orbit": {
+  "0": {
+   "front": [
+    0,
+    0.18,
+    5.4
+   ],
+   "yawDelta": -6.287,
+   "low": [
+    -3.831,
+    0.18,
+    3.805
+   ],
+   "high": [
+    2.059,
+    4.566,
+    2.069
+   ],
+   "afterReset": [
+    0,
+    0.18,
+    5.4
+   ]
+  },
+  "50": {
+   "front": [
+    0.15,
+    0.95,
+    4.3
+   ],
+   "yawDelta": -6.287,
+   "low": [
+    -2.91,
+    0.872,
+    3.039
+   ],
+   "high": [
+    1.812,
+    3.89,
+    1.67
+   ],
+   "afterReset": [
+    0.15,
+    0.95,
+    4.3
+   ]
+  },
+  "75": {
+   "front": [
+    -3.2,
+    1.05,
+    3.25
+   ],
+   "yawDelta": -6.287,
+   "low": [
+    -4.561,
+    1.05,
+    0.02
+   ],
+   "high": [
+    0.013,
+    4.475,
+    2.475
+   ],
+   "afterReset": [
+    -3.2,
+    1.05,
+    3.25
+   ]
+  },
+  "100": {
+   "front": [
+    0,
+    2.05,
+    3.55
+   ],
+   "yawDelta": -6.287,
+   "low": [
+    -2.998,
+    0.309,
+    2.978
+   ],
+   "high": [
+    1.629,
+    3.266,
+    1.637
+   ],
+   "afterReset": [
+    0,
+    2.05,
+    3.55
+   ]
+  }
+ },
+ "variants": {
+  "0": [
+   {
+    "p": 0,
+    "id": "cream",
+    "primary": {
+     "color": "#efe3d0",
+     "emissive": "#ffb070",
+     "emissiveIntensity": 0,
+     "roughness": 0.32,
+     "metalness": 0,
+     "transmission": 0,
+     "clearcoat": 1,
+     "rim": 0,
+     "opacity": 1
+    }
+   },
+   {
+    "p": 0.5,
+    "id": "cream",
+    "primary": {
+     "color": "#efe3d0",
+     "emissive": "#ffb070",
+     "emissiveIntensity": 0,
+     "roughness": 0.32,
+     "metalness": 0,
+     "transmission": 0,
+     "clearcoat": 1,
+     "rim": 0,
+     "opacity": 1
+    }
+   },
+   {
+    "p": 1,
+    "id": "cream",
+    "primary": {
+     "color": "#efe3d0",
+     "emissive": "#ffb070",
+     "emissiveIntensity": 0,
+     "roughness": 0.32,
+     "metalness": 0,
+     "transmission": 0,
+     "clearcoat": 1,
+     "rim": 0,
+     "opacity": 1
+    }
+   }
+  ],
+  "1": [
+   {
+    "p": 0,
+    "id": "matte-black",
+    "primary": {
+     "color": "#1c1918",
+     "emissive": "#ffb070",
+     "emissiveIntensity": 0,
+     "roughness": 0.6599999999999998,
+     "metalness": 0,
+     "transmission": 0,
+     "clearcoat": 0.15000000000000005,
+     "rim": 0,
+     "opacity": 1
+    }
+   },
+   {
+    "p": 0.5,
+    "id": "matte-black",
+    "primary": {
+     "color": "#1c1918",
+     "emissive": "#ffb070",
+     "emissiveIntensity": 0,
+     "roughness": 0.6599999999999999,
+     "metalness": 0,
+     "transmission": 0,
+     "clearcoat": 0.15000000000000002,
+     "rim": 0,
+     "opacity": 1
+    }
+   },
+   {
+    "p": 1,
+    "id": "matte-black",
+    "primary": {
+     "color": "#1c1918",
+     "emissive": "#ffb070",
+     "emissiveIntensity": 0,
+     "roughness": 0.6599999999999999,
+     "metalness": 0,
+     "transmission": 0,
+     "clearcoat": 0.15000000000000002,
+     "rim": 0,
+     "opacity": 1
+    }
+   }
+  ],
+  "2": [
+   {
+    "p": 0,
+    "id": "terracotta",
+    "primary": {
+     "color": "#b5523a",
+     "emissive": "#ffb070",
+     "emissiveIntensity": 0,
+     "roughness": 0.5000000000000002,
+     "metalness": 0,
+     "transmission": 0,
+     "clearcoat": 0.34999999999999987,
+     "rim": 0,
+     "opacity": 1
+    }
+   },
+   {
+    "p": 0.5,
+    "id": "terracotta",
+    "primary": {
+     "color": "#b5523a",
+     "emissive": "#ffb070",
+     "emissiveIntensity": 0,
+     "roughness": 0.5000000000000001,
+     "metalness": 0,
+     "transmission": 0,
+     "clearcoat": 0.3499999999999999,
+     "rim": 0,
+     "opacity": 1
+    }
+   },
+   {
+    "p": 1,
+    "id": "terracotta",
+    "primary": {
+     "color": "#b5523a",
+     "emissive": "#ffb070",
+     "emissiveIntensity": 0,
+     "roughness": 0.5000000000000001,
+     "metalness": 0,
+     "transmission": 0,
+     "clearcoat": 0.3499999999999999,
+     "rim": 0,
+     "opacity": 1
+    }
+   }
+  ]
+ },
+ "errs": [],
+ "bridgeErrors": []
+}

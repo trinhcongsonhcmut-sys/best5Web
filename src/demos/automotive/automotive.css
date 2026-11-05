@@ -1,0 +1,157 @@
+/* AXIOM T1 — desert steel / technical HUD. Scoped to the automotive route only. */
+.demo-automotive {
+  --ax-ink: #1d1d1b;
+  --ax-mute: #5f5b52;
+  --ax-line: rgba(29, 29, 27, 0.22);
+  --ax-red: #d9452b;
+  --ax-cond: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --ax-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --ax-sans: 'Space Grotesk Variable', system-ui, sans-serif;
+  background: #e4dccb;
+  font-family: var(--ax-sans);
+}
+.demo-automotive .scroll-hint { bottom: 74px; }
+.demo-automotive .hud { font-family: var(--ax-mono); letter-spacing: 0.06em; }
+.demo-automotive .hud-back,
+.demo-automotive .hud-controls button { border-radius: 2px; }
+.demo-automotive .stage-dots button.on { color: var(--ax-red); }
+
+.ax { position: absolute; inset: 0; color: var(--ax-ink); }
+
+/* wordmark */
+.ax-mark {
+  position: absolute; top: max(24px, env(safe-area-inset-top)); left: 50%; transform: translateX(-50%);
+  display: flex; align-items: center; gap: 10px;
+  font: 700 15px/1 var(--ax-cond); letter-spacing: 0.42em; text-transform: uppercase;
+}
+.ax-mark i { width: 22px; height: 1px; background: currentColor; opacity: 0.5; }
+.ax-mark em { font: 400 10px/1 var(--ax-mono); letter-spacing: 0.16em; font-style: normal; opacity: 0.7; }
+
+/* shared reveal */
+.ax-hero, .ax-ch, .ax-final { position: absolute; inset: 0; pointer-events: none; }
+.ax-hero > *, .ax-ch .ax-left > *, .ax-ch .ax-right, .ax-final > * {
+  opacity: 0; transform: translateY(16px);
+  transition: opacity 0.45s ease, transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.on > *, .ax-ch.on .ax-left > *, .ax-ch.on .ax-right { opacity: 1; transform: none; }
+.ax-ch.on .ax-left > *:nth-child(2), .ax-hero.on > *:nth-child(2), .ax-final.on > *:nth-child(2) { transition-delay: 0.08s; }
+.ax-ch.on .ax-left > *:nth-child(3), .ax-hero.on > *:nth-child(3) { transition-delay: 0.16s; }
+.ax-ch.on .ax-right { transition-delay: 0.2s; }
+/* while hidden, fade out fast so chapters never stack */
+.ax-hero:not(.on) > *, .ax-ch:not(.on) .ax-left > *, .ax-ch:not(.on) .ax-right, .ax-final:not(.on) > * { transition-duration: 0.22s, 0.3s; transition-delay: 0s; }
+
+/* hero */
+.ax-hero { display: flex; flex-direction: column; align-items: center; padding-top: clamp(64px, 9.5vh, 120px); text-align: center; }
+.ax-kicker { margin: 0 0 10px; font: 500 11px/1 var(--ax-mono); letter-spacing: 0.24em; text-transform: uppercase; color: var(--ax-mute); }
+.ax-hero h1 {
+  margin: 0; display: flex; align-items: flex-start; gap: 0.08em;
+  font: 700 clamp(64px, 10.5vw, 176px)/0.82 var(--ax-cond); letter-spacing: 0.02em; text-transform: uppercase;
+}
+.ax-t1 { font-size: 0.36em; line-height: 1; padding: 0.12em 0.22em; margin-top: 0.08em; border: 2px solid currentColor; letter-spacing: 0.06em; }
+.ax-tag { margin: 14px 0 0; font: 500 12px/1.4 var(--ax-mono); letter-spacing: 0.2em; text-transform: uppercase; }
+
+/* chapters */
+.ax-left {
+  position: absolute; left: clamp(20px, 5vw, 88px); top: clamp(80px, 13vh, 150px); width: min(34ch, 30vw);
+}
+.ax-no { display: block; font: 500 clamp(18px, 1.8vw, 26px)/1 var(--ax-cond); color: var(--ax-red); letter-spacing: 0.04em; }
+.ax-left h2, .ax-final h2 {
+  margin: 6px 0 14px; display: flex; flex-direction: column;
+  font: 700 clamp(38px, 4.4vw, 74px)/0.88 var(--ax-cond); letter-spacing: 0.01em; text-transform: uppercase;
+}
+.ax-left p, .ax-final p { margin: 0; max-width: 34ch; font-size: 14px; line-height: 1.5; color: #3b3832; }
+
+.ax-right { position: absolute; right: clamp(76px, 8.5vw, 150px); top: clamp(86px, 14vh, 160px); width: 248px; }
+.ax-right dl { margin: 0; }
+.ax-right dl > div { display: grid; grid-template-columns: 1fr auto; align-items: baseline; gap: 12px; padding: 10px 0; border-top: 1px solid var(--ax-line); }
+.ax-right dl > div:last-child { border-bottom: 1px solid var(--ax-line); }
+.ax-right dt { font: 400 10px/1.3 var(--ax-mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ax-mute); }
+.ax-right dd { margin: 0; text-align: right; }
+.ax-right dd b { font: 700 30px/1 var(--ax-cond); letter-spacing: 0.01em; }
+.ax-right dd small { display: block; margin-top: 2px; font: 400 10px/1.2 var(--ax-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ax-mute); }
+.ax-right ul { margin: 0; padding: 0; list-style: none; }
+.ax-right li {
+  padding: 9px 0 9px 14px; border-left: 1px solid var(--ax-line);
+  font: 500 11px/1.3 var(--ax-mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ax-mute);
+}
+.ax-right li.act { border-left: 2px solid var(--ax-red); color: var(--ax-ink); }
+
+/* final */
+.ax-final { padding: clamp(80px, 13vh, 150px) clamp(20px, 5vw, 88px); }
+.ax-final h2 { font-size: clamp(40px, 4.8vw, 82px); }
+
+/* bottom progress (hatched track + moving thumb) */
+.ax-progress {
+  position: absolute; left: 50%; bottom: 30px; transform: translateX(-50%); width: min(44vw, 560px);
+}
+.ax-track {
+  position: relative; height: 6px;
+  background: repeating-linear-gradient(-55deg, rgba(29, 29, 27, 0.28) 0 1px, transparent 1px 5px);
+}
+.ax-fill { position: absolute; inset: 0; transform-origin: left; transform: scaleX(var(--p, 0)); background: rgba(29, 29, 27, 0.16); }
+.ax-thumb {
+  position: absolute; top: -1px; height: 8px; width: 12%; left: calc(var(--p, 0) * 88%); background: var(--ax-ink);
+}
+.ax-progress ol { display: flex; justify-content: space-between; margin: 8px 0 0; padding: 0; list-style: none; }
+.ax-progress li { font: 500 10px/1 var(--ax-mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ax-mute); transition: color 0.3s; }
+.ax-progress li.on { color: var(--ax-red); }
+
+/* variant picker */
+.ax .ax-picker { position: absolute; right: 22px; bottom: 74px; }
+.ax .ax-picker .variant-label { font: 500 11px/1 var(--ax-mono); letter-spacing: 0.14em; text-align: right; min-width: 15ch; }
+.ax .ax-picker .chip { border-radius: 2px; width: 28px; height: 28px; box-shadow: inset 0 0 0 3px #e9e2d3; }
+.ax .ax-picker .chip.on { box-shadow: inset 0 0 0 3px #e9e2d3, 0 0 0 2px var(--ax-red); }
+.ax-note { position: absolute; right: 22px; bottom: 54px; margin: 0; font: 400 9px/1 var(--ax-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--ax-mute); opacity: 0.8; }
+.demo-automotive .hud-help { color: var(--ax-mute); opacity: 0.85; }
+
+@media (max-width: 720px) {
+  .demo-automotive .scroll-hint { display: none; }
+  .ax-mark { top: 22px; left: auto; right: 16px; transform: none; font-size: 12px; letter-spacing: 0.3em; }
+  .ax-mark em { display: none; }
+  .ax-hero { padding-top: 150px; }
+  .ax-kicker { font-size: 9px; letter-spacing: 0.18em; }
+  .ax-hero h1 { font-size: clamp(56px, 19vw, 92px); }
+  .ax-tag { font-size: 10px; letter-spacing: 0.14em; max-width: 30ch; }
+  .ax-left { left: 18px; right: 18px; top: 70px; width: auto; }
+  .ax-left h2, .ax-final h2 { font-size: 40px; margin: 4px 0 8px; flex-direction: row; flex-wrap: wrap; gap: 0 0.25em; }
+  .ax-left p, .ax-final p { font-size: 12.5px; max-width: 40ch; }
+  .ax-right { left: 18px; right: 18px; top: 206px; bottom: auto; width: auto; }
+  .ax-right dl { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .ax-right dl > div, .ax-right dl > div:last-child { display: block; padding: 8px 0 0; border-bottom: 0; }
+  .ax-right dd { text-align: left; }
+  .ax-right dd b { font-size: 24px; }
+  .ax-right dd small { font-size: 8.5px; }
+  .ax-right ul { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 12px; }
+  .ax-right li { padding: 4px 0 4px 10px; font-size: 9.5px; }
+  .ax-final { padding: 70px 18px; }
+  .ax-progress { left: 14px; right: 14px; width: auto; transform: none; bottom: 76px; }
+  .ax .ax-picker { right: 14px; bottom: 20px; }
+  .ax .ax-picker .variant-label { display: none; }
+  .ax .ax-picker .variant-chips { gap: 8px; }
+  .ax .ax-picker .chip { width: 26px; height: 26px; }
+  .ax-note { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ax-hero > *, .ax-ch .ax-left > *, .ax-ch .ax-right, .ax-final > * { transition: opacity 0.2s linear; transform: none; }
+}
+.ax-final .ax-fine { margin-top: 14px; font: 400 10px/1 var(--ax-mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ax-mute); }
+.ax-final .ax-fine { white-space: nowrap; }
+@media (max-width: 720px) {
+  .ax-left h2 .hy + span { margin-left: -0.25em; }
+}
+
+@media (max-width: 720px) {
+  .ax-tag { max-width: none; letter-spacing: 0.12em; }
+  .ax-tag span { display: block; white-space: nowrap; }
+  .ax-tag .ax-sep { display: none; }
+  /* stage dots sit above the truck band on phones */
+  .demo-automotive .stage-dots { top: 276px; transform: none; }
+}
+
+.demo-automotive.ax-orbited .scroll-hint { opacity: 0 !important; transition: opacity .3s; }
+.ax-progress li button { background: none; border: 0; padding: 6px 0; font: inherit; letter-spacing: inherit; text-transform: inherit; color: inherit; cursor: pointer; }
+@media (max-width: 720px) {
+  /* phones: the chapter labels under the progress bar are the navigation; the side dots would sit on the truck */
+  .demo-automotive .stage-dots { display: none; }
+}

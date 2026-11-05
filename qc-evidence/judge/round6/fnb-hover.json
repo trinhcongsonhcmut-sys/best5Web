@@ -1,0 +1,361 @@
+{
+ "plate100": {
+  "cream": {
+   "off": {
+    "rimLeft": "#e3d8c9",
+    "rimEdgeLeft": "#e2d8c8",
+    "wellLow": "#e3d9cc",
+    "rimBottom": "#e3dacd",
+    "rimRight": "#e4dbcd"
+   },
+   "offHover": [
+    null,
+    0
+   ],
+   "on": {
+    "rimLeft": "#e4dacb",
+    "rimEdgeLeft": "#e4d9c9",
+    "wellLow": "#e5dbce",
+    "rimBottom": "#e5dcce",
+    "rimRight": "#e6dccf"
+   },
+   "onHover": [
+    "plate",
+    1
+   ],
+   "plateMat": {
+    "color": "#efe3d0",
+    "emissive": "#ffb070",
+    "emissiveIntensity": 0.04999999995544658,
+    "roughness": 0.32,
+    "metalness": 0,
+    "transmission": 0,
+    "clearcoat": 1,
+    "rim": 0.349999999688126,
+    "opacity": 1
+   }
+  },
+  "black": {
+   "off": {
+    "rimLeft": "#15110f",
+    "rimEdgeLeft": "#110d0a",
+    "wellLow": "#1a1715",
+    "rimBottom": "#191513",
+    "rimRight": "#161210"
+   },
+   "offHover": [
+    null,
+    0
+   ],
+   "on": {
+    "rimLeft": "#1a1411",
+    "rimEdgeLeft": "#16100c",
+    "wellLow": "#201a17",
+    "rimBottom": "#1e1815",
+    "rimRight": "#1b1511"
+   },
+   "onHover": [
+    "plate",
+    1
+   ],
+   "plateMat": {
+    "color": "#141211",
+    "emissive": "#ffb070",
+    "emissiveIntensity": 0.003315316551626382,
+    "roughness": 0.66,
+    "metalness": 0,
+    "transmission": 0,
+    "clearcoat": 0.15,
+    "rim": 0.09012505498166146,
+    "opacity": 1
+   }
+  },
+  "terra": {
+   "off": {
+    "rimLeft": "#bc5038",
+    "rimEdgeLeft": "#bc4a30",
+    "wellLow": "#bd5842",
+    "rimBottom": "#bd563f",
+    "rimRight": "#c0533a"
+   },
+   "offHover": [
+    null,
+    0
+   ],
+   "on": {
+    "rimLeft": "#be533a",
+    "rimEdgeLeft": "#be4e32",
+    "wellLow": "#bf5c44",
+    "rimBottom": "#c05a41",
+    "rimRight": "#c2573c"
+   },
+   "onHover": [
+    "plate",
+    1
+   ],
+   "plateMat": {
+    "color": "#9e4732",
+    "emissive": "#ffb070",
+    "emissiveIntensity": 0.007743483044599816,
+    "roughness": 0.5,
+    "metalness": 0,
+    "transmission": 0,
+    "clearcoat": 0.35,
+    "rim": 0.13773718963890674,
+    "opacity": 1
+   }
+  }
+ },
+ "cup0": {
+  "cream": {
+   "off": {
+    "cupBody": "#a98053",
+    "saucer": "#e3d5c5"
+   },
+   "offHover": [
+    null,
+    0
+   ],
+   "on": {
+    "cupBody": "#bf9464",
+    "saucer": "#e4d8cb"
+   },
+   "onHover": [
+    "cup",
+    1
+   ],
+   "mat": {
+    "color": "#efe3d0",
+    "emissive": "#ffb070",
+    "emissiveIntensity": 0.11999999965110968,
+    "roughness": 0.32,
+    "metalness": 0,
+    "transmission": 0,
+    "clearcoat": 1,
+    "rim": 0.5999999982555484,
+    "opacity": 1
+   }
+  },
+  "black": {
+   "off": {
+    "cupBody": "#030100",
+    "saucer": "#3e3733"
+   },
+   "offHover": [
+    null,
+    0
+   ],
+   "on": {
+    "cupBody": "#0d0502",
+    "saucer": "#352d29"
+   },
+   "onHover": [
+    "cup",
+    1
+   ],
+   "mat": {
+    "color": "#1c1918",
+    "emissive": "#ffb070",
+    "emissiveIntensity": 0.00824338226521574,
+    "roughness": 0.66,
+    "metalness": 0,
+    "transmission": 0,
+    "clearcoat": 0.15,
+    "rim": 0.1572582168520091,
+    "opacity": 1
+   }
+  },
+  "terra": {
+   "off": {
+    "cupBody": "#791308",
+    "saucer": "#d37964"
+   },
+   "offHover": [
+    null,
+    0
+   ],
+   "on": {
+    "cupBody": "#7c200e",
+    "saucer": "#d4816e"
+   },
+   "onHover": [
+    "cup",
+    1
+   ],
+   "mat": {
+    "color": "#b5523a",
+    "emissive": "#ffb070",
+    "emissiveIntensity": 0.023652695398047357,
+    "roughness": 0.5,
+    "metalness": 0,
+    "transmission": 0,
+    "clearcoat": 0.35,
+    "rim": 0.2663795901147468,
+    "opacity": 1
+   }
+  }
+ },
+ "clear": {
+  "before": [
+   "plate",
+   1
+  ],
+  "afterDragReleaseOnPlate": [
+   [
+    "plate",
+    0.63
+   ],
+   [
+    "plate",
+    0.21
+   ],
+   [
+    "plate",
+    0.1
+   ],
+   [
+    "plate",
+    0.03
+   ],
+   [
+    "plate",
+    0.02
+   ],
+   [
+    "plate",
+    0.01
+   ],
+   [
+    null,
+    0
+   ],
+   [
+    null,
+    0
+   ]
+  ],
+  "state": {
+   "value": 0,
+   "id": null
+  },
+  "afterReset": [
+   null,
+   0
+  ],
+  "rehoverAfterMove": [
+   null,
+   0
+  ],
+  "afterDragReleaseOff": [
+   [
+    null,
+    0
+   ],
+   [
+    null,
+    0
+   ],
+   [
+    null,
+    0
+   ],
+   [
+    null,
+    0
+   ],
+   [
+    null,
+    0
+   ],
+   [
+    null,
+    0
+   ]
+  ],
+  "beforeWheel": [
+   "plate",
+   1
+  ],
+  "afterWheel150": [
+   "plate",
+   0.44
+  ],
+  "afterWheel1650": [
+   null,
+   0
+  ],
+  "beforeBlur": [
+   null,
+   0
+  ],
+  "afterBlur": [
+   null,
+   0
+  ],
+  "beforeLeave": [
+   null,
+   0
+  ],
+  "afterLeave": [
+   null,
+   0
+  ],
+  "beforeCancel": [
+   null,
+   0
+  ],
+  "afterCancel": [
+   null,
+   0
+  ]
+ },
+ "errs": [
+  "WARN Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read",
+  "WARN Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read",
+  "WARN Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read",
+  "WARN Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read",
+  "WARN Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read",
+  "WARN Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read",
+  "WARN Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read",
+  "WARN Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read",
+  "WARN Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read",
+  "WARN Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read",
+  "WARN Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read",
+  "WARN Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read"
+ ],
+ "touchTap": [
+  [
+   null,
+   0
+  ],
+  [
+   null,
+   0
+  ],
+  [
+   null,
+   0
+  ],
+  [
+   null,
+   0
+  ],
+  [
+   null,
+   0
+  ],
+  [
+   null,
+   0
+  ],
+  [
+   null,
+   0
+  ],
+  [
+   null,
+   0
+  ]
+ ],
+ "touchErrs": []
+}

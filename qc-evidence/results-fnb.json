@@ -1,0 +1,562 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\Baha Group\\Desktop\\repWeb\\BAHA_3D_SHOWCASE\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "-g",
+      "fnb"
+    ],
+    "configFile": "C:\\Users\\Baha Group\\Desktop\\repWeb\\BAHA_3D_SHOWCASE\\playwright.config.ts",
+    "rootDir": "C:/Users/Baha Group/Desktop/repWeb/BAHA_3D_SHOWCASE/tests/qc",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/Baha Group/Desktop/repWeb/BAHA_3D_SHOWCASE/qc-evidence/artifacts-fnb",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "desktop",
+        "name": "desktop",
+        "testDir": "C:/Users/Baha Group/Desktop/repWeb/BAHA_3D_SHOWCASE/tests/qc",
+        "testIgnore": [
+          "/mobile\\.spec/"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "C:/Users/Baha Group/Desktop/repWeb/BAHA_3D_SHOWCASE/qc-evidence/artifacts-fnb",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "mobile",
+        "name": "mobile",
+        "testDir": "C:/Users/Baha Group/Desktop/repWeb/BAHA_3D_SHOWCASE/tests/qc",
+        "testIgnore": [],
+        "testMatch": [
+          "/mobile\\.spec/"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "C:\\Users\\Baha Group\\Desktop\\repWeb\\BAHA_3D_SHOWCASE\\qc-evidence\\artifacts-fnb",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "desktop",
+        "testDir": "C:\\Users\\Baha Group\\Desktop\\repWeb\\BAHA_3D_SHOWCASE\\tests\\qc",
+        "snapshotDir": "C:\\Users\\Baha Group\\Desktop\\repWeb\\BAHA_3D_SHOWCASE\\tests\\qc",
+        "testIgnore": {},
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 180000,
+        "use": {
+          "baseURL": "http://localhost:5192",
+          "channel": "chrome",
+          "launchOptions": {
+            "args": [
+              "--enable-gpu",
+              "--ignore-gpu-blocklist",
+              "--use-angle=d3d11"
+            ]
+          },
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "screenshot": "only-on-failure",
+          "trace": "retain-on-failure",
+          "actionTimeout": 15000
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "desktop"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "C:\\Users\\Baha Group\\Desktop\\repWeb\\BAHA_3D_SHOWCASE\\qc-evidence\\artifacts-fnb",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "mobile",
+        "testDir": "C:\\Users\\Baha Group\\Desktop\\repWeb\\BAHA_3D_SHOWCASE\\tests\\qc",
+        "snapshotDir": "C:\\Users\\Baha Group\\Desktop\\repWeb\\BAHA_3D_SHOWCASE\\tests\\qc",
+        "testIgnore": [],
+        "testMatch": {},
+        "timeout": 180000,
+        "use": {
+          "baseURL": "http://localhost:5192",
+          "channel": "chrome",
+          "launchOptions": {
+            "args": [
+              "--enable-gpu",
+              "--ignore-gpu-blocklist",
+              "--use-angle=d3d11"
+            ]
+          },
+          "viewport": {
+            "width": 390,
+            "height": 664
+          },
+          "screenshot": "only-on-failure",
+          "trace": "retain-on-failure",
+          "actionTimeout": 15000,
+          "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/27.2 Mobile/15E148 Safari/604.1",
+          "screen": {
+            "width": 390,
+            "height": 844
+          },
+          "deviceScaleFactor": 3,
+          "isMobile": true,
+          "hasTouch": true,
+          "defaultBrowserType": "webkit",
+          "browserName": "chromium"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "mobile"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "qc-evidence/results-fnb.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": {
+      "command": "npx vite --port 5192 --strictPort",
+      "url": "http://localhost:5192",
+      "reuseExistingServer": true,
+      "timeout": 240000,
+      "stdout": "pipe",
+      "stderr": "pipe"
+    }
+  },
+  "suites": [
+    {
+      "title": "demo.spec.ts",
+      "file": "demo.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "fnb",
+          "file": "demo.spec.ts",
+          "line": 10,
+          "column": 8,
+          "specs": [
+            {
+              "title": "fnb · loads, renders frames, no errors",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop",
+                  "projectName": "desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 24445,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-05T02:45:55.567Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05384557491ebd602dd7-82e42fceafc107acca7b",
+              "file": "demo.spec.ts",
+              "line": 11,
+              "column": 5
+            },
+            {
+              "title": "fnb · orbit 360° changes the real camera, reset restores it",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop",
+                  "projectName": "desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 47676,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-05T02:46:23.156Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05384557491ebd602dd7-892c7c3811cd8cdfc1c8",
+              "file": "demo.spec.ts",
+              "line": 24,
+              "column": 5
+            },
+            {
+              "title": "fnb · ≥3 colour variants change the real material",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop",
+                  "projectName": "desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 18807,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-05T02:47:10.959Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05384557491ebd602dd7-6802608aabffb4961f1b",
+              "file": "demo.spec.ts",
+              "line": 57,
+              "column": 5
+            },
+            {
+              "title": "fnb · hover lights the object in and out",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop",
+                  "projectName": "desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 16848,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-05T02:47:29.812Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05384557491ebd602dd7-d13a01cfb8ff4da7c2c9",
+              "file": "demo.spec.ts",
+              "line": 77,
+              "column": 5
+            },
+            {
+              "title": "fnb · scroll timeline 0/25/50/75/100 forward and back",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop",
+                  "projectName": "desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 17177,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-05T02:47:46.704Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05384557491ebd602dd7-6513a743315011906730",
+              "file": "demo.spec.ts",
+              "line": 104,
+              "column": 5
+            },
+            {
+              "title": "fnb · resize → 1920x1080 stays healthy",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop",
+                  "projectName": "desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 12522,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-05T02:48:03.907Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05384557491ebd602dd7-6a91063c851bf24d9647",
+              "file": "demo.spec.ts",
+              "line": 133,
+              "column": 7
+            },
+            {
+              "title": "fnb · resize → 1440x900 stays healthy",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop",
+                  "projectName": "desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 10893,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-05T02:48:16.477Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05384557491ebd602dd7-d661fa5d85cae6e297dc",
+              "file": "demo.spec.ts",
+              "line": 133,
+              "column": 7
+            },
+            {
+              "title": "fnb · resize → 390x844 stays healthy",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop",
+                  "projectName": "desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 9840,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-05T02:48:27.417Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05384557491ebd602dd7-d437650e3da01b84ef9e",
+              "file": "demo.spec.ts",
+              "line": 133,
+              "column": 7
+            },
+            {
+              "title": "fnb · FPS measured with condition",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop",
+                  "projectName": "desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 11237,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-05T02:48:37.295Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05384557491ebd602dd7-76743cb56eacfdeeaab8",
+              "file": "demo.spec.ts",
+              "line": 149,
+              "column": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "mobile.spec.ts",
+      "file": "mobile.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "fnb · mobile touch: swipe-x orbits, swipe-y scrolls, no overflow",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile",
+              "projectName": "mobile",
+              "results": [
+                {
+                  "workerIndex": -1,
+                  "parallelIndex": -1,
+                  "status": "failed",
+                  "duration": 0,
+                  "error": {
+                    "message": "Error: worker process exited unexpectedly (code=3221225794, signal=null)"
+                  },
+                  "errors": [
+                    {
+                      "message": "Error: worker process exited unexpectedly (code=3221225794, signal=null)"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-05T02:48:49.311Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "e79c838550b25e92508e-d46c05d807a5875b7d8f",
+          "file": "mobile.spec.ts",
+          "line": 18,
+          "column": 3
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-05T02:45:43.539Z",
+    "duration": 185982.855,
+    "expected": 9,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

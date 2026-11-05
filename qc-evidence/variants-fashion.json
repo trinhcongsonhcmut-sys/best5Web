@@ -1,0 +1,46 @@
+[
+  {
+    "color": "#ec6a17",
+    "emissive": "#000000",
+    "emissiveIntensity": 1,
+    "roughness": 0.36,
+    "metalness": 0,
+    "transmission": 0,
+    "clearcoat": 0.4,
+    "rim": 0,
+    "opacity": 1
+  },
+  {
+    "color": "#262523",
+    "emissive": "#000000",
+    "emissiveIntensity": 1,
+    "roughness": 0.36,
+    "metalness": 0,
+    "transmission": 0,
+    "clearcoat": 0.42,
+    "rim": 0,
+    "opacity": 1
+  },
+  {
+    "color": "#c3c9ce",
+    "emissive": "#000000",
+    "emissiveIntensity": 1,
+    "roughness": 0.4,
+    "metalness": 0,
+    "transmission": 0,
+    "clearcoat": 0.32,
+    "rim": 0,
+    "opacity": 1
+  },
+  {
+    "color": "#b3080c",
+    "emissive": "#000000",
+    "emissiveIntensity": 1,
+    "roughness": 0.36,
+    "metalness": 0,
+    "transmission": 0,
+    "clearcoat": 0.4,
+    "rim": 0,
+    "opacity": 1
+  }
+]

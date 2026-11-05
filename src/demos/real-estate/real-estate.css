@@ -1,0 +1,152 @@
+/* ───────── Real estate · "Dusk & Brass" — Cormorant Garamond (display) + Jost (labels) ───────── */
+.demo-real-estate {
+  --re-gold: #c5ac86;
+  --re-ivory: #e8e2d4;
+  --re-navy: #0e1626;
+  --re-serif: 'Cormorant Garamond', 'Times New Roman', serif;
+  --re-sans: 'Jost Variable', 'Jost', system-ui, sans-serif;
+  background: var(--re-navy);
+}
+/* the level rail replaces the generic stage dots on this route */
+.demo-real-estate .stage-dots { display: none; }
+.demo-real-estate .hud { font-family: var(--re-sans); }
+.demo-real-estate .hud-back,
+.demo-real-estate .hud-controls button {
+  border-color: color-mix(in srgb, var(--re-gold) 45%, transparent);
+  background: color-mix(in srgb, var(--re-navy) 50%, transparent);
+  letter-spacing: 0.16em;
+}
+.demo-real-estate .hud-back { top: max(22px, env(safe-area-inset-top)); left: 28px; font-size: 11px; }
+.demo-real-estate .hud-controls { left: 28px; bottom: max(26px, env(safe-area-inset-bottom)); }
+.demo-real-estate .hud-help {
+  font-family: var(--re-sans); letter-spacing: 0.12em; right: 22px; bottom: max(24px, env(safe-area-inset-bottom)); opacity: 0.9;
+  padding: 6px 10px; border-radius: 4px; background: rgba(12, 14, 30, 0.45); text-shadow: 0 1px 6px rgba(10, 12, 30, 0.7);
+}
+.demo-real-estate .scroll-hint { color: var(--re-gold); letter-spacing: 0.3em; }
+
+.re-hud { position: absolute; inset: 0; pointer-events: none; color: var(--re-ivory); font-variant-numeric: lining-nums; isolation: isolate; }
+/* top scrim: the wordmark always sits on a quiet band (never on bright façade glass) */
+.re-hud::after {
+  content: ''; position: absolute; left: 0; right: 0; top: 0; height: 130px; z-index: -1;
+  background: linear-gradient(180deg, rgba(8, 12, 24, 0.42) 0%, rgba(8, 12, 24, 0) 100%);
+}
+/* left scrim: the copy column always sits on a dark, quiet band (DOM gradient over the canvas — no canvas filter) */
+.re-hud::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: min(46vw, 620px);
+  background: linear-gradient(90deg, rgba(8, 12, 24, 0.66) 0%, rgba(8, 12, 24, 0.42) 52%, rgba(8, 12, 24, 0) 100%);
+}
+.re-hud :where(button, [data-interactive]) { pointer-events: auto; }
+
+/* wordmark */
+.re-brand {
+  position: absolute; top: max(24px, env(safe-area-inset-top)); left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center;
+}
+.re-mark { font-family: var(--re-serif); font-weight: 500; font-size: 21px; letter-spacing: 0.52em; margin-right: -0.52em; }
+.re-sub { font-family: var(--re-sans); font-size: 9.5px; letter-spacing: 0.34em; text-transform: uppercase; color: rgba(255, 255, 255, 0.82); text-shadow: 0 1px 8px rgba(20, 16, 40, 0.55), 0 0 2px rgba(20, 16, 40, 0.4); }
+.re-mark { text-shadow: 0 1px 10px rgba(20, 16, 40, 0.4); }
+
+/* copy block */
+.re-copy {
+  position: absolute; left: 44px; bottom: 116px; max-width: min(470px, 36vw);
+  text-shadow: 0 1px 18px rgba(6, 10, 20, 0.55), 0 0 2px rgba(6, 10, 20, 0.35);
+  animation: re-in 0.9s cubic-bezier(0.2, 0.7, 0.1, 1) both;
+}
+.re-eyebrow {
+  margin: 0 0 14px; font-family: var(--re-sans); font-size: 10.5px; font-weight: 450; letter-spacing: 0.32em; text-transform: uppercase;
+  color: #ead9b3; display: flex; align-items: center; gap: 12px;
+}
+.re-eyebrow::before { content: ''; width: 34px; height: 1px; background: currentColor; opacity: 0.8; }
+.re-copy h1 { margin: 0; font-family: var(--re-serif); font-weight: 300; font-size: clamp(38px, 4.4vw, 68px); line-height: 0.98; letter-spacing: -0.01em; }
+.re-copy h1 span { display: block; }
+.re-copy h1 span + span { font-style: italic; font-weight: 400; color: color-mix(in srgb, var(--re-ivory) 82%, var(--re-gold)); }
+.re-line { margin: 18px 0 0; max-width: 36ch; font-family: var(--re-serif); font-weight: 500; font-size: 18px; line-height: 1.38; opacity: 0.92; }
+.re-hud[data-stage='2']::before { width: min(52vw, 760px); background: linear-gradient(90deg, rgba(8, 12, 24, 0.82) 0%, rgba(8, 12, 24, 0.6) 48%, rgba(8, 12, 24, 0) 100%); }
+@keyframes re-in { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+
+/* level rail */
+.re-rail {
+  position: absolute; right: 22px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; align-items: flex-end; gap: 22px;
+  padding: 22px 16px 18px 20px; border-radius: 4px; border: 1px solid color-mix(in srgb, var(--re-gold) 22%, transparent);
+  background: rgba(10, 14, 28, 0.42); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+}
+.re-rail-track { position: relative; width: 124px; height: 220px; }
+.re-rail-track::before {
+  content: ''; position: absolute; right: 5px; top: 0; bottom: 0; width: 1px;
+  background: linear-gradient(transparent, color-mix(in srgb, var(--re-ivory) 45%, transparent) 8%, color-mix(in srgb, var(--re-ivory) 45%, transparent) 92%, transparent);
+}
+.re-rail-marker {
+  position: absolute; right: 0; top: calc(var(--rail, 0) / 4 * 100%); width: 11px; height: 11px; margin-top: -5.5px;
+  border: 1px solid var(--re-gold); border-radius: 50%; background: color-mix(in srgb, var(--re-gold) 35%, transparent);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--re-gold) 70%, transparent);
+}
+.re-rail-track button {
+  position: absolute; right: 0; top: calc(var(--slot) / 4 * 100%); transform: translateY(-50%);
+  display: flex; align-items: center; gap: 12px; padding: 6px 0; background: none; border: 0;
+  font-family: var(--re-sans); font-size: 10px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--re-ivory);
+  opacity: 0.5; transition: opacity 0.35s, color 0.35s;
+}
+.re-rail-track button b { width: 11px; height: 1px; background: currentColor; margin-right: 0; }
+.re-rail-track button span { padding-right: 8px; }
+.re-rail-track button:hover { opacity: 0.85; }
+.re-rail-track button.on { opacity: 1; color: var(--re-gold); }
+.re-rail-read { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; text-shadow: 0 1px 14px rgba(6, 10, 20, 0.6); }
+.re-rail-time { font-family: var(--re-sans); font-size: 10px; letter-spacing: 0.3em; color: var(--re-gold); font-variant-numeric: tabular-nums; }
+.re-rail-big { font-family: var(--re-sans); font-weight: 300; font-size: 26px; letter-spacing: 0.14em; line-height: 1; text-transform: uppercase; font-variant-numeric: lining-nums; white-space: nowrap; }
+
+/* façade picker */
+.re-picker {
+  position: absolute; top: max(22px, env(safe-area-inset-top)); right: 28px; display: flex; align-items: center; gap: 14px;
+  padding: 7px 8px 7px 16px; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--re-gold) 40%, transparent);
+  background: color-mix(in srgb, var(--re-navy) 50%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+}
+.re-picker-k { font-family: var(--re-sans); font-size: 9.5px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--re-gold); }
+.re-picker .variant-label { font-family: var(--re-sans); font-size: 10.5px; letter-spacing: 0.18em; min-width: 13ch; }
+.re-picker .variant-chips { gap: 8px; }
+.re-picker .chip { width: 26px; height: 26px; box-shadow: inset 0 0 0 3px var(--re-navy); }
+.re-picker .chip.on { box-shadow: inset 0 0 0 3px var(--re-navy), 0 0 0 1.5px var(--re-gold); }
+
+/* hover label (follows the pointer; the WebGL scene writes transform + data-part) */
+.re-hover { position: fixed; left: 0; top: 0; pointer-events: none; z-index: 30; }
+.re-hover-card {
+  position: absolute; left: 18px; top: 14px; white-space: nowrap; padding: 9px 13px 9px 12px;
+  border-left: 1px solid var(--re-gold); background: rgba(9, 14, 26, 0.72); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  display: flex; flex-direction: column; gap: 3px; opacity: 0; transform: translateY(4px); transition: opacity 0.25s, transform 0.25s;
+}
+.re-hover-card b { font-family: var(--re-sans); font-weight: 500; font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--re-gold); }
+.re-hover-card span { font-family: var(--re-serif); font-weight: 500; font-size: 15px; color: var(--re-ivory); }
+.re-hover[data-part='mass'] [data-for='mass'],
+.re-hover[data-part='glass'] [data-for='glass'],
+.re-hover[data-part='roof'] [data-for='roof'],
+.re-hover[data-part='fins'] [data-for='fins'],
+.re-hover[data-part='pool'] [data-for='pool'] { opacity: 1; transform: none; }
+
+@media (max-width: 720px) {
+  .demo-real-estate .hud-back { left: 14px; top: max(14px, env(safe-area-inset-top)); }
+  .demo-real-estate .hud-controls { left: 14px; bottom: max(16px, env(safe-area-inset-bottom)); }
+  .re-brand { top: auto; bottom: max(24px, env(safe-area-inset-bottom)); left: auto; right: 16px; transform: none; align-items: flex-end; }
+  .re-mark { font-size: 15px; letter-spacing: 0.4em; margin-right: -0.4em; }
+  .re-sub { display: none; }
+  .re-copy {
+    left: 10px; right: 10px; top: 62px; bottom: auto; max-width: none; padding: 10px 12px 12px; border-radius: 4px;
+    background: rgba(10, 14, 28, 0.5); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  }
+  .re-eyebrow { margin-bottom: 8px; font-size: 9.5px; }
+  .re-eyebrow::before { width: 22px; }
+  .re-copy h1 { font-size: 30px; }
+  .re-copy h1 span { display: inline; }
+  .re-copy h1 span + span::before { content: ' '; }
+  .re-line { font-size: 15px; margin-top: 8px; max-width: 34ch; }
+  .re-hud::before { width: 100%; height: 300px; bottom: auto; background: linear-gradient(180deg, rgba(8, 12, 24, 0.6) 0%, rgba(8, 12, 24, 0.3) 60%, rgba(8, 12, 24, 0) 100%); }
+  .re-rail { right: 12px; top: auto; bottom: 58px; transform: none; gap: 0; padding: 7px 10px; }
+  .re-rail-track { display: none; }
+  .re-rail-track button span { display: none; }
+  .re-rail-track button { padding: 4px 0; }
+  .re-rail-big { font-size: 15px; }
+  .re-picker { top: max(12px, env(safe-area-inset-top)); right: 12px; padding: 5px 6px 5px 12px; gap: 8px; }
+  .re-picker .variant-label { display: none; }
+  .re-picker .chip { width: 24px; height: 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .re-copy { animation: none; }
+}

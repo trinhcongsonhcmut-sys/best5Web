@@ -1,0 +1,562 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\Baha Group\\Desktop\\repWeb\\BAHA_3D_SHOWCASE\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "-g",
+      "real-estate"
+    ],
+    "configFile": "C:\\Users\\Baha Group\\Desktop\\repWeb\\BAHA_3D_SHOWCASE\\playwright.config.ts",
+    "rootDir": "C:/Users/Baha Group/Desktop/repWeb/BAHA_3D_SHOWCASE/tests/qc",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/Baha Group/Desktop/repWeb/BAHA_3D_SHOWCASE/qc-evidence/artifacts-real-estate",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "desktop",
+        "name": "desktop",
+        "testDir": "C:/Users/Baha Group/Desktop/repWeb/BAHA_3D_SHOWCASE/tests/qc",
+        "testIgnore": [
+          "/mobile\\.spec/"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "C:/Users/Baha Group/Desktop/repWeb/BAHA_3D_SHOWCASE/qc-evidence/artifacts-real-estate",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "mobile",
+        "name": "mobile",
+        "testDir": "C:/Users/Baha Group/Desktop/repWeb/BAHA_3D_SHOWCASE/tests/qc",
+        "testIgnore": [],
+        "testMatch": [
+          "/mobile\\.spec/"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "C:\\Users\\Baha Group\\Desktop\\repWeb\\BAHA_3D_SHOWCASE\\qc-evidence\\artifacts-real-estate",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "desktop",
+        "testDir": "C:\\Users\\Baha Group\\Desktop\\repWeb\\BAHA_3D_SHOWCASE\\tests\\qc",
+        "snapshotDir": "C:\\Users\\Baha Group\\Desktop\\repWeb\\BAHA_3D_SHOWCASE\\tests\\qc",
+        "testIgnore": {},
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 180000,
+        "use": {
+          "baseURL": "http://localhost:5193",
+          "channel": "chrome",
+          "launchOptions": {
+            "args": [
+              "--enable-gpu",
+              "--ignore-gpu-blocklist",
+              "--use-angle=d3d11"
+            ]
+          },
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "screenshot": "only-on-failure",
+          "trace": "retain-on-failure",
+          "actionTimeout": 15000
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "desktop"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "C:\\Users\\Baha Group\\Desktop\\repWeb\\BAHA_3D_SHOWCASE\\qc-evidence\\artifacts-real-estate",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "mobile",
+        "testDir": "C:\\Users\\Baha Group\\Desktop\\repWeb\\BAHA_3D_SHOWCASE\\tests\\qc",
+        "snapshotDir": "C:\\Users\\Baha Group\\Desktop\\repWeb\\BAHA_3D_SHOWCASE\\tests\\qc",
+        "testIgnore": [],
+        "testMatch": {},
+        "timeout": 180000,
+        "use": {
+          "baseURL": "http://localhost:5193",
+          "channel": "chrome",
+          "launchOptions": {
+            "args": [
+              "--enable-gpu",
+              "--ignore-gpu-blocklist",
+              "--use-angle=d3d11"
+            ]
+          },
+          "viewport": {
+            "width": 390,
+            "height": 664
+          },
+          "screenshot": "only-on-failure",
+          "trace": "retain-on-failure",
+          "actionTimeout": 15000,
+          "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/27.2 Mobile/15E148 Safari/604.1",
+          "screen": {
+            "width": 390,
+            "height": 844
+          },
+          "deviceScaleFactor": 3,
+          "isMobile": true,
+          "hasTouch": true,
+          "defaultBrowserType": "webkit",
+          "browserName": "chromium"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "mobile"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "qc-evidence/results-real-estate.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": {
+      "command": "npx vite --port 5193 --strictPort",
+      "url": "http://localhost:5193",
+      "reuseExistingServer": true,
+      "timeout": 240000,
+      "stdout": "pipe",
+      "stderr": "pipe"
+    }
+  },
+  "suites": [
+    {
+      "title": "demo.spec.ts",
+      "file": "demo.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "real-estate",
+          "file": "demo.spec.ts",
+          "line": 10,
+          "column": 8,
+          "specs": [
+            {
+              "title": "real-estate · loads, renders frames, no errors",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop",
+                  "projectName": "desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 25560,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-05T02:44:04.634Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05384557491ebd602dd7-e6aaa086fecb4febb32a",
+              "file": "demo.spec.ts",
+              "line": 11,
+              "column": 5
+            },
+            {
+              "title": "real-estate · orbit 360° changes the real camera, reset restores it",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop",
+                  "projectName": "desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 24636,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-05T02:44:31.097Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05384557491ebd602dd7-d6c96abc383f724e2b4c",
+              "file": "demo.spec.ts",
+              "line": 24,
+              "column": 5
+            },
+            {
+              "title": "real-estate · ≥3 colour variants change the real material",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop",
+                  "projectName": "desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 22876,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-05T02:44:55.872Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05384557491ebd602dd7-64d633749a70b815fa2f",
+              "file": "demo.spec.ts",
+              "line": 57,
+              "column": 5
+            },
+            {
+              "title": "real-estate · hover lights the object in and out",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop",
+                  "projectName": "desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 15539,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-05T02:45:18.875Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05384557491ebd602dd7-b27f0e7b11033247356d",
+              "file": "demo.spec.ts",
+              "line": 77,
+              "column": 5
+            },
+            {
+              "title": "real-estate · scroll timeline 0/25/50/75/100 forward and back",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop",
+                  "projectName": "desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 26225,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-05T02:45:34.610Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05384557491ebd602dd7-666fe7e3bd0fd0c15b98",
+              "file": "demo.spec.ts",
+              "line": 104,
+              "column": 5
+            },
+            {
+              "title": "real-estate · resize → 1920x1080 stays healthy",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop",
+                  "projectName": "desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 28092,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-05T02:46:00.969Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05384557491ebd602dd7-2ac2defc0e1df0df7db2",
+              "file": "demo.spec.ts",
+              "line": 133,
+              "column": 7
+            },
+            {
+              "title": "real-estate · resize → 1440x900 stays healthy",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop",
+                  "projectName": "desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 25945,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-05T02:46:29.188Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05384557491ebd602dd7-1b1e420e4ed26c79426a",
+              "file": "demo.spec.ts",
+              "line": 133,
+              "column": 7
+            },
+            {
+              "title": "real-estate · resize → 390x844 stays healthy",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop",
+                  "projectName": "desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 24560,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-05T02:46:55.308Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05384557491ebd602dd7-05b0216bcbde1738cf81",
+              "file": "demo.spec.ts",
+              "line": 133,
+              "column": 7
+            },
+            {
+              "title": "real-estate · FPS measured with condition",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop",
+                  "projectName": "desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 20679,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-05T02:47:20.089Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05384557491ebd602dd7-c29f2a2e0aca34ce822a",
+              "file": "demo.spec.ts",
+              "line": 149,
+              "column": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "mobile.spec.ts",
+      "file": "mobile.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "real-estate · mobile touch: swipe-x orbits, swipe-y scrolls, no overflow",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile",
+              "projectName": "mobile",
+              "results": [
+                {
+                  "workerIndex": -1,
+                  "parallelIndex": -1,
+                  "status": "failed",
+                  "duration": 0,
+                  "error": {
+                    "message": "Error: worker process exited unexpectedly (code=3221225794, signal=null)"
+                  },
+                  "errors": [
+                    {
+                      "message": "Error: worker process exited unexpectedly (code=3221225794, signal=null)"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-05T02:47:56.158Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "e79c838550b25e92508e-95096ace0557b5d20b10",
+          "file": "mobile.spec.ts",
+          "line": 18,
+          "column": 3
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-05T02:43:47.446Z",
+    "duration": 249620.18,
+    "expected": 9,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

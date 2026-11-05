@@ -1,0 +1,35 @@
+[
+  {
+    "color": "#0f4a2a",
+    "emissive": "#000000",
+    "emissiveIntensity": 1,
+    "roughness": 0.2,
+    "metalness": 0,
+    "transmission": 0.45,
+    "clearcoat": 0.6,
+    "rim": 0,
+    "opacity": 1
+  },
+  {
+    "color": "#c9768a",
+    "emissive": "#000000",
+    "emissiveIntensity": 1,
+    "roughness": 0.2,
+    "metalness": 0,
+    "transmission": 0.45,
+    "clearcoat": 0.6,
+    "rim": 0,
+    "opacity": 1
+  },
+  {
+    "color": "#a8561a",
+    "emissive": "#000000",
+    "emissiveIntensity": 1,
+    "roughness": 0.2,
+    "metalness": 0,
+    "transmission": 0.45,
+    "clearcoat": 0.6,
+    "rim": 0,
+    "opacity": 1
+  }
+]

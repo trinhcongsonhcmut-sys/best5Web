@@ -1,0 +1,209 @@
+{
+  "measuredAt": "2026-11-04T19:38:50.586Z",
+  "base": "http://localhost:5181",
+  "chrome": "156.0.8078.80",
+  "host": "Intel(R) Core(TM) i5-6500T CPU @ 2.50GHz · 4 threads · 16 GB",
+  "loadAvgNote": "run with no other agents/builders/judges active",
+  "results": [
+    {
+      "viewport": "1440x900",
+      "demo": "beauty",
+      "runs": [
+        {
+          "coldReadyMs": 4922,
+          "warmReadyMs": 1192,
+          "idleFps": 71.1,
+          "idleP95ms": 26.5,
+          "idleWorstMs": 39.5,
+          "scrollFps": 66.3,
+          "scrollP95ms": 26.7,
+          "scrollWorstMs": 106.8,
+          "gpu": "ANGLE (Intel, Intel(R) HD Graphics 530 (0x00001912) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "dpr": 1,
+          "canvasPx": "1440x900",
+          "consoleErrors": 0
+        }
+      ]
+    },
+    {
+      "viewport": "1440x900",
+      "demo": "fnb",
+      "runs": [
+        {
+          "coldReadyMs": 2308,
+          "warmReadyMs": 1174,
+          "idleFps": 75.3,
+          "idleP95ms": 13.5,
+          "idleWorstMs": 13.6,
+          "scrollFps": 69.7,
+          "scrollP95ms": 26.6,
+          "scrollWorstMs": 53.3,
+          "gpu": "ANGLE (Intel, Intel(R) HD Graphics 530 (0x00001912) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "dpr": 1,
+          "canvasPx": "1440x900",
+          "consoleErrors": 0
+        }
+      ]
+    },
+    {
+      "viewport": "1440x900",
+      "demo": "real-estate",
+      "runs": [
+        {
+          "coldReadyMs": 5768,
+          "warmReadyMs": 1768,
+          "idleFps": 69.6,
+          "idleP95ms": 26.6,
+          "idleWorstMs": 29,
+          "scrollFps": 58.6,
+          "scrollP95ms": 26.8,
+          "scrollWorstMs": 66.7,
+          "gpu": "ANGLE (Intel, Intel(R) HD Graphics 530 (0x00001912) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "dpr": 1,
+          "canvasPx": "1440x900",
+          "consoleErrors": 0
+        }
+      ]
+    },
+    {
+      "viewport": "1440x900",
+      "demo": "fashion",
+      "runs": [
+        {
+          "coldReadyMs": 3700,
+          "warmReadyMs": 1405,
+          "idleFps": 75.2,
+          "idleP95ms": 13.4,
+          "idleWorstMs": 13.7,
+          "scrollFps": 69.2,
+          "scrollP95ms": 26.7,
+          "scrollWorstMs": 40.2,
+          "gpu": "ANGLE (Intel, Intel(R) HD Graphics 530 (0x00001912) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "dpr": 1,
+          "canvasPx": "1440x900",
+          "consoleErrors": 0
+        }
+      ]
+    },
+    {
+      "viewport": "1440x900",
+      "demo": "automotive",
+      "runs": [
+        {
+          "coldReadyMs": 2231,
+          "warmReadyMs": 1143,
+          "idleFps": 75.1,
+          "idleP95ms": 13.5,
+          "idleWorstMs": 14.2,
+          "scrollFps": 70.2,
+          "scrollP95ms": 26.6,
+          "scrollWorstMs": 40,
+          "gpu": "ANGLE (Intel, Intel(R) HD Graphics 530 (0x00001912) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "dpr": 1,
+          "canvasPx": "1440x900",
+          "consoleErrors": 0
+        }
+      ]
+    },
+    {
+      "viewport": "390x844 (touch, DPR 2)",
+      "demo": "beauty",
+      "runs": [
+        {
+          "coldReadyMs": 1400,
+          "warmReadyMs": 1175,
+          "idleFps": 75.2,
+          "idleP95ms": 13.5,
+          "idleWorstMs": 13.7,
+          "scrollFps": 71.6,
+          "scrollP95ms": 13.7,
+          "scrollWorstMs": 40.9,
+          "gpu": "ANGLE (Intel, Intel(R) HD Graphics 530 (0x00001912) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "dpr": 2,
+          "canvasPx": "585x1266",
+          "consoleErrors": 0
+        }
+      ]
+    },
+    {
+      "viewport": "390x844 (touch, DPR 2)",
+      "demo": "fnb",
+      "runs": [
+        {
+          "coldReadyMs": 1190,
+          "warmReadyMs": 1067,
+          "idleFps": 75.1,
+          "idleP95ms": 13.4,
+          "idleWorstMs": 13.5,
+          "scrollFps": 74.4,
+          "scrollP95ms": 13.5,
+          "scrollWorstMs": 26.9,
+          "gpu": "ANGLE (Intel, Intel(R) HD Graphics 530 (0x00001912) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "dpr": 2,
+          "canvasPx": "585x1266",
+          "consoleErrors": 0
+        }
+      ]
+    },
+    {
+      "viewport": "390x844 (touch, DPR 2)",
+      "demo": "real-estate",
+      "runs": [
+        {
+          "coldReadyMs": 1889,
+          "warmReadyMs": 1744,
+          "idleFps": 70.5,
+          "idleP95ms": 13.4,
+          "idleWorstMs": 119.9,
+          "scrollFps": 71.9,
+          "scrollP95ms": 13.6,
+          "scrollWorstMs": 40.2,
+          "gpu": "ANGLE (Intel, Intel(R) HD Graphics 530 (0x00001912) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "dpr": 2,
+          "canvasPx": "585x1266",
+          "consoleErrors": 0
+        }
+      ]
+    },
+    {
+      "viewport": "390x844 (touch, DPR 2)",
+      "demo": "fashion",
+      "runs": [
+        {
+          "coldReadyMs": 1556,
+          "warmReadyMs": 1391,
+          "idleFps": 75.1,
+          "idleP95ms": 13.4,
+          "idleWorstMs": 13.5,
+          "scrollFps": 74.8,
+          "scrollP95ms": 13.5,
+          "scrollWorstMs": 26.7,
+          "gpu": "ANGLE (Intel, Intel(R) HD Graphics 530 (0x00001912) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "dpr": 2,
+          "canvasPx": "585x1266",
+          "consoleErrors": 0
+        }
+      ]
+    },
+    {
+      "viewport": "390x844 (touch, DPR 2)",
+      "demo": "automotive",
+      "runs": [
+        {
+          "coldReadyMs": 1220,
+          "warmReadyMs": 1290,
+          "idleFps": 75.1,
+          "idleP95ms": 13.6,
+          "idleWorstMs": 14,
+          "scrollFps": 71.3,
+          "scrollP95ms": 14.1,
+          "scrollWorstMs": 40.4,
+          "gpu": "ANGLE (Intel, Intel(R) HD Graphics 530 (0x00001912) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "dpr": 2,
+          "canvasPx": "585x1266",
+          "consoleErrors": 0
+        }
+      ]
+    }
+  ]
+}

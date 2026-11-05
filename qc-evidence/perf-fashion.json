@@ -1,0 +1,14 @@
+{
+  "demo": "fashion",
+  "idleFps": 65.11374627149831,
+  "scrollFps": 57.110149149604645,
+  "minFps": 57.110149149604645,
+  "condition": {
+    "renderer": "ANGLE (Intel, Intel(R) HD Graphics 530 (0x00001912) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "vendor": "Google Inc. (Intel)",
+    "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+    "dpr": 1,
+    "viewport": "1440x900"
+  },
+  "at": "2026-11-05T02:45:41.993Z"
+}

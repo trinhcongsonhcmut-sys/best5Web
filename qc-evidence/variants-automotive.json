@@ -1,0 +1,46 @@
+[
+  {
+    "color": "#cfd1d2",
+    "emissive": "#000000",
+    "emissiveIntensity": 1,
+    "roughness": 0.32,
+    "metalness": 1,
+    "transmission": 0,
+    "clearcoat": 0,
+    "rim": 0,
+    "opacity": 1
+  },
+  {
+    "color": "#2f3134",
+    "emissive": "#000000",
+    "emissiveIntensity": 1,
+    "roughness": 0.41998765161277946,
+    "metalness": 0.40007409032332303,
+    "transmission": 0,
+    "clearcoat": 0.5999259096766769,
+    "rim": 0,
+    "opacity": 1
+  },
+  {
+    "color": "#b39f7f",
+    "emissive": "#000000",
+    "emissiveIntensity": 1,
+    "roughness": 0.340013127892533,
+    "metalness": 0.5499753875163551,
+    "transmission": 0,
+    "clearcoat": 0.9999343543643903,
+    "rim": 0,
+    "opacity": 1
+  },
+  {
+    "color": "#6f8e9a",
+    "emissive": "#000000",
+    "emissiveIntensity": 1,
+    "roughness": 0.30000653736263483,
+    "metalness": 0.5999918278919995,
+    "transmission": 0,
+    "clearcoat": 0.9999999967611239,
+    "rim": 0,
+    "opacity": 1
+  }
+]

@@ -1,0 +1,181 @@
+/* CUMULUS 01 — colour-block editorial. Scoped to the fashion route. */
+.demo-fashion {
+  --fx-ink: #fff8f0;
+  --fx-mute: rgba(255, 248, 240, 0.72);
+  --fx-line: rgba(255, 248, 240, 0.32);
+  --fx-display: 'Syne', 'Arial Black', sans-serif;
+  --fx-serif: 'Instrument Serif', 'Times New Roman', serif;
+  --fx-sans: 'Familjen Grotesk Variable', system-ui, sans-serif;
+  --fx-mono: 'JetBrains Mono', ui-monospace, monospace;
+  background: #a8400a;
+  font-family: var(--fx-sans);
+}
+.demo-fashion:has(.fx[data-tone='dark']) {
+  --fx-ink: #161514;
+  --fx-mute: rgba(22, 21, 20, 0.7);
+  --fx-line: rgba(22, 21, 20, 0.3);
+}
+
+/* shared HUD restyle: type follows the world tone */
+.demo-fashion .hud { color: var(--fx-ink); font-family: var(--fx-mono); letter-spacing: 0.06em; transition: color 0.6s; }
+.demo-fashion .hud-back,
+.demo-fashion .hud-controls button {
+  color: var(--fx-ink);
+  border-color: var(--fx-line);
+  background: color-mix(in srgb, var(--fx-ink) 10%, transparent);
+  transition: background 0.25s, color 0.6s, border-color 0.6s;
+}
+.demo-fashion .hud-back:hover,
+.demo-fashion .hud-controls button:hover { background: color-mix(in srgb, var(--fx-ink) 22%, transparent); }
+.demo-fashion .stage-dots button.on { color: var(--fx-ink); }
+.demo-fashion .scroll-hint i { background: linear-gradient(var(--fx-ink), transparent); }
+.demo-fashion .hud-help { color: var(--fx-ink); opacity: 0.6; bottom: 30px; right: clamp(22px, 2.4vw, 40px); max-width: none; white-space: nowrap; font-size: 9.5px; }
+
+.fx { position: absolute; inset: 0; color: var(--fx-ink); transition: color 0.6s; }
+
+/* wordmark */
+.fx-mark {
+  position: absolute; top: max(22px, env(safe-area-inset-top)); left: 50%; transform: translateX(-50%);
+  display: flex; align-items: baseline; gap: 8px; white-space: nowrap;
+}
+.fx-mark b { font: 800 17px/1 var(--fx-display); letter-spacing: 0.04em; }
+.fx-mark span { font: italic 400 19px/1 var(--fx-serif); }
+.fx-mark i { align-self: center; width: 26px; height: 1px; background: currentColor; opacity: 0.5; }
+.fx-mark em { font: 400 10px/1 var(--fx-mono); letter-spacing: 0.18em; text-transform: uppercase; font-style: normal; opacity: 0.75; }
+
+/* blocks + reveal */
+.fx-blk { position: absolute; pointer-events: none; transition: opacity 0.22s ease; }
+/* while a jacket flies across the copy, or the viewer orbits the garment under it, the copy steps back */
+.fx.dim .fx-blk { opacity: 0.22; }
+.fx-blk > * { opacity: 0; transform: translateY(18px); transition: opacity 0.4s ease, transform 0.75s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.fx-blk.on > * { opacity: 1; transform: none; }
+.fx-blk.on > *:nth-child(2) { transition-delay: 0.06s; }
+.fx-blk.on > *:nth-child(3) { transition-delay: 0.12s; }
+.fx-blk.on > *:nth-child(4) { transition-delay: 0.18s; }
+.fx-blk:not(.on) > * { transition-duration: 0.2s, 0.3s; transition-delay: 0s; }
+
+.fx-kick { margin: 0 0 14px; font: 500 11px/1 var(--fx-mono); letter-spacing: 0.2em; text-transform: uppercase; color: var(--fx-mute); }
+.fx-blk h1, .fx-blk h2 { margin: 0; display: flex; flex-direction: column; font-weight: 400; }
+.fx-blk h1 em, .fx-blk h2 em { font: italic 400 clamp(34px, 3.6vw, 62px)/0.95 var(--fx-serif); letter-spacing: -0.01em; }
+.fx-blk h1 span, .fx-blk h2 span { font: 800 clamp(30px, 3.3vw, 58px)/0.92 var(--fx-display); letter-spacing: -0.035em; text-transform: uppercase; }
+.fx-line { margin: 16px 0 0; max-width: 34ch; font: 400 15px/1.45 var(--fx-sans); color: var(--fx-mute); }
+
+/* hero: bottom-left */
+.fx-hero { left: clamp(22px, 4.4vw, 80px); bottom: clamp(86px, 13vh, 140px); }
+.fx-hero h1 em { font-size: clamp(40px, 4.4vw, 76px); }
+.fx-hero h1 span { font-size: clamp(26px, 2.6vw, 46px); margin-top: 4px; }
+
+/* right / left columns */
+.fx-r { right: clamp(80px, 8vw, 150px); top: 50%; transform: translateY(-50%); width: min(30vw, 420px); }
+.fx-l { left: clamp(22px, 4.4vw, 80px); top: 50%; transform: translateY(-50%); width: min(34vw, 470px); }
+.fx-s2 h2 span { font-size: clamp(44px, 5.1vw, 92px); line-height: 0.86; }
+.fx-s1 h2 span { font-size: clamp(24px, 2.55vw, 38px); }
+.fx-s1 { right: clamp(70px, 6.4vw, 120px); width: min(26vw, 370px); top: 44%; }
+
+/* macro: the copy sits on its own dark glass-less panel (no CSS filter), readable over any fabric colour */
+.fx-panel {
+  --fx-ink: #fff8f0; --fx-mute: rgba(255, 248, 240, 0.74);
+  color: #fff8f0; max-width: 290px; padding: 18px 22px 20px; border-radius: 16px;
+  background: rgba(14, 11, 9, 0.46); border: 1px solid rgba(255, 255, 255, 0.12);
+}
+.fx-macro { left: clamp(18px, 2.2vw, 36px); }
+.fx-s2 h2 em { margin-top: 12px; font-size: clamp(26px, 2.4vw, 42px); }
+
+.fx-spec { margin: 26px 0 0; display: grid; gap: 0; max-width: 300px; }
+.fx-spec > div { display: grid; grid-template-columns: 76px 1fr; gap: 12px; padding: 9px 0; border-top: 1px solid var(--fx-line); }
+.fx-spec > div:last-child { border-bottom: 1px solid var(--fx-line); }
+.fx-spec dt { font: 500 10px/1.5 var(--fx-mono); letter-spacing: 0.16em; text-transform: uppercase; color: var(--fx-mute); }
+.fx-spec dd { margin: 0; font: 600 14px/1.4 var(--fx-sans); }
+
+/* macro: small, top-left — the frame belongs to the fabric */
+.fx-macro { left: clamp(22px, 4.4vw, 80px); top: clamp(84px, 13vh, 130px); }
+.fx-macro h2 em { font-size: clamp(44px, 4.6vw, 80px); }
+.fx-notes { list-style: none; margin: 22px 0 0; padding: 0; counter-reset: n; display: grid; gap: 10px; }
+.fx-notes li { counter-increment: n; display: grid; grid-template-columns: 30px auto; column-gap: 8px; }
+.fx-notes li::before { content: '0' counter(n); grid-row: span 2; font: 500 10px/1.6 var(--fx-mono); letter-spacing: 0.1em; color: var(--fx-mute); }
+.fx-notes b { font: 700 15px/1.25 var(--fx-sans); }
+.fx-notes span { font: 400 13px/1.35 var(--fx-sans); color: var(--fx-mute); }
+
+.fx-final { width: min(32vw, 470px); right: clamp(110px, 12vw, 300px); }
+.fx-final h2 span { font-size: clamp(34px, 3.7vw, 62px); line-height: 0.9; }
+
+/* colourway picker (E2's "next look" thumbnail becomes a next-colourway control) */
+.fx-pick {
+  position: absolute; right: clamp(22px, 2.4vw, 40px); bottom: 62px;
+  display: flex; flex-direction: column; align-items: flex-end; gap: 10px; pointer-events: auto;
+}
+.fx-pick-head { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+.fx-pick-head span { font: 500 10px/1 var(--fx-mono); letter-spacing: 0.2em; text-transform: uppercase; color: var(--fx-mute); }
+.fx-pick-head b { font: italic 400 26px/1 var(--fx-serif); font-weight: 400; }
+.fx .fx-chips .variant-label { display: none; }
+.fx .fx-chips .variant-chips { gap: 8px; }
+.fx .fx-chips .chip {
+  width: 34px; height: 34px; border-radius: 50%;
+  border: 1px solid var(--fx-line);
+  box-shadow: inset 0 0 0 3px color-mix(in srgb, var(--fx-ink) 18%, transparent);
+}
+.fx .fx-chips .chip.on { box-shadow: inset 0 0 0 3px color-mix(in srgb, var(--fx-ink) 30%, transparent), 0 0 0 2px var(--fx-ink); }
+.fx-next {
+  display: flex; align-items: center; gap: 10px; padding: 7px 12px 7px 7px; border-radius: 999px;
+  border: 1px solid var(--fx-line); background: color-mix(in srgb, var(--fx-ink) 8%, transparent);
+  font: 500 10px/1 var(--fx-mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--fx-ink);
+  transition: background 0.25s, transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.fx-next:hover { background: color-mix(in srgb, var(--fx-ink) 18%, transparent); transform: translateX(-3px); }
+.fx-next i { width: 22px; height: 22px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35); }
+.fx-next svg { width: 14px; height: 14px; }
+.demo-fashion .scroll-hint { bottom: 22px; }
+.fx-nextlabel {
+  position: absolute; right: clamp(22px, 2.4vw, 40px); top: 61.5%; margin: 0;
+  font: 500 10px/1 var(--fx-mono); letter-spacing: 0.2em; text-transform: uppercase; color: var(--fx-mute);
+  transition: opacity 0.3s;
+}
+.fx-nextlabel i { font-style: normal; }
+.fx-nextlabel.off { opacity: 0; }
+
+@media (max-width: 720px) {
+  .fx-mark { top: 24px; left: auto; right: 16px; transform: none; gap: 6px; }
+  .fx-mark b { font-size: 13px; }
+  .fx-mark span { font-size: 14px; }
+  .fx-mark i, .fx-mark em { display: none; }
+  .demo-fashion .scroll-hint { display: none; }
+
+  .fx-blk, .fx-hero, .fx-r, .fx-l, .fx-macro {
+    left: 18px; right: 18px; top: 74px; bottom: auto; width: auto; transform: none;
+  }
+  .fx-kick { font-size: 9.5px; margin-bottom: 8px; letter-spacing: 0.16em; }
+  .fx-blk h1 em, .fx-blk h2 em, .fx-hero h1 em, .fx-macro h2 em { font-size: 34px; }
+  .fx-blk h1 span, .fx-blk h2 span, .fx-hero h1 span { font-size: 25px; }
+  .fx-s2 h2 { flex-direction: row; flex-wrap: wrap; column-gap: 0.28em; }
+  .fx-s2 h2 span, .fx-final h2 span { font-size: 36px; }
+  .fx-s2 h2 em { flex-basis: 100%; margin-top: 6px; font-size: 22px; }
+  .fx-final h2 { flex-direction: row; flex-wrap: wrap; column-gap: 0.28em; }
+  .fx-line { margin-top: 8px; font-size: 12.5px; max-width: 40ch; }
+  .fx-spec { display: none; }
+  .fx-notes { margin-top: 10px; gap: 4px; grid-template-columns: repeat(3, 1fr); }
+  .fx-notes li { display: block; }
+  .fx-notes li::before { display: block; }
+  .fx-notes b { font-size: 11.5px; display: block; }
+  .fx-notes span { display: none; }
+  .fx-macro { left: 12px; right: 12px; top: 64px; }
+  .fx-panel { max-width: none; padding: 12px 14px; background: rgba(14, 11, 9, 0.72); }
+
+  /* compact stage rail: 5 small dots hugging the edge, never over the garment */
+  .demo-fashion .stage-dots { right: 6px; gap: 2px; }
+  .demo-fashion .stage-dots button { padding: 5px 0; }
+  .demo-fashion .stage-dots button span { display: none; }
+  .demo-fashion .stage-dots button i,
+  .demo-fashion .stage-dots button.on i { width: 5px; height: 5px; border-radius: 50%; }
+  .demo-fashion .stage-dots button.on i { height: 14px; border-radius: 3px; }
+
+  .fx-pick { right: 14px; bottom: 18px; gap: 6px; }
+  .fx-pick-head { display: none; }
+  .fx-next { display: none; }
+  .fx-nextlabel { display: none; }
+  .fx .fx-chips .chip { width: 28px; height: 28px; }
+  .fx .fx-chips .variant-chips { gap: 7px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fx-blk > * { transition: opacity 0.2s linear; transform: none; }
+}

@@ -1,0 +1,885 @@
+{
+ "0": {
+  "bbox": [
+   128,
+   408,
+   1298,
+   723
+  ],
+  "bboxClipPct": 0.31,
+  "bboxAny255Pct": 0.34,
+  "bodyCellsMaxClipPct": 17.48,
+  "bodyCellsOver3pct": 5,
+  "bodyCells": 43,
+  "ids": {
+   "axiom-t1/body": {
+    "n": 43,
+    "dead": 0
+   },
+   "axiom-t1/glass": {
+    "n": 12,
+    "dead": 0
+   },
+   "axiom-t1/": {
+    "n": 4,
+    "dead": 2
+   },
+   "axiom-t1/wheels": {
+    "n": 17,
+    "dead": 0
+   },
+   "axiom-t1/chassis": {
+    "n": 3,
+    "dead": 0
+   },
+   "axiom-t1/lights": {
+    "n": 1,
+    "dead": 0
+   }
+  },
+  "glassCells": [
+   {
+    "x": 600,
+    "y": 430,
+    "v": 0.98,
+    "med": "#1e2e34"
+   },
+   {
+    "x": 645,
+    "y": 430,
+    "v": 1,
+    "med": "#1b2c33"
+   },
+   {
+    "x": 690,
+    "y": 430,
+    "v": 1,
+    "med": "#1c2c33"
+   },
+   {
+    "x": 780,
+    "y": 430,
+    "v": 1,
+    "med": "#29404b"
+   },
+   {
+    "x": 825,
+    "y": 430,
+    "v": 1,
+    "med": "#9babb1"
+   },
+   {
+    "x": 1275,
+    "y": 430,
+    "v": 0.96,
+    "med": "#e2dccc"
+   },
+   {
+    "x": 510,
+    "y": 475,
+    "v": 0.92,
+    "med": "#3a3c3b"
+   },
+   {
+    "x": 555,
+    "y": 475,
+    "v": 0.99,
+    "med": "#353637"
+   },
+   {
+    "x": 645,
+    "y": 475,
+    "v": 0.96,
+    "med": "#383937"
+   },
+   {
+    "x": 735,
+    "y": 475,
+    "v": 0.92,
+    "med": "#393a38"
+   },
+   {
+    "x": 780,
+    "y": 475,
+    "v": 0.99,
+    "med": "#393937"
+   },
+   {
+    "x": 870,
+    "y": 475,
+    "v": 1,
+    "med": "#2c3d46"
+   }
+  ],
+  "deadCells": [
+   [
+    690,
+    475,
+    "axiom-t1",
+    "",
+    0.01
+   ],
+   [
+    915,
+    475,
+    "axiom-t1",
+    "",
+    0
+   ]
+  ]
+ },
+ "25": {
+  "bbox": [
+   218,
+   363,
+   1163,
+   678
+  ],
+  "bboxClipPct": 0,
+  "bboxAny255Pct": 0,
+  "bodyCellsMaxClipPct": 0,
+  "bodyCellsOver3pct": 0,
+  "bodyCells": 53,
+  "ids": {
+   "axiom-t1/glass": {
+    "n": 12,
+    "dead": 0
+   },
+   "axiom-t1/": {
+    "n": 3,
+    "dead": 3
+   },
+   "axiom-t1/body": {
+    "n": 53,
+    "dead": 0
+   },
+   "axiom-t1/wheels": {
+    "n": 16,
+    "dead": 0
+   },
+   "axiom-t1/chassis": {
+    "n": 10,
+    "dead": 0
+   }
+  },
+  "glassCells": [
+   {
+    "x": 600,
+    "y": 385,
+    "v": 0.87,
+    "med": "#152831"
+   },
+   {
+    "x": 645,
+    "y": 385,
+    "v": 0.98,
+    "med": "#152831"
+   },
+   {
+    "x": 690,
+    "y": 385,
+    "v": 1,
+    "med": "#12252f"
+   },
+   {
+    "x": 735,
+    "y": 385,
+    "v": 1,
+    "med": "#162831"
+   },
+   {
+    "x": 780,
+    "y": 385,
+    "v": 1,
+    "med": "#a0acb3"
+   },
+   {
+    "x": 555,
+    "y": 430,
+    "v": 0.87,
+    "med": "#51595a"
+   },
+   {
+    "x": 600,
+    "y": 430,
+    "v": 0.99,
+    "med": "#2f383c"
+   },
+   {
+    "x": 645,
+    "y": 430,
+    "v": 1,
+    "med": "#2f383c"
+   },
+   {
+    "x": 690,
+    "y": 430,
+    "v": 1,
+    "med": "#2b363a"
+   },
+   {
+    "x": 735,
+    "y": 430,
+    "v": 1,
+    "med": "#2f383c"
+   },
+   {
+    "x": 780,
+    "y": 430,
+    "v": 1,
+    "med": "#2d373b"
+   },
+   {
+    "x": 825,
+    "y": 430,
+    "v": 1,
+    "med": "#2e383c"
+   }
+  ],
+  "deadCells": [
+   [
+    825,
+    385,
+    "axiom-t1",
+    "",
+    0
+   ],
+   [
+    1005,
+    475,
+    "axiom-t1",
+    "",
+    0
+   ],
+   [
+    1050,
+    610,
+    "axiom-t1",
+    "",
+    0
+   ]
+  ]
+ },
+ "50": {
+  "bbox": [
+   353,
+   228,
+   1163,
+   813
+  ],
+  "bboxClipPct": 0,
+  "bboxAny255Pct": 0.54,
+  "bodyCellsMaxClipPct": 0,
+  "bodyCellsOver3pct": 0,
+  "bodyCells": 62,
+  "ids": {
+   "axiom-t1/body": {
+    "n": 62,
+    "dead": 0
+   },
+   "axiom-t1/glass": {
+    "n": 18,
+    "dead": 0
+   },
+   "axiom-t1/": {
+    "n": 11,
+    "dead": 11
+   },
+   "axiom-t1/chassis": {
+    "n": 23,
+    "dead": 0
+   },
+   "axiom-t1/lights": {
+    "n": 1,
+    "dead": 0
+   },
+   "axiom-t1/wheels": {
+    "n": 14,
+    "dead": 0
+   }
+  },
+  "glassCells": [
+   {
+    "x": 600,
+    "y": 295,
+    "v": 1,
+    "med": "#243237"
+   },
+   {
+    "x": 735,
+    "y": 295,
+    "v": 1,
+    "med": "#0f2a35"
+   },
+   {
+    "x": 780,
+    "y": 295,
+    "v": 1,
+    "med": "#243942"
+   },
+   {
+    "x": 825,
+    "y": 295,
+    "v": 1,
+    "med": "#6d797d"
+   },
+   {
+    "x": 600,
+    "y": 340,
+    "v": 1,
+    "med": "#292a29"
+   },
+   {
+    "x": 645,
+    "y": 340,
+    "v": 1,
+    "med": "#353738"
+   },
+   {
+    "x": 690,
+    "y": 340,
+    "v": 1,
+    "med": "#2c373a"
+   },
+   {
+    "x": 735,
+    "y": 340,
+    "v": 1,
+    "med": "#0e171c"
+   },
+   {
+    "x": 780,
+    "y": 340,
+    "v": 1,
+    "med": "#0b2631"
+   },
+   {
+    "x": 825,
+    "y": 340,
+    "v": 1,
+    "med": "#1a2f38"
+   },
+   {
+    "x": 870,
+    "y": 340,
+    "v": 1,
+    "med": "#5c676b"
+   },
+   {
+    "x": 645,
+    "y": 385,
+    "v": 1,
+    "med": "#060a0a"
+   },
+   {
+    "x": 690,
+    "y": 385,
+    "v": 1,
+    "med": "#070b0b"
+   },
+   {
+    "x": 735,
+    "y": 385,
+    "v": 1,
+    "med": "#0c0d0b"
+   },
+   {
+    "x": 780,
+    "y": 385,
+    "v": 1,
+    "med": "#774c1c"
+   },
+   {
+    "x": 825,
+    "y": 385,
+    "v": 1,
+    "med": "#162a32"
+   },
+   {
+    "x": 870,
+    "y": 385,
+    "v": 1,
+    "med": "#26343a"
+   },
+   {
+    "x": 915,
+    "y": 385,
+    "v": 1,
+    "med": "#4a5457"
+   }
+  ],
+  "deadCells": [
+   [
+    870,
+    295,
+    "axiom-t1",
+    "",
+    0
+   ],
+   [
+    915,
+    340,
+    "axiom-t1",
+    "",
+    0
+   ],
+   [
+    1005,
+    385,
+    "axiom-t1",
+    "",
+    0
+   ],
+   [
+    645,
+    430,
+    "axiom-t1",
+    "",
+    0
+   ],
+   [
+    825,
+    475,
+    "axiom-t1",
+    "",
+    0
+   ],
+   [
+    1140,
+    520,
+    "axiom-t1",
+    "",
+    0
+   ],
+   [
+    1140,
+    565,
+    "axiom-t1",
+    "",
+    0
+   ],
+   [
+    465,
+    610,
+    "axiom-t1",
+    "",
+    0
+   ],
+   [
+    1095,
+    610,
+    "axiom-t1",
+    "",
+    0
+   ],
+   [
+    960,
+    655,
+    "axiom-t1",
+    "",
+    0
+   ],
+   [
+    915,
+    700,
+    "axiom-t1",
+    "",
+    0
+   ]
+  ]
+ },
+ "75": {
+  "bbox": [
+   263,
+   228,
+   1208,
+   768
+  ],
+  "bboxClipPct": 0,
+  "bboxAny255Pct": 0.47,
+  "bodyCellsMaxClipPct": 0,
+  "bodyCellsOver3pct": 0,
+  "bodyCells": 74,
+  "ids": {
+   "axiom-t1/glass": {
+    "n": 25,
+    "dead": 0
+   },
+   "axiom-t1/": {
+    "n": 7,
+    "dead": 6
+   },
+   "axiom-t1/body": {
+    "n": 74,
+    "dead": 0
+   },
+   "axiom-t1/wheels": {
+    "n": 17,
+    "dead": 0
+   },
+   "axiom-t1/lights": {
+    "n": 1,
+    "dead": 0
+   },
+   "axiom-t1/chassis": {
+    "n": 1,
+    "dead": 0
+   }
+  },
+  "glassCells": [
+   {
+    "x": 420,
+    "y": 250,
+    "v": 0.57,
+    "med": "#e3dccb"
+   },
+   {
+    "x": 645,
+    "y": 340,
+    "v": 1,
+    "med": "#162c36"
+   },
+   {
+    "x": 690,
+    "y": 340,
+    "v": 1,
+    "med": "#0f2732"
+   },
+   {
+    "x": 735,
+    "y": 340,
+    "v": 1,
+    "med": "#0f171a"
+   },
+   {
+    "x": 825,
+    "y": 340,
+    "v": 1,
+    "med": "#49535a"
+   },
+   {
+    "x": 870,
+    "y": 340,
+    "v": 1,
+    "med": "#303435"
+   },
+   {
+    "x": 915,
+    "y": 340,
+    "v": 1,
+    "med": "#415057"
+   },
+   {
+    "x": 600,
+    "y": 385,
+    "v": 0.99,
+    "med": "#29373d"
+   },
+   {
+    "x": 645,
+    "y": 385,
+    "v": 1,
+    "med": "#1f2f36"
+   },
+   {
+    "x": 690,
+    "y": 385,
+    "v": 1,
+    "med": "#1d2d34"
+   },
+   {
+    "x": 735,
+    "y": 385,
+    "v": 1,
+    "med": "#132831"
+   },
+   {
+    "x": 825,
+    "y": 385,
+    "v": 1,
+    "med": "#353f42"
+   },
+   {
+    "x": 870,
+    "y": 385,
+    "v": 1,
+    "med": "#3d4447"
+   },
+   {
+    "x": 915,
+    "y": 385,
+    "v": 1,
+    "med": "#545556"
+   },
+   {
+    "x": 960,
+    "y": 385,
+    "v": 1,
+    "med": "#5d6164"
+   },
+   {
+    "x": 555,
+    "y": 430,
+    "v": 0.99,
+    "med": "#0f171a"
+   },
+   {
+    "x": 600,
+    "y": 430,
+    "v": 1,
+    "med": "#2f3a3e"
+   },
+   {
+    "x": 645,
+    "y": 430,
+    "v": 1,
+    "med": "#2e383c"
+   },
+   {
+    "x": 690,
+    "y": 430,
+    "v": 1,
+    "med": "#2b373b"
+   },
+   {
+    "x": 735,
+    "y": 430,
+    "v": 1,
+    "med": "#283439"
+   },
+   {
+    "x": 780,
+    "y": 430,
+    "v": 1,
+    "med": "#393a38"
+   },
+   {
+    "x": 825,
+    "y": 430,
+    "v": 1,
+    "med": "#131516"
+   },
+   {
+    "x": 870,
+    "y": 430,
+    "v": 1,
+    "med": "#0f1212"
+   },
+   {
+    "x": 915,
+    "y": 430,
+    "v": 1,
+    "med": "#505252"
+   },
+   {
+    "x": 960,
+    "y": 430,
+    "v": 1,
+    "med": "#191915"
+   }
+  ],
+  "deadCells": [
+   [
+    510,
+    250,
+    "axiom-t1",
+    "",
+    0.07
+   ],
+   [
+    1185,
+    475,
+    "axiom-t1",
+    "",
+    0
+   ],
+   [
+    1140,
+    520,
+    "axiom-t1",
+    "",
+    0
+   ],
+   [
+    1140,
+    565,
+    "axiom-t1",
+    "",
+    0
+   ],
+   [
+    870,
+    610,
+    "axiom-t1",
+    "",
+    0
+   ],
+   [
+    735,
+    745,
+    "axiom-t1",
+    "",
+    0
+   ]
+  ]
+ },
+ "100": {
+  "bbox": [
+   353,
+   363,
+   1163,
+   678
+  ],
+  "bboxClipPct": 0.21,
+  "bboxAny255Pct": 0.35,
+  "bodyCellsMaxClipPct": 13.33,
+  "bodyCellsOver3pct": 2,
+  "bodyCells": 48,
+  "ids": {
+   "axiom-t1/glass": {
+    "n": 13,
+    "dead": 0
+   },
+   "axiom-t1/body": {
+    "n": 48,
+    "dead": 0
+   },
+   "axiom-t1/": {
+    "n": 5,
+    "dead": 5
+   },
+   "axiom-t1/wheels": {
+    "n": 14,
+    "dead": 0
+   },
+   "axiom-t1/chassis": {
+    "n": 2,
+    "dead": 0
+   }
+  },
+  "glassCells": [
+   {
+    "x": 555,
+    "y": 385,
+    "v": 0.92,
+    "med": "#29363c"
+   },
+   {
+    "x": 600,
+    "y": 385,
+    "v": 1,
+    "med": "#26333a"
+   },
+   {
+    "x": 645,
+    "y": 385,
+    "v": 1,
+    "med": "#202f36"
+   },
+   {
+    "x": 735,
+    "y": 385,
+    "v": 1,
+    "med": "#13303d"
+   },
+   {
+    "x": 780,
+    "y": 385,
+    "v": 1,
+    "med": "#3d525e"
+   },
+   {
+    "x": 510,
+    "y": 430,
+    "v": 0.87,
+    "med": "#394447"
+   },
+   {
+    "x": 555,
+    "y": 430,
+    "v": 0.98,
+    "med": "#363d40"
+   },
+   {
+    "x": 600,
+    "y": 430,
+    "v": 1,
+    "med": "#222526"
+   },
+   {
+    "x": 645,
+    "y": 430,
+    "v": 1,
+    "med": "#383c3d"
+   },
+   {
+    "x": 690,
+    "y": 430,
+    "v": 1,
+    "med": "#363738"
+   },
+   {
+    "x": 780,
+    "y": 430,
+    "v": 1,
+    "med": "#0b2631"
+   },
+   {
+    "x": 825,
+    "y": 430,
+    "v": 1,
+    "med": "#0f2934"
+   },
+   {
+    "x": 870,
+    "y": 430,
+    "v": 1,
+    "med": "#3b4c55"
+   }
+  ],
+  "deadCells": [
+   [
+    915,
+    430,
+    "axiom-t1",
+    "",
+    0
+   ],
+   [
+    1140,
+    475,
+    "axiom-t1",
+    "",
+    0
+   ],
+   [
+    1140,
+    520,
+    "axiom-t1",
+    "",
+    0
+   ],
+   [
+    1140,
+    565,
+    "axiom-t1",
+    "",
+    0
+   ],
+   [
+    645,
+    610,
+    "axiom-t1",
+    "",
+    0
+   ]
+  ]
+ },
+ "errs": [
+  "WARN Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read",
+  "WARN Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read",
+  "WARN Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read",
+  "WARN Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read",
+  "WARN Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read"
+ ]
+}

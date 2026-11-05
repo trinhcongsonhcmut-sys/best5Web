@@ -1,0 +1,555 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\Baha Group\\Desktop\\repWeb\\BAHA_3D_SHOWCASE\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "-g",
+      "fashion"
+    ],
+    "configFile": "C:\\Users\\Baha Group\\Desktop\\repWeb\\BAHA_3D_SHOWCASE\\playwright.config.ts",
+    "rootDir": "C:/Users/Baha Group/Desktop/repWeb/BAHA_3D_SHOWCASE/tests/qc",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/Baha Group/Desktop/repWeb/BAHA_3D_SHOWCASE/qc-evidence/artifacts-fashion",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "desktop",
+        "name": "desktop",
+        "testDir": "C:/Users/Baha Group/Desktop/repWeb/BAHA_3D_SHOWCASE/tests/qc",
+        "testIgnore": [
+          "/mobile\\.spec/"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "C:/Users/Baha Group/Desktop/repWeb/BAHA_3D_SHOWCASE/qc-evidence/artifacts-fashion",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "mobile",
+        "name": "mobile",
+        "testDir": "C:/Users/Baha Group/Desktop/repWeb/BAHA_3D_SHOWCASE/tests/qc",
+        "testIgnore": [],
+        "testMatch": [
+          "/mobile\\.spec/"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "C:\\Users\\Baha Group\\Desktop\\repWeb\\BAHA_3D_SHOWCASE\\qc-evidence\\artifacts-fashion",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "desktop",
+        "testDir": "C:\\Users\\Baha Group\\Desktop\\repWeb\\BAHA_3D_SHOWCASE\\tests\\qc",
+        "snapshotDir": "C:\\Users\\Baha Group\\Desktop\\repWeb\\BAHA_3D_SHOWCASE\\tests\\qc",
+        "testIgnore": {},
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 180000,
+        "use": {
+          "baseURL": "http://localhost:5194",
+          "channel": "chrome",
+          "launchOptions": {
+            "args": [
+              "--enable-gpu",
+              "--ignore-gpu-blocklist",
+              "--use-angle=d3d11"
+            ]
+          },
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "screenshot": "only-on-failure",
+          "trace": "retain-on-failure",
+          "actionTimeout": 15000
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "desktop"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "C:\\Users\\Baha Group\\Desktop\\repWeb\\BAHA_3D_SHOWCASE\\qc-evidence\\artifacts-fashion",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "mobile",
+        "testDir": "C:\\Users\\Baha Group\\Desktop\\repWeb\\BAHA_3D_SHOWCASE\\tests\\qc",
+        "snapshotDir": "C:\\Users\\Baha Group\\Desktop\\repWeb\\BAHA_3D_SHOWCASE\\tests\\qc",
+        "testIgnore": [],
+        "testMatch": {},
+        "timeout": 180000,
+        "use": {
+          "baseURL": "http://localhost:5194",
+          "channel": "chrome",
+          "launchOptions": {
+            "args": [
+              "--enable-gpu",
+              "--ignore-gpu-blocklist",
+              "--use-angle=d3d11"
+            ]
+          },
+          "viewport": {
+            "width": 390,
+            "height": 664
+          },
+          "screenshot": "only-on-failure",
+          "trace": "retain-on-failure",
+          "actionTimeout": 15000,
+          "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/27.2 Mobile/15E148 Safari/604.1",
+          "screen": {
+            "width": 390,
+            "height": 844
+          },
+          "deviceScaleFactor": 3,
+          "isMobile": true,
+          "hasTouch": true,
+          "defaultBrowserType": "webkit",
+          "browserName": "chromium"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "mobile"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "qc-evidence/results-fashion.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": {
+      "command": "npx vite --port 5194 --strictPort",
+      "url": "http://localhost:5194",
+      "reuseExistingServer": true,
+      "timeout": 240000,
+      "stdout": "pipe",
+      "stderr": "pipe"
+    }
+  },
+  "suites": [
+    {
+      "title": "demo.spec.ts",
+      "file": "demo.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "fashion",
+          "file": "demo.spec.ts",
+          "line": 10,
+          "column": 8,
+          "specs": [
+            {
+              "title": "fashion · loads, renders frames, no errors",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop",
+                  "projectName": "desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 12212,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-05T02:00:55.053Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05384557491ebd602dd7-5835821938d752af43ed",
+              "file": "demo.spec.ts",
+              "line": 11,
+              "column": 5
+            },
+            {
+              "title": "fashion · orbit 360° changes the real camera, reset restores it",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop",
+                  "projectName": "desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 15329,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-05T02:01:07.775Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05384557491ebd602dd7-17cec2da4b1a0bacc884",
+              "file": "demo.spec.ts",
+              "line": 24,
+              "column": 5
+            },
+            {
+              "title": "fashion · ≥3 colour variants change the real material",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop",
+                  "projectName": "desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 15264,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-05T02:01:23.163Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05384557491ebd602dd7-0cf26a90b1733d6a6093",
+              "file": "demo.spec.ts",
+              "line": 57,
+              "column": 5
+            },
+            {
+              "title": "fashion · hover lights the object in and out",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop",
+                  "projectName": "desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 14180,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-05T02:01:38.471Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05384557491ebd602dd7-572d9a4bf1c9aff990ae",
+              "file": "demo.spec.ts",
+              "line": 77,
+              "column": 5
+            },
+            {
+              "title": "fashion · scroll timeline 0/25/50/75/100 forward and back",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop",
+                  "projectName": "desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 21146,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-05T02:01:52.745Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05384557491ebd602dd7-dc6a4e85a148db4340a2",
+              "file": "demo.spec.ts",
+              "line": 104,
+              "column": 5
+            },
+            {
+              "title": "fashion · resize → 1920x1080 stays healthy",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop",
+                  "projectName": "desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 15797,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-05T02:02:13.916Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05384557491ebd602dd7-b8b8d157478222d3e7a9",
+              "file": "demo.spec.ts",
+              "line": 133,
+              "column": 7
+            },
+            {
+              "title": "fashion · resize → 1440x900 stays healthy",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop",
+                  "projectName": "desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 11245,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-05T02:02:29.741Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05384557491ebd602dd7-50ff22a5f70c593f779c",
+              "file": "demo.spec.ts",
+              "line": 133,
+              "column": 7
+            },
+            {
+              "title": "fashion · resize → 390x844 stays healthy",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop",
+                  "projectName": "desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 11649,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-05T02:02:41.010Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05384557491ebd602dd7-8cdaa928a1e04a0f6f58",
+              "file": "demo.spec.ts",
+              "line": 133,
+              "column": 7
+            },
+            {
+              "title": "fashion · FPS measured with condition",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop",
+                  "projectName": "desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 16987,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-05T02:02:52.688Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05384557491ebd602dd7-03a8e823b023e1baf916",
+              "file": "demo.spec.ts",
+              "line": 149,
+              "column": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "mobile.spec.ts",
+      "file": "mobile.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "fashion · mobile touch: swipe-x orbits, swipe-y scrolls, no overflow",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile",
+              "projectName": "mobile",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 22498,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-05T02:03:17.501Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e79c838550b25e92508e-00e2fd45ecb5bfbe0155",
+          "file": "mobile.spec.ts",
+          "line": 18,
+          "column": 3
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-05T02:00:53.909Z",
+    "duration": 170292.234,
+    "expected": 10,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

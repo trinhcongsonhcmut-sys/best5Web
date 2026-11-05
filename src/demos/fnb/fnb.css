@@ -1,0 +1,116 @@
+/* ───────── /fnb — Ember & Bean (cafe) → Vermiglio (restaurant) ───────── */
+.demo-fnb {
+  --cafe-display: 'Bricolage Grotesque Variable', 'Work Sans Variable', system-ui, sans-serif;
+  --rest-display: 'DM Serif Display', 'Fraunces Variable', Georgia, serif;
+  --rest-italic: 'Fraunces Variable', 'DM Serif Display', Georgia, serif;
+  --body: 'Work Sans Variable', system-ui, sans-serif;
+  background: #240d03;
+}
+.demo-fnb .stage-sticky { color: var(--ink); transition: color .6s ease; }
+.demo-fnb[data-fnb-theme='light'] .stage-sticky { --ink: #4a2216; --paper: #eee7d2; --accent: #9f1d13; }
+.demo-fnb[data-fnb-scene='restaurant'][data-fnb-theme='dark'] .stage-sticky { --ink: #fbe3d3; --paper: #3d140d; --accent: #f0b58f; }
+.demo-fnb .hud { font-family: var(--body); }
+
+.fnb-ov { position: absolute; inset: 0; font-family: var(--body); }
+/* old block is gone before the new one fades in → never two headlines on screen at once */
+.fnb-ov section { position: absolute; inset: 0; opacity: 0; visibility: hidden; transition: opacity .2s ease, visibility 0s linear .2s; }
+.fnb-ov section.on { opacity: 1; visibility: visible; transition: opacity .45s ease .22s, visibility 0s linear .2s; }
+
+/* brand mark (top centre) swaps with the scene */
+.fnb-brand { position: absolute; top: max(24px, env(safe-area-inset-top)); left: 50%; transform: translateX(-50%); height: 26px; pointer-events: none; }
+.fnb-brand span { position: absolute; left: 50%; top: 0; transform: translateX(-50%); white-space: nowrap; transition: opacity .6s ease, transform .6s cubic-bezier(.2,.8,.2,1); }
+.fnb-brand .cafe { font-family: var(--cafe-display); font-weight: 800; font-stretch: 78%; font-size: 15px; letter-spacing: .2em; }
+.fnb-brand .rest { font-family: var(--rest-display); font-size: 24px; letter-spacing: .02em; opacity: 0; transform: translate(-50%, 8px); }
+.demo-fnb[data-fnb-scene='restaurant'] .fnb-brand .cafe { opacity: 0; transform: translate(-50%, -8px); }
+.demo-fnb[data-fnb-scene='restaurant'] .fnb-brand .rest { opacity: 1; transform: translate(-50%, 0); }
+
+/* character rise */
+.fnb-ov .ch { display: inline-block; transform: translateY(102%); transition: transform .7s cubic-bezier(.2,.85,.25,1); }
+.fnb-ov section.on .ch { transform: none; }
+
+/* ── cafe: giant condensed words flanking the cup ── */
+.fnb-split .w {
+  position: absolute; top: 50%; margin: 0; transform: translateY(-50%);
+  font-family: var(--cafe-display); font-weight: 800; font-stretch: 75%;
+  font-size: clamp(56px, 9vw, 172px); line-height: .86; letter-spacing: -.01em;
+  overflow: hidden; padding: .04em 0; white-space: nowrap;
+}
+.fnb-split .w.l { right: 66%; text-align: right; }
+.fnb-split .w.r { left: 66%; }
+.fnb-split .kick, .fnb-split .sub { position: absolute; margin: 0; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; }
+.fnb-split .kick { right: 66%; top: calc(50% - clamp(56px, 9vw, 172px) * .5 - 34px); padding: 6px 12px; border: 1px solid color-mix(in srgb, var(--ink) 45%, transparent); border-radius: 999px; }
+.fnb-split .sub { left: 66%; top: calc(50% + clamp(56px, 9vw, 172px) * .5 + 18px); max-width: 30ch; text-transform: none; letter-spacing: .01em; font-size: 15px; line-height: 1.45; opacity: .85; }
+
+/* ── transition ── */
+.fnb-bridge { text-align: left; }
+.fnb-bridge .from { position: absolute; top: 36%; left: 6vw; margin: 0; font-family: var(--cafe-display); font-weight: 800; font-stretch: 75%; font-size: clamp(18px, 2vw, 28px); letter-spacing: .32em; }
+.fnb-bridge h2 { position: absolute; top: calc(36% + 40px); left: 6vw; max-width: 6.5em; margin: 0; font-family: var(--rest-display); font-weight: 400; font-size: clamp(40px, 5.6vw, 96px); line-height: 1; }
+.fnb-bridge h2 em { font-style: italic; }
+
+/* ── ingredient ballet ── */
+.fnb-ballet .kick, .fnb-final .kick { margin: 0 0 14px; font-size: 11px; letter-spacing: .26em; text-transform: uppercase; }
+.fnb-ballet > * { position: relative; }
+.fnb-ballet { padding: 15vh 0 0 6vw; }
+.fnb-ballet h2 { margin: 0; font-family: var(--rest-display); font-weight: 400; font-size: clamp(36px, 4.4vw, 76px); line-height: 1.02; letter-spacing: -.005em; }
+
+/* ── final ── */
+.fnb-final { text-align: center; padding-top: 10vh; }
+.fnb-final h2 { margin: 0; font-family: var(--rest-display); font-weight: 400; font-size: clamp(38px, 4.8vw, 84px); line-height: 1; }
+.fnb-final .sub { margin: 14px 0 0; font-family: var(--rest-italic); font-style: italic; font-size: 16px; opacity: .8; }
+
+/* callouts (projected from 3D ingredients) */
+.fnb-callouts { position: absolute; inset: 0; pointer-events: none; }
+.fnb-leaders { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.fnb-leaders .halo { stroke: rgba(246, 238, 224, .75); stroke-width: 3.5; stroke-linecap: round; }
+.fnb-leaders .ink { stroke: #3b1a12; stroke-width: 1; }
+.fnb-dot { position: absolute; left: -4px; top: -4px; width: 8px; height: 8px; border-radius: 50%; background: #9f1d13; box-shadow: 0 0 0 3px rgba(255, 246, 232, .85), 0 0 0 4px rgba(159, 29, 19, .35); }
+.fnb-callout { position: absolute; left: 0; top: 0; display: flex; flex-direction: column; white-space: nowrap; color: #4a2216; line-height: 1.1; transform: translate(8px, -50%); background: rgba(245, 236, 220, .88); padding: 4px 9px 5px; border-radius: 6px; box-shadow: 0 1px 0 rgba(74, 34, 22, .12); }
+.fnb-callout[data-side='l'] { transform: translate(calc(-100% - 8px), -50%); text-align: right; }
+.fnb-callout em { font-family: var(--rest-italic); font-style: italic; font-size: 17px; }
+.fnb-callout small { font-family: var(--body); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; opacity: .7; margin-top: 3px; }
+
+/* picker */
+.fnb-picker { position: absolute; left: 20px; bottom: 78px; display: flex; flex-direction: column; gap: 8px; pointer-events: auto; }
+.fnb-picker-k { font-size: 10px; letter-spacing: .18em; text-transform: uppercase; opacity: .6; }
+.demo-fnb .variant-label { font-family: var(--body); }
+
+@media (max-width: 720px) {
+  /* HUD re-layout (scoped to this demo): progress becomes a small dot row bottom-right, no scroll hint */
+  .demo-fnb .stage-dots { top: auto; bottom: max(32px, env(safe-area-inset-bottom)); right: 12px; transform: none; flex-direction: row; gap: 0; }
+  .demo-fnb .stage-dots button { padding: 8px 4px; }
+  .demo-fnb .stage-dots button span { display: none; }
+  .demo-fnb .stage-dots button i, .demo-fnb .stage-dots button.on i { width: 7px; height: 7px; border-radius: 50%; }
+  .demo-fnb .stage-dots button.on i { background: var(--accent); transform: scale(1.25); }
+  .demo-fnb .scroll-hint { display: none; }
+
+  .fnb-split { --wfs: min(17vw, 8.2vh); }
+  .fnb-split .w { font-size: var(--wfs); transform: none; line-height: .9; }
+  .fnb-split .w.l { right: auto; left: 0; width: 100%; text-align: center; top: 104px; }
+  .fnb-split .w.r { left: 0; width: 100%; text-align: center; top: calc(104px + var(--wfs) * .9); bottom: auto; }
+  .fnb-split .kick { right: auto; left: 50%; transform: translateX(-50%); top: 70px; white-space: nowrap; font-size: 10px; padding: 5px 10px; }
+  .fnb-split .sub { left: 24px; right: 24px; top: auto; bottom: 150px; max-width: none; text-align: center; font-size: 13px; }
+  .fnb-brand { top: max(29px, env(safe-area-inset-top)); left: auto; right: 18px; transform: none; }
+  .fnb-brand .cafe { font-size: 11px; left: auto; right: 0; transform: none; }
+  .fnb-brand .rest { font-size: 19px; top: -5px; left: auto; right: 0; transform: translateY(8px); }
+  .demo-fnb[data-fnb-scene='restaurant'] .fnb-brand .cafe { transform: translateY(-8px); }
+  .demo-fnb[data-fnb-scene='restaurant'] .fnb-brand .rest { transform: none; }
+  .fnb-bridge { text-align: center; }
+  .fnb-bridge .from { top: 84px; left: 0; right: 0; font-size: 15px; }
+  .fnb-bridge h2 { top: 110px; left: 0; right: 0; max-width: none; font-size: 42px; }
+  .fnb-ballet { padding: 78px 20px 0; text-align: center; }
+  .fnb-ballet h2 { font-size: 34px; }
+  .fnb-final { padding: 78px 18px 0; }
+  .fnb-final h2 { font-size: 36px; }
+  .fnb-final .sub { font-size: 13px; }
+  .fnb-picker { left: 14px; bottom: 70px; }
+  /* phones: no leader lines over the pasta — ingredient names become a chip row under the plate */
+  .fnb-callouts { inset: auto 12px 142px 12px; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
+  .fnb-leaders, .fnb-dot { display: none; }
+  .fnb-callout, .fnb-callout[data-side='l'] { position: static; translate: none !important; transform: none; text-align: center; padding: 3px 10px 4px; border-radius: 999px; border: 1px solid rgba(74, 34, 22, .18); }
+  .fnb-callout em { font-size: 13px; }
+  .fnb-callout small { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fnb-ov .ch { transition: none; }
+}
