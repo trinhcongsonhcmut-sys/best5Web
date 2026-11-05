@@ -1,7 +1,7 @@
 /**
  * World layers rendered IN WebGL (canvas is opaque — nothing behind it in the DOM):
  *  - Sky: screen-space gradient + soft glow + grain, colours lerped per variant (identical from every orbit angle)
- *  - GiantWord: Didone display word billboarded BEHIND the jar (depth-tested → the jar/leaves occlude it)
+ *  - GiantWord: Didone display word billboarded BEHIND the bottle (depth-tested → the bottle/citrus occlude it)
  *  - Motes: ≤150 slow dust/dew specks
  *  - BlobShadow: baked soft contact shadows (no shadow-map pass on the iGPU)
  */
@@ -27,9 +27,12 @@ export function Sky() {
           uBot: { value: look.bgBot },
           uGlow: { value: look.glow },
           uAspect: { value: 1 },
+          uSpot: { value: new THREE.Vector3(0.5, 0.5, 0.3) },
+          uWarm: { value: new THREE.Color() },
         },
         vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0.999, 1.0); }',
-        fragmentShader: `uniform vec3 uTop; uniform vec3 uMid; uniform vec3 uBot; uniform vec3 uGlow; uniform float uAspect; varying vec2 vUv;
+        fragmentShader: `uniform vec3 uTop; uniform vec3 uMid; uniform vec3 uBot; uniform vec3 uGlow; uniform float uAspect;
+          uniform vec3 uSpot; uniform vec3 uWarm; varying vec2 vUv;
           float hash(vec2 p){ return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453); }
           void main(){
             float y = vUv.y;
@@ -40,6 +43,11 @@ export function Sky() {
             c = mix(c, uGlow, g * 0.55);
             // faint floor horizon: brighter band low in frame
             c = mix(c, uGlow, smoothstep(0.32, 0.12, y) * 0.25);
+            // warm backlight behind the product (product-photo key from behind): the amber glass refracts this
+            // (it is part of the transmission source) → glowing amber core and edges
+            vec2 sq = (vUv - uSpot.xy) * vec2(uAspect, 1.0) / vec2(0.55, 1.0);
+            float sp = exp(-dot(sq, sq) / max(1e-4, uSpot.z * uSpot.z));
+            c = mix(c, uWarm, sp * 0.62);
             vec2 v = vUv - 0.5;
             c *= 1.0 - dot(v, v) * 0.16;
             c += (hash(gl_FragCoord.xy) - 0.5) / 255.0;
@@ -50,8 +58,15 @@ export function Sky() {
     [],
   );
   useEffect(() => () => mat.dispose(), [mat]);
-  useFrame(({ size }) => {
+  const tmp = useMemo(() => new THREE.Vector3(), []);
+  useFrame(({ size, camera }) => {
     mat.uniforms.uAspect.value = size.width / Math.max(1, size.height);
+    // follow the bottle on screen; radius ~ its projected height
+    tmp.copy(rig.jarCenter).project(camera);
+    const d = camera.position.distanceTo(rig.jarCenter);
+    const visH = 2 * Math.tan(((camera as THREE.PerspectiveCamera).fov * Math.PI) / 360) * d;
+    mat.uniforms.uSpot.value.set(tmp.x * 0.5 + 0.5, tmp.y * 0.5 + 0.5 - 0.02, Math.min(0.45, 1.05 / visH));
+    mat.uniforms.uWarm.value.copy(look.accent).lerp(look.glow, 0.42);
   });
   return (
     <mesh material={mat} frustumCulled={false} renderOrder={-1000} raycast={() => null}>
@@ -152,7 +167,7 @@ export function Motes() {
     }
     const geo = new THREE.BufferGeometry();
     geo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(N * 3), 3));
-    const mat = new THREE.PointsMaterial({ size: 0.028, map: dotTexture(), color: '#ffffff', transparent: true, opacity: 0.75, depthWrite: false, sizeAttenuation: true });
+    const mat = new THREE.PointsMaterial({ size: 0.024, map: dotTexture(), color: '#fff3e0', transparent: true, opacity: 0.85, depthWrite: false, sizeAttenuation: true });
     return { geo, mat, base };
   }, []);
   useEffect(() => () => { geo.dispose(); mat.map?.dispose(); mat.dispose(); }, [geo, mat]);
@@ -170,17 +185,17 @@ export function Motes() {
 }
 
 /** Soft baked contact shadow that follows a target x (and fades/spreads as the object lifts). */
-export function BlobShadow({ getX, getLift, getAlpha, radius = 0.75, strength = 0.5, z = 0 }: { getX: () => number; getLift: () => number; getAlpha?: () => number; radius?: number; strength?: number; z?: number }) {
+export function BlobShadow({ getX, getLift, getAlpha, radius = 0.75, strength = 0.5, z = 0, soft = true, getY }: { getX: () => number; getLift: () => number; getAlpha?: () => number; radius?: number; strength?: number; z?: number; soft?: boolean; getY?: () => number }) {
   const ref = useRef<THREE.Mesh>(null);
-  const mat = useMemo(() => new THREE.MeshBasicMaterial({ color: '#000', alphaMap: blobTexture(), transparent: true, depthWrite: false, toneMapped: false }), []);
+  const mat = useMemo(() => new THREE.MeshBasicMaterial({ color: '#000', alphaMap: blobTexture(256, soft), transparent: true, depthWrite: false, toneMapped: false }), [soft]);
   useEffect(() => () => { mat.alphaMap?.dispose(); mat.dispose(); }, [mat]);
   useFrame(() => {
     const m = ref.current;
     if (!m) return;
     const lift = getLift();
-    m.position.set(getX(), 0.003, z);
+    m.position.set(getX(), (getY ? getY() : 0) + 0.003, z);
     const s = radius * (1 + lift * 1.1);
-    m.scale.set(s * 2, s * 1.25, 1);
+    m.scale.set(s * 2, s * 2, 1);
     mat.color.copy(look.shadow);
     const al = getAlpha ? getAlpha() : 1;
     m.visible = al > 0.001 || warm.on;
@@ -188,6 +203,33 @@ export function BlobShadow({ getX, getLift, getAlpha, radius = 0.75, strength = 
   });
   return (
     <mesh ref={ref} material={mat} rotation-x={-Math.PI / 2} renderOrder={1} raycast={() => null}>
+      <planeGeometry args={[1, 1]} />
+    </mesh>
+  );
+}
+
+/**
+ * Warm caustic the back-lit amber bottle throws on the surface in front of it (light focused through the serum).
+ * Additive, soft; strongest when the bottle stands on the pedestal.
+ */
+export function Caustic({ getX }: { getX: () => number }) {
+  const ref = useRef<THREE.Mesh>(null);
+  const mat = useMemo(
+    () => new THREE.MeshBasicMaterial({ color: '#ffb35a', alphaMap: blobTexture(256, true), transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, toneMapped: false }),
+    [],
+  );
+  useEffect(() => () => { mat.alphaMap?.dispose(); mat.dispose(); }, [mat]);
+  useFrame(() => {
+    const m = ref.current;
+    if (!m) return;
+    const a = pose(scrollState.smooth);
+    m.position.set(getX() + 0.04, 0.005, 0.36);
+    m.scale.set(0.62, 0.42, 1);
+    mat.color.copy(look.liquid).lerp(look.glow, 0.25);
+    mat.opacity = (0.1 + 0.22 * a.plinth) / (1 + a.jarLift * 4);
+  });
+  return (
+    <mesh ref={ref} material={mat} rotation-x={-Math.PI / 2} renderOrder={2} raycast={() => null}>
       <planeGeometry args={[1, 1]} />
     </mesh>
   );

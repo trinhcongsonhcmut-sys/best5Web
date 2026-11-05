@@ -1,6 +1,6 @@
 /**
- * Procedural geometry for BAHA BOTANICA — all built in code (lathe profiles, swept blades, extrusions).
- * Units ≈ decimetres: jar Ø 1.12, sits on y = 0, cap top at y ≈ 0.9.
+ * Procedural geometry for BAHA BOTANICA v2 — all built in code (lathe profiles, polar grids, swept tubes).
+ * Units: bottle Ø 0.604, base on y = 0, bulb top at y ≈ 1.78 (30 ml Boston-round dropper, ~1 : 3 like the v2 reference).
  */
 import * as THREE from 'three';
 import { mergeVertices } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
@@ -16,188 +16,445 @@ function smoothNormals(g: THREE.BufferGeometry) {
   return m;
 }
 
-/* ───────── jar body: thick-walled solid glass with a cream cavity (profile traversed CCW → outward normals) ───────── */
-export const JAR = { r: 0.562, neckR: 0.5, neckY0: 0.61, neckY1: 0.7, cavityR: 0.43, floorY: 0.18, creamY: 0.6, capY: 0.6 };
+/* ───────── amber Boston-round bottle ───────── */
+export const BOT = {
+  r: 0.302,
+  rIn: 0.278,
+  neckR: 0.112,
+  neckTop: 1.252,
+  liquidY: 0.9,
+  /** collar seat (dropper assembly origin, bottle-local) */
+  collarY: 1.105,
+  collarH: 0.31,
+  collarR: 0.2,
+  bulbR: 0.104,
+  bulbH: 0.367,
+  /** pipette tip in dropper-local y (collar seat = 0) */
+  tipY: -0.905,
+  labelY0: 0.115,
+  labelY1: 0.845,
+  labelArc: 3.3,
+  height: 1.782,
+};
 
-export function jarBodyGeometry() {
+/**
+ * Thick-walled glass shell: outer wall up, rolled lip, inner wall down to a thick punted base (profile CCW →
+ * outward normals outside, normals facing the cavity inside). Wall 0.024, base ≈ 0.05.
+ */
+export function bottleGlassGeometry() {
   const pts: P2[] = [
-    [0.0, 0.03], [0.25, 0.024], [0.42, 0.012], [0.49, 0.004], [0.524, 0.007], [0.546, 0.022], [0.558, 0.046], [0.562, 0.075],
-    // lower embossed ring
-    [0.562, 0.094], [0.5685, 0.101], [0.5685, 0.117], [0.562, 0.124],
-    [0.562, 0.488],
-    // upper embossed ring
-    [0.5685, 0.495], [0.5685, 0.511], [0.562, 0.518],
-    [0.56, 0.542], [0.552, 0.564], [0.537, 0.582], [0.516, 0.595], [0.503, 0.604], [0.5, 0.616],
-    [0.5, 0.699], [0.497, 0.71], [0.489, 0.717], [0.476, 0.72], [0.459, 0.718], [0.449, 0.711], [0.446, 0.7],
-    [0.44, 0.69], [0.432, 0.672], [0.43, 0.64], [0.43, 0.25], [0.426, 0.222], [0.414, 0.2], [0.395, 0.186], [0.36, 0.18], [0.0, 0.176],
+    [0, 0.018], [0.15, 0.012], [0.235, 0.004], [0.272, 0.0], [0.29, 0.004], [0.299, 0.016], [0.302, 0.04],
+    [0.302, 0.93], [0.3, 0.962], [0.293, 0.992], [0.278, 1.022], [0.255, 1.05], [0.224, 1.072], [0.19, 1.088], [0.155, 1.099],
+    [0.128, 1.106], [0.115, 1.112], [0.112, 1.124],
+    [0.112, 1.234], [0.111, 1.243], [0.106, 1.25], [0.098, 1.253], [0.09, 1.25], [0.086, 1.243], [0.085, 1.232],
+    [0.085, 1.126], [0.096, 1.104], [0.13, 1.086], [0.178, 1.066], [0.222, 1.041], [0.252, 1.01], [0.268, 0.978], [0.276, 0.944], [0.278, 0.9],
+    [0.278, 0.11], [0.276, 0.092], [0.268, 0.078], [0.25, 0.07], [0.2, 0.066], [0, 0.064],
   ];
-  return new THREE.LatheGeometry(v2(pts), 112);
+  return new THREE.LatheGeometry(v2(pts), 128);
 }
 
-/** Two-start-free single helix thread on the neck (seen when the cap is off). */
+/** Single-start thread on the neck (hidden under the collar, seen once the dropper is off). */
 export function threadGeometry() {
   const pts: THREE.Vector3[] = [];
   for (let i = 0; i <= 120; i++) {
     const t = i / 120;
-    const a = t * Math.PI * 2 * 1.65;
-    pts.push(new THREE.Vector3(Math.sin(a) * 0.503, 0.624 + t * 0.062, Math.cos(a) * 0.503));
+    const a = t * Math.PI * 2 * 1.6;
+    pts.push(new THREE.Vector3(Math.sin(a) * 0.113, 1.14 + t * 0.075, Math.cos(a) * 0.113));
   }
-  return new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 180, 0.0068, 7, false);
+  return new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 160, 0.0055, 6, false);
 }
 
-/** Label wrap: open cylinder segment just proud of the body, centred on +Z (front). */
-export function labelGeometry() {
-  return new THREE.CylinderGeometry(0.5705, 0.5705, 0.33, 72, 1, true, -0.98, 1.96);
-}
-
-/* ───────── cream: puck + whipped spiral top ───────── */
-export function creamBodyGeometry() {
-  const pts: P2[] = [[0, 0.181], [0.36, 0.184], [0.394, 0.19], [0.412, 0.204], [0.423, 0.224]];
-  for (let i = 0; i <= 24; i++) pts.push([0.427, 0.25 + (0.354 * i) / 24]);
-  const g = new THREE.LatheGeometry(v2(pts), 128);
-  // soft whipped ripples on the side wall (only visible when the core lifts out at the craft mark)
-  const p = g.getAttribute('position') as THREE.BufferAttribute;
-  const v = new THREE.Vector3();
-  for (let i = 0; i < p.count; i++) {
-    v.fromBufferAttribute(p, i);
-    if (v.y < 0.24) continue;
-    const th = Math.atan2(v.x, v.z);
-    const k = 1 + (0.008 * Math.sin(th * 4 + v.y * 46) + 0.002 * Math.sin(th * 9 + v.y * 20)) * Math.min(1, (v.y - 0.24) * 12);
-    p.setXYZ(i, v.x * k, v.y, v.z * k);
-  }
-  return smoothNormals(g);
-}
-
-export function creamTopGeometry() {
-  const R = 0.427;
-  const rings = 40;
-  const segs = 144;
-  const pos: number[] = [];
-  const idx: number[] = [];
-  for (let i = 0; i <= rings; i++) {
-    const t = i / rings;
-    const r = R * t;
-    for (let j = 0; j <= segs; j++) {
-      const th = (j / segs) * Math.PI * 2;
-      const mound = 0.085 * Math.pow(1 - t * t, 1.35);
-      const spiral = 0.026 * Math.sin(th - t * 21) * Math.sin(Math.PI * Math.min(1, t * 1.08));
-      const peak = 0.045 * Math.exp(-(t * t) / 0.006);
-      const curl = 0.012 * Math.exp(-(t * t) / 0.02) * Math.sin(th * 2);
-      pos.push(Math.sin(th) * r, 0.604 + mound + spiral + peak + curl, Math.cos(th) * r);
-    }
-  }
-  const row = segs + 1;
-  for (let i = 0; i < rings; i++)
-    for (let j = 0; j < segs; j++) {
-      const a = i * row + j;
-      const b = a + row;
-      idx.push(a, b, a + 1, b, b + 1, a + 1);
-    }
-  const g = new THREE.BufferGeometry();
-  g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
-  g.setIndex(idx);
-  return smoothNormals(g);
-}
-
-/* ───────── cap: soft-touch shell with 72 vertical grip ribs (local y 0 → 0.304) ───────── */
-export function capGeometry() {
+/** Serum volume inside the glass, with a concave meniscus climbing the wall. */
+export function liquidGeometry() {
   const pts: P2[] = [
-    [0, 0.262], [0.4, 0.262], [0.49, 0.258], [0.508, 0.248], [0.512, 0.23], [0.512, 0.012], [0.518, 0.0],
-    [0.566, 0.0], [0.574, 0.004], [0.578, 0.012], [0.58, 0.03],
-    [0.58, 0.262], [0.578, 0.28], [0.57, 0.293], [0.556, 0.3], [0.52, 0.3025], [0.0, 0.304],
+    [0, 0.068], [0.2, 0.07], [0.25, 0.074], [0.267, 0.081], [0.2745, 0.094], [0.2765, 0.112],
+    [0.2765, 0.884], [0.2762, 0.896], [0.273, 0.9], [0.264, 0.897], [0.245, 0.892], [0.2, 0.889], [0.1, 0.888], [0, 0.888],
   ];
-  const g = new THREE.LatheGeometry(v2(pts), 432);
+  return new THREE.LatheGeometry(v2(pts), 96);
+}
+
+/** Paper label: open cylinder segment just proud of the glass, centred on +Z. */
+export function labelGeometry(scale = 1) {
+  const h = BOT.labelY1 - BOT.labelY0;
+  return new THREE.CylinderGeometry((BOT.r + 0.0025) * scale, (BOT.r + 0.0025) * scale, h, 128, 1, true, -BOT.labelArc / 2, BOT.labelArc);
+}
+
+/* ───────── dropper: ribbed collar · soft bulb · glass pipette (dropper-local, collar seat at y = 0) ───────── */
+export function collarGeometry(ribs = 96) {
+  const pts: P2[] = [
+    [0.03, 0.0], [0.19, 0.0], [0.196, 0.003], [0.2, 0.01], [0.2, 0.018], [0.2, 0.03], [0.2, 0.14], [0.2, 0.25], [0.2, 0.262], [0.2, 0.268], [0.199, 0.281], [0.194, 0.293], [0.182, 0.302], [0.162, 0.307],
+    [0.118, 0.31], [0.108, 0.312], [0.104, 0.318], [0.03, 0.318],
+  ];
+  const g = new THREE.LatheGeometry(v2(pts), ribs * 6);
   const p = g.getAttribute('position') as THREE.BufferAttribute;
   const v = new THREE.Vector3();
   for (let i = 0; i < p.count; i++) {
     v.fromBufferAttribute(p, i);
     const r = Math.hypot(v.x, v.z);
-    if (r < 0.575 || v.y < 0.025 || v.y > 0.27) continue;
+    if (r < 0.197 || v.y < 0.016 || v.y > 0.262) continue;
     const th = Math.atan2(v.x, v.z);
-    const rib = Math.pow(0.5 + 0.5 * Math.cos(th * 72), 0.7);
-    const k = (r + 0.0062 * rib) / r;
+    // fine moulded grip ribs: rounded crowns, narrow grooves
+    const rib = Math.pow(0.5 + 0.5 * Math.cos(th * ribs), 0.6);
+    // ribs fade out into the plain bands top and bottom
+    const band = Math.min(1, (v.y - 0.016) / 0.012, (0.262 - v.y) / 0.012);
+    const k = (r - 0.009 * (1 - rib) * band) / r;
     p.setXYZ(i, v.x * k, v.y, v.z * k);
   }
   return smoothNormals(g);
 }
 
-/* ───────── aloe blade: tapered, V-section, serrated, curved spine ───────── */
-export interface BladeOpts {
-  len: number;
-  width: number;
-  bend: number;
-  twist: number;
-  seed: number;
+export function bulbGeometry() {
+  const pts: P2[] = [
+    [0.0, 0.0], [0.1, 0.0], [0.104, 0.012], [0.104, 0.05], [0.1, 0.1], [0.0965, 0.15], [0.098, 0.2], [0.1025, 0.25], [0.102, 0.288],
+    [0.095, 0.318], [0.08, 0.342], [0.058, 0.357], [0.03, 0.365], [0.0, 0.367],
+  ];
+  return smoothNormals(new THREE.LatheGeometry(v2(pts), 72));
 }
 
-export function bladeGeometry({ len, width, bend, twist, seed }: BladeOpts) {
-  const N = 30;
-  // cross-section loop (u across the width, top = concave face, bottom = convex belly)
-  const us = [1, 0.6, 0.2, -0.2, -0.6, -1, -0.6, -0.2, 0.2, 0.6];
-  const top = [true, true, true, true, true, true, false, false, false, false];
-  const K = us.length;
+/** Pipette glass tube (outer skin only) — tapered tip at the bottom. */
+export function pipetteGeometry() {
+  const pts: P2[] = [
+    [0.0, BOT.tipY], [0.007, BOT.tipY + 0.002], [0.011, BOT.tipY + 0.01], [0.015, BOT.tipY + 0.045], [0.023, BOT.tipY + 0.11],
+    [0.0265, BOT.tipY + 0.15], [0.0265, -0.004], [0.0, -0.004],
+  ];
+  return smoothNormals(new THREE.LatheGeometry(v2(pts), 32));
+}
+
+/** opaque cores inside the pipette: serum column (bottom) + the hollow's pale inner wall (above) */
+export function pipetteCoreGeometries() {
+  const liquid = new THREE.CylinderGeometry(0.016, 0.006, 0.36, 16, 1, false);
+  liquid.translate(0, BOT.tipY + 0.012 + 0.18, 0);
+  const hollow = new THREE.CylinderGeometry(0.007, 0.009, 0.5, 12, 1, true);
+  hollow.translate(0, BOT.tipY + 0.37 + 0.25, 0);
+  return { liquid, hollow };
+}
+
+/* ───────── citrus ───────── */
+/**
+ * Citrus wheel (span = 2π) or wedge (span < 2π): textured flesh faces (polar grid, planar UV) + a lathe rind band
+ * with a soft bevel and a slightly uneven outline; wedges also get their two cut faces (radial pulp cross-sections).
+ * Piece lies in XZ (face normal +Y), θ measured from +X toward +Z. Radius R, thickness T.
+ */
+export function sliceGeometries(R = 0.4, T = 0.07, span = Math.PI * 2, seed = 1, uvRot = 0) {
+  const F = R * 0.965;
+  const full = span >= Math.PI * 2 - 1e-4;
+  const rings = 24;
+  const segs = Math.max(18, Math.round((112 * span) / (Math.PI * 2)));
+  const h = T / 2;
+  const bump = (t: number) => 0.004 * (1 - t * t) + (t > 0.86 ? 0.0012 : 0);
+  const mk = (top: boolean) => {
+    const pos: number[] = [];
+    const uv: number[] = [];
+    const idx: number[] = [];
+    for (let i = 0; i <= rings; i++) {
+      const t = i / rings;
+      for (let j = 0; j <= segs; j++) {
+        const th = (j / segs) * span;
+        const x = Math.cos(th) * F * t;
+        const z = Math.sin(th) * F * t;
+        // juicy flesh slightly domed, the pith ring a hair proud
+        const y = h + bump(t);
+        pos.push(x, top ? y : -y, z);
+        // texture turned per piece so no two pieces show the same segment layout
+        const ur = th + uvRot;
+        uv.push(0.5 + (Math.cos(ur) * F * t) / (2 * F), 0.5 + (Math.sin(ur) * F * t) / (2 * F));
+      }
+    }
+    const row = segs + 1;
+    for (let i = 0; i < rings; i++)
+      for (let j = 0; j < segs; j++) {
+        const a = i * row + j;
+        const b = a + row;
+        if (top) idx.push(a, a + 1, b, b, a + 1, b + 1);
+        else idx.push(a, b, a + 1, b, b + 1, a + 1);
+      }
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+    g.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
+    g.setIndex(idx);
+    g.computeVertexNormals();
+    return g;
+  };
+  const parts = [mk(true), mk(false)];
+  if (!full) {
+    // radial cut faces: pulp sacs → pith → rind cross-section, sampled along one ray of the flesh texture
+    const cut = (ang: number, outward: THREE.Vector3) => {
+      const pos: number[] = [];
+      const uv: number[] = [];
+      const n = 16;
+      // planar projection of the cut: radius → along a texture ray, thickness → ACROSS it at the same scale, so the
+      // cut shows a 2-D patch of juice sacs (a 1-D ray sampled rows of sacs as orange/white stripes)
+      const aTex = 0.3 + seed * 0.7 + uvRot;
+      const ax = Math.cos(aTex);
+      const ay = Math.sin(aTex);
+      for (let i = 0; i <= n; i++) {
+        const r = (i / n) * R;
+        const t = Math.min(1, r / F);
+        const yy = r <= F ? h + bump(t) : h - 0.02 * ((r - F) / (R - F));
+        const tr = r <= F ? t * 0.93 : 0.94 + 0.055 * ((r - F) / (R - F));
+        for (const sy of [-1, 1]) {
+          pos.push(Math.cos(ang) * r, sy * yy, Math.sin(ang) * r);
+          const across = (sy * yy) / (2 * F);
+          uv.push(0.5 + 0.5 * tr * ax - across * ay, 0.5 + 0.5 * tr * ay + across * ax);
+        }
+      }
+      const tri = (flip: boolean) => {
+        const idx: number[] = [];
+        for (let i = 0; i < n; i++) {
+          const a = i * 2;
+          if (flip) idx.push(a, a + 1, a + 2, a + 1, a + 3, a + 2);
+          else idx.push(a, a + 2, a + 1, a + 1, a + 2, a + 3);
+        }
+        return idx;
+      };
+      const g = new THREE.BufferGeometry();
+      g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+      g.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
+      g.setIndex(tri(false));
+      g.computeVertexNormals();
+      const nn = new THREE.Vector3().fromBufferAttribute(g.getAttribute('normal') as THREE.BufferAttribute, 8);
+      if (nn.dot(outward) < 0) {
+        g.setIndex(tri(true));
+        g.computeVertexNormals();
+      }
+      return g;
+    };
+    parts.push(cut(0, new THREE.Vector3(0, 0, -1)), cut(span, new THREE.Vector3(-Math.sin(span), 0, Math.cos(span))));
+  }
+  const face = mergeGeos(parts);
+  // lathe phi: x = sin φ, z = cos φ  →  φ = π/2 − θ
+  const rind = new THREE.LatheGeometry(
+    v2([
+      [F, -h], [R * 0.985, -h + 0.006], [R, -h + 0.02], [R * 1.004, 0], [R, h - 0.02], [R * 0.985, h - 0.006], [F, h],
+    ]),
+    Math.max(24, Math.round((140 * span) / (Math.PI * 2))),
+    full ? 0 : Math.PI / 2 - span,
+    span,
+  );
+  // hand-cut, not machined: the peel outline wanders a little
+  const p = rind.getAttribute('position') as THREE.BufferAttribute;
+  const v = new THREE.Vector3();
+  for (let i = 0; i < p.count; i++) {
+    v.fromBufferAttribute(p, i);
+    const r = Math.hypot(v.x, v.z);
+    if (r < F * 1.002) continue;
+    const ph = Math.atan2(v.x, v.z);
+    const k = 1 + 0.011 * Math.sin(ph * 7 + seed * 2.1) + 0.006 * Math.sin(ph * 17 + seed);
+    p.setXYZ(i, v.x * k, v.y, v.z * k);
+  }
+  return { face, rind };
+}
+
+/** Citrus half: rind dome (y ≤ 0) + flesh cut face at y = 0 (face normal +Y). */
+export function halfGeometries(R = 0.5, uvRot = 0) {
+  const dome = new THREE.SphereGeometry(R, 96, 36, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2);
+  dome.scale(1, 0.9, 1);
+  const s = sliceGeometries(R, 0.0, Math.PI * 2, 1, uvRot);
+  // keep only the top face of the wheel (first half of the merged index)
+  const face = s.face;
+  const half = (face.getIndex()!.count / 2) | 0;
+  face.setIndex(Array.from(face.getIndex()!.array).slice(0, half));
+  s.rind.dispose();
+  return { dome, face };
+}
+
+function mergeGeos(list: THREE.BufferGeometry[]) {
   const pos: number[] = [];
-  const col: number[] = [];
+  const nor: number[] = [];
   const uv: number[] = [];
   const idx: number[] = [];
-  const P = new THREE.Vector3(0, 0, 0);
-  const T = new THREE.Vector3();
-  const W = new THREE.Vector3();
-  const Nn = new THREE.Vector3();
-  const X = new THREE.Vector3(1, 0, 0);
-  const step = len / N;
-  for (let i = 0; i <= N; i++) {
-    const s = i / N;
-    const a = bend * Math.pow(s, 1.25);
-    T.set(0, Math.cos(a), Math.sin(a));
-    const tw = twist * s;
-    // Rodrigues (T ⟂ X): W = X cosθ + (T×X) sinθ
-    W.copy(X).multiplyScalar(Math.cos(tw)).add(new THREE.Vector3().crossVectors(T, X).multiplyScalar(Math.sin(tw)));
-    Nn.crossVectors(W, T).normalize();
-    const w = width * Math.pow(1 - s, 0.85) * (1 + 0.18 * Math.pow(1 - s, 5));
-    const valley = 0.3 * w;
-    const belly = 0.42 * w * (1 - 0.4 * s) + 0.004;
-    for (let k = 0; k < K; k++) {
-      const u = us[k];
-      const edge = Math.abs(u) === 1;
-      const tooth = edge ? 1 + 0.09 * Math.pow(Math.max(0, Math.sin(s * len * 34 + seed * 3.1)), 8) * (1 - s) : 1;
-      const q = 1 - u * u;
-      const off = top[k] ? -valley * q : -valley * q - belly * Math.sqrt(Math.max(0, q));
-      pos.push(P.x + W.x * u * w * tooth + Nn.x * off, P.y + W.y * u * w * tooth + Nn.y * off, P.z + W.z * u * w * tooth + Nn.z * off);
-      // luminance multipliers (material.color carries the variant leaf tint)
-      const base = Math.pow(1 - Math.min(1, s / 0.16), 2);
-      const rim = Math.pow(Math.abs(u), 6) * 0.55;
-      const tip = Math.max(0, (s - 0.86) / 0.14) * 0.25;
-      const belly2 = top[k] ? 0 : 0.12;
-      col.push(1 + base * 1.1 + rim - tip - belly2, 1 + base * 0.8 + rim - tip * 0.8 - belly2, 1 + base * 0.3 + rim * 0.7 - tip * 1.3 - belly2);
-      uv.push((u + 1) / 2, s);
+  let off = 0;
+  for (const g of list) {
+    const p = g.getAttribute('position');
+    const n = g.getAttribute('normal');
+    const u = g.getAttribute('uv');
+    for (let i = 0; i < p.count; i++) {
+      pos.push(p.getX(i), p.getY(i), p.getZ(i));
+      nor.push(n.getX(i), n.getY(i), n.getZ(i));
+      uv.push(u.getX(i), u.getY(i));
     }
-    P.addScaledVector(T, step);
+    const ix = g.getIndex()!;
+    for (let i = 0; i < ix.count; i++) idx.push(ix.getX(i) + off);
+    off += p.count;
+    g.dispose();
   }
-  for (let i = 0; i < N; i++)
-    for (let k = 0; k < K; k++) {
-      const a = i * K + k;
-      const b = i * K + ((k + 1) % K);
-      const c = a + K;
-      const d = b + K;
-      idx.push(a, b, c, b, d, c);
+  const m = new THREE.BufferGeometry();
+  m.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  m.setAttribute('normal', new THREE.Float32BufferAttribute(nor, 3));
+  m.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
+  m.setIndex(idx);
+  return m;
+}
+
+/**
+ * Cocktail-style peel twist with real thickness: dimpled rind skin outside, white pith inside + the two cut edges.
+ * Returns { rind, pith } (render the pith double-sided: it carries the inner skin and both edges).
+ */
+export function peelGeometries() {
+  const N = 96;
+  const W = 4;
+  const TH = 0.007;
+  const turns = 1.7;
+  const row = W + 1;
+  const surf = (inset: number) => {
+    const pos: number[] = [];
+    const uv: number[] = [];
+    for (let i = 0; i <= N; i++) {
+      const t = i / N;
+      const a = t * Math.PI * 2 * turns;
+      const rr = 0.04 + 0.012 * Math.sin(t * Math.PI);
+      const y = (t - 0.5) * 0.2;
+      const w = 0.03 * Math.pow(Math.sin(Math.PI * Math.min(1, t * 0.98 + 0.01)), 0.3);
+      for (let k = 0; k <= W; k++) {
+        const u = k / W - 0.5;
+        const r = rr - inset + 0.004 * (1 - 4 * u * u); // slightly cupped across the strip
+        pos.push(Math.cos(a) * r, y + u * w * 2, Math.sin(a) * r);
+        uv.push(t * 8, k / W);
+      }
     }
-  // base cap
-  const center = pos.length / 3;
-  pos.push(0, -0.002, -0.3 * width * 0.6);
-  col.push(1.6, 1.5, 1.2);
-  uv.push(0.5, 0);
-  for (let k = 0; k < K; k++) idx.push(center, (k + 1) % K, k);
+    return { pos, uv };
+  };
+  const grid = (flip: boolean) => {
+    const idx: number[] = [];
+    for (let i = 0; i < N; i++)
+      for (let k = 0; k < W; k++) {
+        const a = i * row + k;
+        if (flip) idx.push(a, a + 1, a + row, a + 1, a + row + 1, a + row);
+        else idx.push(a, a + row, a + 1, a + 1, a + row, a + row + 1);
+      }
+    return idx;
+  };
+  const build = (pos: number[], uv: number[], idx: number[]) => {
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+    g.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
+    g.setIndex(idx);
+    g.computeVertexNormals();
+    return g;
+  };
+  /** true when the sample normal points away from the twist axis */
+  const outward = (g: THREE.BufferGeometry) => {
+    const i = row * (N >> 1) + (W >> 1);
+    const n = new THREE.Vector3().fromBufferAttribute(g.getAttribute('normal') as THREE.BufferAttribute, i);
+    const q = new THREE.Vector3().fromBufferAttribute(g.getAttribute('position') as THREE.BufferAttribute, i);
+    return n.x * q.x + n.z * q.z > 0;
+  };
+  const o = surf(0);
+  let rind = build(o.pos, o.uv, grid(false));
+  if (!outward(rind)) {
+    rind.dispose();
+    rind = build(o.pos, o.uv, grid(true));
+  }
+  const inn = surf(TH);
+  const pos = [...inn.pos];
+  const uv = [...inn.uv];
+  const base = pos.length / 3;
+  for (const k of [0, W])
+    for (let i = 0; i <= N; i++) {
+      const j = (i * row + k) * 3;
+      pos.push(inn.pos[j], inn.pos[j + 1], inn.pos[j + 2], o.pos[j], o.pos[j + 1], o.pos[j + 2]);
+      uv.push(0, 0, 0, 1);
+    }
+  const idx = grid(false);
+  for (let e = 0; e < 2; e++)
+    for (let i = 0; i < N; i++) {
+      const a = base + e * (N + 1) * 2 + i * 2;
+      idx.push(a, a + 1, a + 2, a + 1, a + 3, a + 2);
+    }
+  const pith = build(pos, uv, idx);
+  return { rind, pith };
+}
+
+/* ───────── water ───────── */
+/**
+ * A splash stream: Catmull-Rom spine, elliptical cross-section (flat < 1 → a liquid sheet), uneven thickness along
+ * its length and a Rayleigh–Plateau "necklace" toward the tip where the jet starts breaking into droplets.
+ */
+export function streamGeometry(points: [number, number, number][], r0: number, r1: number, flat = 1, seed = 0, segs = 72, radial = 12, breakup = 0.35) {
+  const curve = new THREE.CatmullRomCurve3(points.map((p) => new THREE.Vector3(...p)), false, 'centripetal');
+  const frames = curve.computeFrenetFrames(segs, false);
+  const pos: number[] = [];
+  const idx: number[] = [];
+  const P = new THREE.Vector3();
+  for (let i = 0; i <= segs; i++) {
+    const t = i / segs;
+    curve.getPointAt(t, P);
+    const N = frames.normals[i];
+    const B = frames.binormals[i];
+    const env = Math.pow(Math.sin(Math.PI * Math.min(1, Math.max(0, t))), 0.4);
+    const wob = 1 + 0.3 * Math.sin(t * 13 + seed * 2.3) + 0.16 * Math.sin(t * 31 + seed) + 0.08 * Math.sin(t * 57 + seed * 3.7);
+    const m = Math.min(1, Math.max(0, (t - (1 - breakup)) / breakup));
+    const neck = 1 - m * 0.8 * Math.pow(0.5 + 0.5 * Math.cos(t * 70 + seed * 1.9), 1.5);
+    const r = Math.max(0.0012, (r0 + (r1 - r0) * t) * env * wob * neck);
+    for (let k = 0; k <= radial; k++) {
+      const a = (k / radial) * Math.PI * 2;
+      const c = Math.cos(a) * r;
+      const s = Math.sin(a) * r * flat;
+      pos.push(P.x + N.x * c + B.x * s, P.y + N.y * c + B.y * s, P.z + N.z * c + B.z * s);
+    }
+  }
+  const row = radial + 1;
+  for (let i = 0; i < segs; i++)
+    for (let k = 0; k < radial; k++) {
+      const a = i * row + k;
+      idx.push(a, a + 1, a + row, a + 1, a + row + 1, a + row);
+    }
   const g = new THREE.BufferGeometry();
   g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
-  g.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
-  g.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
   g.setIndex(idx);
   g.computeVertexNormals();
   return g;
 }
 
-/* ───────── ingredients ───────── */
+/**
+ * Splash crown: a thin flared liquid wall whose rim tears into spikes; returns the spike tips (droplets sit there).
+ * Open surface (render double-sided). Axis +Y, base ring radius R, arc `span` around +X→+Z.
+ */
+export function crownGeometry(R = 0.4, H = 0.3, spikes = 9, span = Math.PI * 1.6, seed = 3) {
+  let s = seed;
+  const rnd = () => ((s = (s * 16807) % 2147483647) / 2147483647);
+  const jit = Array.from({ length: spikes }, () => ({ h: 0.55 + rnd() * 0.6, d: (rnd() - 0.5) * 0.5 }));
+  const NU = Math.round(spikes * 14);
+  const NV = 14;
+  const pos: number[] = [];
+  const idx: number[] = [];
+  const tips: THREE.Vector3[] = [];
+  const amp = (th: number) => {
+    const f = (th / span) * spikes - 0.5;
+    const k = Math.min(spikes - 1, Math.max(0, Math.round(f)));
+    const d = f - k - jit[k].d * 0.3;
+    return jit[k].h * Math.exp(-d * d * 9);
+  };
+  for (let j = 0; j <= NV; j++) {
+    const v = j / NV;
+    for (let i = 0; i <= NU; i++) {
+      const th = (i / NU) * span;
+      const a = amp(th);
+      const hh = H * (0.35 + 0.65 * a);
+      // the wall flares out toward the torn rim
+      const r = R * (1 + 0.45 * Math.pow(v, 1.6) * (0.6 + 0.4 * a));
+      pos.push(Math.cos(th) * r, v * hh, Math.sin(th) * r);
+    }
+  }
+  const row = NU + 1;
+  for (let j = 0; j < NV; j++)
+    for (let i = 0; i < NU; i++) {
+      const a = j * row + i;
+      idx.push(a, a + row, a + 1, a + 1, a + row, a + row + 1);
+    }
+  for (let k = 0; k < spikes; k++) {
+    const th = ((k + 0.5 + jit[k].d * 0.3) / spikes) * span;
+    const a = jit[k].h;
+    const r = R * (1 + 0.45 * (0.6 + 0.4 * a));
+    tips.push(new THREE.Vector3(Math.cos(th) * r * 1.05, H * (0.35 + 0.65 * a) + 0.035, Math.sin(th) * r * 1.05));
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  g.setIndex(idx);
+  g.computeVertexNormals();
+  return { geo: g, tips };
+}
+
 export function dropGeometry(r = 0.07) {
   const pts: THREE.Vector2[] = [];
   const n = 28;
@@ -212,104 +469,12 @@ export function dropGeometry(r = 0.07) {
   return new THREE.LatheGeometry(pts, 40);
 }
 
-/** Aloe leaf cross-section slice: crescent skin (V-section) + translucent gel core sitting proud of it. */
-export function aloeSliceGeometries() {
-  const mk = (sc: number, inset = 0) => {
-    const sh = new THREE.Shape();
-    const w = 0.17 * sc;
-    sh.moveTo(-w, 0.03 * sc - inset);
-    sh.bezierCurveTo(-w * 0.75, -0.1 * sc, w * 0.75, -0.1 * sc, w, 0.03 * sc - inset);
-    sh.bezierCurveTo(w * 0.45, 0.0 * sc, -w * 0.45, 0.0 * sc, -w, 0.03 * sc - inset);
-    return sh;
-  };
-  const skin = new THREE.ExtrudeGeometry(mk(1), { depth: 0.045, bevelEnabled: true, bevelThickness: 0.008, bevelSize: 0.006, bevelSegments: 3, curveSegments: 32 });
-  skin.translate(0, 0.02, -0.0225);
-  const gel = new THREE.ExtrudeGeometry(mk(0.84, 0.004), { depth: 0.05, bevelEnabled: true, bevelThickness: 0.01, bevelSize: 0.004, bevelSegments: 4, curveSegments: 32 });
-  gel.translate(0, 0.024, -0.025);
-  return { skin, gel };
-}
-
-export function nutGeometry() {
-  const g = new THREE.SphereGeometry(0.075, 40, 28);
-  const p = g.getAttribute('position') as THREE.BufferAttribute;
-  const v = new THREE.Vector3();
-  for (let i = 0; i < p.count; i++) {
-    v.fromBufferAttribute(p, i);
-    const n = Math.sin(v.x * 90) * Math.sin(v.y * 70 + 1.3) * Math.sin(v.z * 80 + 0.4);
-    v.multiplyScalar(1 + n * 0.035);
-    v.x *= 1.18;
-    v.y *= 0.92;
-    v.z *= 0.95;
-    p.setXYZ(i, v.x, v.y, v.z);
-  }
-  return smoothNormals(g);
-}
-
-/** Green-tea leaf: grid surface with serrated outline, sunken midrib, lateral veins and a gentle curl + stem. */
-export function teaLeafGeometry() {
-  const NU = 14;
-  const NV = 36;
-  const pos: number[] = [];
-  const idx: number[] = [];
-  for (let j = 0; j <= NV; j++) {
-    const v = j / NV;
-    const w = 0.085 * Math.pow(Math.sin(Math.PI * Math.min(1, v * 1.02)), 0.75) * (1 + 0.04 * Math.sin(v * 70));
-    for (let i = 0; i <= NU; i++) {
-      const u = (i / NU) * 2 - 1;
-      const x = u * w;
-      const y = v * 0.3 - 0.15;
-      const vein = 0.0035 * Math.pow(Math.abs(Math.sin((v * 9 - Math.abs(u) * 1.4) * Math.PI)), 6);
-      const z = 0.05 * u * u * w * 10 - 0.006 * (1 - Math.min(1, Math.abs(u) * 6)) - vein + 0.06 * (v - 0.5) * (v - 0.5);
-      pos.push(x, y, z);
-    }
-  }
-  const row = NU + 1;
-  for (let j = 0; j < NV; j++)
-    for (let i = 0; i < NU; i++) {
-      const a = j * row + i;
-      idx.push(a, a + 1, a + row, a + 1, a + row + 1, a + row);
-    }
-  const g = new THREE.BufferGeometry();
-  g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
-  g.setIndex(idx);
-  g.computeVertexNormals();
-  const stem = new THREE.CylinderGeometry(0.004, 0.006, 0.05, 6);
-  stem.translate(0, -0.17, 0.012);
-  return { leaf: g, stem };
-}
-
-/** Back panel (fine print) — open cylinder segment centred on −Z. */
-export function backLabelGeometry() {
-  return new THREE.CylinderGeometry(0.5705, 0.5705, 0.3, 48, 1, true, Math.PI - 0.72, 1.44);
-}
-
-/** Two-tier plinth: soft base + slightly inset top slab. */
+/* ───────── pedestal (top at y = 0) ───────── */
 export function plinthTopGeometry(R = 1.02) {
   const pts: P2[] = [[0, 0], [R - 0.015, 0], [R, 0.012], [R, 0.05], [R - 0.012, 0.062], [0, 0.062]];
   return new THREE.LatheGeometry(v2(pts), 128);
 }
 
-/* ───────── dropper serum bottle (local y 0 → ~0.98) ───────── */
-export function serumGlassGeometry() {
-  const pts: P2[] = [
-    [0, 0.0], [0.17, 0.0], [0.2, 0.012], [0.212, 0.04], [0.212, 0.5], [0.205, 0.54], [0.18, 0.575], [0.13, 0.6], [0.085, 0.612], [0.08, 0.63], [0.08, 0.66],
-  ];
-  return new THREE.LatheGeometry(v2(pts), 64);
-}
-export function serumLiquidGeometry() {
-  const pts: P2[] = [[0, 0.03], [0.19, 0.03], [0.196, 0.05], [0.196, 0.38], [0.0, 0.38]];
-  return new THREE.LatheGeometry(v2(pts), 48);
-}
-export function serumCollarGeometry() {
-  const pts: P2[] = [[0.0, 0.64], [0.092, 0.64], [0.098, 0.648], [0.098, 0.72], [0.09, 0.73], [0.0, 0.73]];
-  return new THREE.LatheGeometry(v2(pts), 48);
-}
-export function serumBulbGeometry() {
-  const pts: P2[] = [[0.0, 0.73], [0.06, 0.73], [0.064, 0.76], [0.058, 0.8], [0.068, 0.86], [0.066, 0.92], [0.05, 0.965], [0.025, 0.985], [0.0, 0.99]];
-  return new THREE.LatheGeometry(v2(pts), 40);
-}
-
-/* ───────── plinth (top at y = 0) ───────── */
 export function plinthGeometry(R = 1.12, H = 0.34) {
   const pts: P2[] = [[0, -H], [R - 0.02, -H], [R, -H + 0.02], [R, -0.03], [R - 0.008, -0.01], [R - 0.03, 0], [0, 0]];
   return new THREE.LatheGeometry(v2(pts), 128);

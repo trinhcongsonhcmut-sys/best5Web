@@ -1,5 +1,7 @@
 # BUILDER_BRIEF — hợp đồng cho mọi agent dựng demo
 
+> **Brief giai đoạn v1.** Phần hợp đồng API (`src/lib`, cầu nối QC, phạm vi file) vẫn áp dụng. Với giai đoạn hiện hành đọc `../CURRENT_GOAL.md` + `V2_BUILDER_BRIEF.md`; quy định "dựng bằng code, không tài sản ngoài" của v1 **đã được thay** bằng danh sách tài sản Founder duyệt trong `ASSET_LICENSES.md`.
+
 Bạn dựng **một** demo trong `src/demos/<id>/`. Spec gốc: `../MASTER_PROMPT.md` (PHẦN V–VII). Nghiên cứu mẫu: `REFERENCE_INDEX.md`, `reference/<id>-analysis.md`, `reference/PALETTES.md`. Bộ skill `threejs-*`, `frontend-design`, `impeccable` đã cài — dùng chúng.
 
 ## Luật cứng

@@ -1,0 +1,1493 @@
+{
+  "demo": "beauty",
+  "route": "/beauty",
+  "base": "http://localhost:5191",
+  "capturedAt": "2026-11-05T07:07:14.833Z",
+  "viewport": "1440x900",
+  "marks": [
+    {
+      "p": 0,
+      "scroll": 0,
+      "position": [
+        0,
+        1.02,
+        5.7
+      ],
+      "target": [
+        0,
+        0.88,
+        0
+      ],
+      "fov": 30,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0,
+        "explode": 0,
+        "ingredients": 0,
+        "splash": 1
+      },
+      "hover": 0,
+      "fps": 44.115
+    },
+    {
+      "p": 0.125,
+      "scroll": 0.125,
+      "position": [
+        0.837,
+        1.882,
+        5.2
+      ],
+      "target": [
+        0,
+        1.018,
+        0
+      ],
+      "fov": 29.929,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0.015,
+        "explode": 0,
+        "ingredients": 0,
+        "splash": 0.33
+      },
+      "hover": 0,
+      "fps": 72.252
+    },
+    {
+      "p": 0.25,
+      "scroll": 0.25,
+      "position": [
+        1.3,
+        2.5,
+        4.95
+      ],
+      "target": [
+        0,
+        1.1,
+        0
+      ],
+      "fov": 29.999,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0.42,
+        "explode": 0,
+        "ingredients": 0,
+        "splash": 0
+      },
+      "hover": 0,
+      "fps": 74.787
+    },
+    {
+      "p": 0.375,
+      "scroll": 0.375,
+      "position": [
+        -0.12,
+        2.115,
+        5.878
+      ],
+      "target": [
+        -0.003,
+        1.05,
+        0
+      ],
+      "fov": 31.124,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0.42,
+        "explode": 0,
+        "ingredients": 0.601,
+        "splash": 0
+      },
+      "hover": 0,
+      "fps": 74.99
+    },
+    {
+      "p": 0.5,
+      "scroll": 0.5,
+      "position": [
+        -1.4,
+        1.55,
+        6.9
+      ],
+      "target": [
+        0,
+        1,
+        0
+      ],
+      "fov": 31.999,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0.42,
+        "explode": 0,
+        "ingredients": 1,
+        "splash": 0
+      },
+      "hover": 0,
+      "fps": 72.886
+    },
+    {
+      "p": 0.625,
+      "scroll": 0.625,
+      "position": [
+        0.829,
+        2.112,
+        6.68
+      ],
+      "target": [
+        0.153,
+        1.454,
+        0
+      ],
+      "fov": 31.105,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 1.033,
+        "explode": 0.109,
+        "ingredients": 0.913,
+        "splash": 0
+      },
+      "hover": 0,
+      "fps": 73.388
+    },
+    {
+      "p": 0.75,
+      "scroll": 0.75,
+      "position": [
+        2.25,
+        1.86,
+        5.35
+      ],
+      "target": [
+        0.3,
+        1.28,
+        0
+      ],
+      "fov": 31.002,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0.62,
+        "explode": 1,
+        "ingredients": 0,
+        "splash": 0
+      },
+      "hover": 0,
+      "fps": 74.882
+    },
+    {
+      "p": 0.875,
+      "scroll": 0.875,
+      "position": [
+        1.824,
+        1.784,
+        6.451
+      ],
+      "target": [
+        0.271,
+        1.045,
+        0
+      ],
+      "fov": 29.69,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0.783,
+        "explode": 0.301,
+        "ingredients": 0,
+        "splash": 0.051
+      },
+      "hover": 0,
+      "fps": 72.656
+    },
+    {
+      "p": 1,
+      "scroll": 1,
+      "position": [
+        1,
+        1.75,
+        8.2
+      ],
+      "target": [
+        0.2,
+        0.78,
+        0
+      ],
+      "fov": 28.002,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0,
+        "explode": 0,
+        "ingredients": 0,
+        "splash": 1
+      },
+      "hover": 0,
+      "fps": 57.854
+    }
+  ],
+  "cameraPath": [
+    {
+      "scroll": 0,
+      "position": [
+        0,
+        1.02,
+        5.7
+      ],
+      "target": [
+        0,
+        0.88,
+        0
+      ],
+      "fov": 29.997,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0,
+        "explode": 0,
+        "ingredients": 0,
+        "splash": 1
+      }
+    },
+    {
+      "scroll": 0.025,
+      "position": [
+        0.144,
+        1.177,
+        5.616
+      ],
+      "target": [
+        0,
+        0.904,
+        0
+      ],
+      "fov": 29.997,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0,
+        "explode": 0,
+        "ingredients": 0,
+        "splash": 0.999
+      }
+    },
+    {
+      "scroll": 0.05,
+      "position": [
+        0.308,
+        1.347,
+        5.518
+      ],
+      "target": [
+        0,
+        0.931,
+        0
+      ],
+      "fov": 29.986,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0,
+        "explode": 0,
+        "ingredients": 0,
+        "splash": 0.977
+      }
+    },
+    {
+      "scroll": 0.075,
+      "position": [
+        0.485,
+        1.526,
+        5.412
+      ],
+      "target": [
+        0,
+        0.96,
+        0
+      ],
+      "fov": 29.964,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0,
+        "explode": 0,
+        "ingredients": 0,
+        "splash": 0.883
+      }
+    },
+    {
+      "scroll": 0.1,
+      "position": [
+        0.663,
+        1.705,
+        5.304
+      ],
+      "target": [
+        0,
+        0.989,
+        0
+      ],
+      "fov": 29.947,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0,
+        "explode": 0,
+        "ingredients": 0,
+        "splash": 0.669
+      }
+    },
+    {
+      "scroll": 0.125,
+      "position": [
+        0.837,
+        1.882,
+        5.2
+      ],
+      "target": [
+        0,
+        1.018,
+        0
+      ],
+      "fov": 29.93,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0.015,
+        "explode": 0,
+        "ingredients": 0,
+        "splash": 0.33
+      }
+    },
+    {
+      "scroll": 0.15,
+      "position": [
+        0.995,
+        2.048,
+        5.107
+      ],
+      "target": [
+        0,
+        1.044,
+        0
+      ],
+      "fov": 29.918,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0.074,
+        "explode": 0,
+        "ingredients": 0,
+        "splash": 0.117
+      }
+    },
+    {
+      "scroll": 0.175,
+      "position": [
+        1.13,
+        2.2,
+        5.028
+      ],
+      "target": [
+        0,
+        1.066,
+        0
+      ],
+      "fov": 29.918,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0.211,
+        "explode": 0,
+        "ingredients": 0,
+        "splash": 0.023
+      }
+    },
+    {
+      "scroll": 0.2,
+      "position": [
+        1.231,
+        2.329,
+        4.973
+      ],
+      "target": [
+        0,
+        1.084,
+        0
+      ],
+      "fov": 29.923,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0.346,
+        "explode": 0,
+        "ingredients": 0,
+        "splash": 0.001
+      }
+    },
+    {
+      "scroll": 0.225,
+      "position": [
+        1.291,
+        2.431,
+        4.944
+      ],
+      "target": [
+        0,
+        1.096,
+        0
+      ],
+      "fov": 29.948,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0.405,
+        "explode": 0,
+        "ingredients": 0,
+        "splash": 0
+      }
+    },
+    {
+      "scroll": 0.25,
+      "position": [
+        1.3,
+        2.5,
+        4.95
+      ],
+      "target": [
+        0,
+        1.1,
+        0
+      ],
+      "fov": 29.997,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0.42,
+        "explode": 0,
+        "ingredients": 0,
+        "splash": 0
+      }
+    },
+    {
+      "scroll": 0.275,
+      "position": [
+        1.201,
+        2.527,
+        5.024
+      ],
+      "target": [
+        0,
+        1.097,
+        0
+      ],
+      "fov": 30.137,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0.42,
+        "explode": 0,
+        "ingredients": 0,
+        "splash": 0
+      }
+    },
+    {
+      "scroll": 0.3,
+      "position": [
+        0.978,
+        2.487,
+        5.171
+      ],
+      "target": [
+        -0.001,
+        1.09,
+        0
+      ],
+      "fov": 30.336,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0.42,
+        "explode": 0,
+        "ingredients": 0,
+        "splash": 0
+      }
+    },
+    {
+      "scroll": 0.325,
+      "position": [
+        0.66,
+        2.395,
+        5.374
+      ],
+      "target": [
+        -0.002,
+        1.079,
+        0
+      ],
+      "fov": 30.576,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0.42,
+        "explode": 0,
+        "ingredients": 0.023,
+        "splash": 0
+      }
+    },
+    {
+      "scroll": 0.35,
+      "position": [
+        0.285,
+        2.266,
+        5.615
+      ],
+      "target": [
+        -0.002,
+        1.065,
+        0
+      ],
+      "fov": 30.844,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0.42,
+        "explode": 0,
+        "ingredients": 0.182,
+        "splash": 0
+      }
+    },
+    {
+      "scroll": 0.375,
+      "position": [
+        -0.12,
+        2.115,
+        5.878
+      ],
+      "target": [
+        -0.003,
+        1.05,
+        0
+      ],
+      "fov": 31.122,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0.42,
+        "explode": 0,
+        "ingredients": 0.601,
+        "splash": 0
+      }
+    },
+    {
+      "scroll": 0.4,
+      "position": [
+        -0.516,
+        1.958,
+        6.144
+      ],
+      "target": [
+        -0.004,
+        1.036,
+        0
+      ],
+      "fov": 31.388,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0.42,
+        "explode": 0,
+        "ingredients": 0.907,
+        "splash": 0
+      }
+    },
+    {
+      "scroll": 0.425,
+      "position": [
+        -0.878,
+        1.807,
+        6.397
+      ],
+      "target": [
+        -0.004,
+        1.022,
+        0
+      ],
+      "fov": 31.632,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0.42,
+        "explode": 0,
+        "ingredients": 0.995,
+        "splash": 0
+      }
+    },
+    {
+      "scroll": 0.45,
+      "position": [
+        -1.165,
+        1.679,
+        6.618
+      ],
+      "target": [
+        -0.003,
+        1.011,
+        0
+      ],
+      "fov": 31.821,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0.42,
+        "explode": 0,
+        "ingredients": 1,
+        "splash": 0
+      }
+    },
+    {
+      "scroll": 0.475,
+      "position": [
+        -1.351,
+        1.588,
+        6.792
+      ],
+      "target": [
+        -0.002,
+        1.003,
+        0
+      ],
+      "fov": 31.951,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0.42,
+        "explode": 0,
+        "ingredients": 1,
+        "splash": 0
+      }
+    },
+    {
+      "scroll": 0.5,
+      "position": [
+        -1.4,
+        1.55,
+        6.9
+      ],
+      "target": [
+        0,
+        1,
+        0
+      ],
+      "fov": 31.998,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0.42,
+        "explode": 0,
+        "ingredients": 1,
+        "splash": 0
+      }
+    },
+    {
+      "scroll": 0.525,
+      "position": [
+        -1.214,
+        1.588,
+        6.969
+      ],
+      "target": [
+        0.016,
+        1.037,
+        0
+      ],
+      "fov": 31.938,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0.42,
+        "explode": 0,
+        "ingredients": 1,
+        "splash": 0
+      }
+    },
+    {
+      "scroll": 0.55,
+      "position": [
+        -0.809,
+        1.7,
+        6.972
+      ],
+      "target": [
+        0.044,
+        1.129,
+        0
+      ],
+      "fov": 31.765,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0.42,
+        "explode": 0,
+        "ingredients": 1,
+        "splash": 0
+      }
+    },
+    {
+      "scroll": 0.575,
+      "position": [
+        -0.271,
+        1.85,
+        6.918
+      ],
+      "target": [
+        0.078,
+        1.25,
+        0
+      ],
+      "fov": 31.54,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0.431,
+        "explode": 0,
+        "ingredients": 1,
+        "splash": 0
+      }
+    },
+    {
+      "scroll": 0.6,
+      "position": [
+        0.302,
+        1.999,
+        6.818
+      ],
+      "target": [
+        0.116,
+        1.367,
+        0
+      ],
+      "fov": 31.306,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0.629,
+        "explode": 0.009,
+        "ingredients": 1,
+        "splash": 0
+      }
+    },
+    {
+      "scroll": 0.625,
+      "position": [
+        0.829,
+        2.112,
+        6.68
+      ],
+      "target": [
+        0.153,
+        1.454,
+        0
+      ],
+      "fov": 31.107,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 1.033,
+        "explode": 0.109,
+        "ingredients": 0.913,
+        "splash": 0
+      }
+    },
+    {
+      "scroll": 0.65,
+      "position": [
+        1.222,
+        2.151,
+        6.507
+      ],
+      "target": [
+        0.186,
+        1.48,
+        0
+      ],
+      "fov": 30.982,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 1.117,
+        "explode": 0.407,
+        "ingredients": 0.351,
+        "splash": 0
+      }
+    },
+    {
+      "scroll": 0.675,
+      "position": [
+        1.574,
+        2.111,
+        6.185
+      ],
+      "target": [
+        0.219,
+        1.457,
+        0
+      ],
+      "fov": 30.961,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0.953,
+        "explode": 0.804,
+        "ingredients": 0.018,
+        "splash": 0
+      }
+    },
+    {
+      "scroll": 0.7,
+      "position": [
+        1.885,
+        2.027,
+        5.789
+      ],
+      "target": [
+        0.253,
+        1.408,
+        0
+      ],
+      "fov": 31.022,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0.657,
+        "explode": 0.968,
+        "ingredients": 0,
+        "splash": 0
+      }
+    },
+    {
+      "scroll": 0.725,
+      "position": [
+        2.123,
+        1.931,
+        5.462
+      ],
+      "target": [
+        0.282,
+        1.344,
+        0
+      ],
+      "fov": 31.062,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0.62,
+        "explode": 1,
+        "ingredients": 0,
+        "splash": 0
+      }
+    },
+    {
+      "scroll": 0.75,
+      "position": [
+        2.25,
+        1.86,
+        5.35
+      ],
+      "target": [
+        0.3,
+        1.28,
+        0
+      ],
+      "fov": 31.002,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0.62,
+        "explode": 1,
+        "ingredients": 0,
+        "splash": 0
+      }
+    },
+    {
+      "scroll": 0.775,
+      "position": [
+        2.254,
+        1.835,
+        5.425
+      ],
+      "target": [
+        0.303,
+        1.24,
+        0
+      ],
+      "fov": 30.821,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0.62,
+        "explode": 1,
+        "ingredients": 0,
+        "splash": 0
+      }
+    },
+    {
+      "scroll": 0.8,
+      "position": [
+        2.204,
+        1.817,
+        5.587
+      ],
+      "target": [
+        0.301,
+        1.196,
+        0
+      ],
+      "fov": 30.597,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0.925,
+        "explode": 1,
+        "ingredients": 0,
+        "splash": 0
+      }
+    },
+    {
+      "scroll": 0.825,
+      "position": [
+        2.109,
+        1.802,
+        5.824
+      ],
+      "target": [
+        0.294,
+        1.148,
+        0
+      ],
+      "fov": 30.323,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 1.12,
+        "explode": 0.971,
+        "ingredients": 0,
+        "splash": 0
+      }
+    },
+    {
+      "scroll": 0.85,
+      "position": [
+        1.98,
+        1.792,
+        6.115
+      ],
+      "target": [
+        0.284,
+        1.098,
+        0
+      ],
+      "fov": 30.019,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 1.102,
+        "explode": 0.772,
+        "ingredients": 0,
+        "splash": 0.001
+      }
+    },
+    {
+      "scroll": 0.875,
+      "position": [
+        1.824,
+        1.784,
+        6.451
+      ],
+      "target": [
+        0.271,
+        1.045,
+        0
+      ],
+      "fov": 29.69,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0.783,
+        "explode": 0.301,
+        "ingredients": 0,
+        "splash": 0.051
+      }
+    },
+    {
+      "scroll": 0.9,
+      "position": [
+        1.653,
+        1.778,
+        6.81
+      ],
+      "target": [
+        0.256,
+        0.992,
+        0
+      ],
+      "fov": 29.345,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0.141,
+        "explode": 0.049,
+        "ingredients": 0,
+        "splash": 0.256
+      }
+    },
+    {
+      "scroll": 0.925,
+      "position": [
+        1.475,
+        1.772,
+        7.182
+      ],
+      "target": [
+        0.24,
+        0.937,
+        0
+      ],
+      "fov": 28.994,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0.001,
+        "explode": 0,
+        "ingredients": 0,
+        "splash": 0.676
+      }
+    },
+    {
+      "scroll": 0.95,
+      "position": [
+        1.301,
+        1.767,
+        7.547
+      ],
+      "target": [
+        0.225,
+        0.884,
+        0
+      ],
+      "fov": 28.653,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0,
+        "explode": 0,
+        "ingredients": 0,
+        "splash": 0.924
+      }
+    },
+    {
+      "scroll": 0.975,
+      "position": [
+        1.139,
+        1.759,
+        7.893
+      ],
+      "target": [
+        0.211,
+        0.831,
+        0
+      ],
+      "fov": 28.313,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0,
+        "explode": 0,
+        "ingredients": 0,
+        "splash": 0.996
+      }
+    },
+    {
+      "scroll": 1,
+      "position": [
+        1,
+        1.75,
+        8.2
+      ],
+      "target": [
+        0.2,
+        0.78,
+        0
+      ],
+      "fov": 28.002,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0,
+        "explode": 0,
+        "ingredients": 0,
+        "splash": 1
+      }
+    }
+  ],
+  "orbit": [
+    {
+      "step": 0,
+      "requestedDeg": 0,
+      "yawDeg": 0,
+      "yawTotalDeg": 0,
+      "pitch": 0,
+      "dolly": 1,
+      "camera": {
+        "scroll": 0,
+        "position": [
+          0,
+          1.02,
+          5.7
+        ],
+        "target": [
+          0,
+          0.88,
+          0
+        ],
+        "fov": 30,
+        "extra": {
+          "world": "vitc",
+          "dropperLift": 0,
+          "explode": 0,
+          "ingredients": 0,
+          "splash": 1
+        }
+      }
+    },
+    {
+      "step": 1,
+      "requestedDeg": 45,
+      "yawDeg": -45,
+      "yawTotalDeg": -45,
+      "pitch": 0,
+      "dolly": 1,
+      "camera": {
+        "scroll": 0,
+        "position": [
+          -4.031,
+          1.02,
+          4.031
+        ],
+        "target": [
+          0,
+          0.88,
+          0
+        ],
+        "fov": 30,
+        "extra": {
+          "world": "vitc",
+          "dropperLift": 0,
+          "explode": 0,
+          "ingredients": 0,
+          "splash": 1
+        }
+      }
+    },
+    {
+      "step": 2,
+      "requestedDeg": 90,
+      "yawDeg": -90,
+      "yawTotalDeg": -90,
+      "pitch": 0,
+      "dolly": 1,
+      "camera": {
+        "scroll": 0,
+        "position": [
+          -5.7,
+          1.02,
+          0
+        ],
+        "target": [
+          0,
+          0.88,
+          0
+        ],
+        "fov": 30,
+        "extra": {
+          "world": "vitc",
+          "dropperLift": 0,
+          "explode": 0,
+          "ingredients": 0,
+          "splash": 1
+        }
+      }
+    },
+    {
+      "step": 3,
+      "requestedDeg": 135,
+      "yawDeg": -135,
+      "yawTotalDeg": -135,
+      "pitch": 0,
+      "dolly": 1,
+      "camera": {
+        "scroll": 0,
+        "position": [
+          -4.031,
+          1.02,
+          -4.031
+        ],
+        "target": [
+          0,
+          0.88,
+          0
+        ],
+        "fov": 30,
+        "extra": {
+          "world": "vitc",
+          "dropperLift": 0,
+          "explode": 0,
+          "ingredients": 0,
+          "splash": 1
+        }
+      }
+    },
+    {
+      "step": 4,
+      "requestedDeg": 180,
+      "yawDeg": -180,
+      "yawTotalDeg": -180,
+      "pitch": 0,
+      "dolly": 1,
+      "camera": {
+        "scroll": 0,
+        "position": [
+          0,
+          1.02,
+          -5.7
+        ],
+        "target": [
+          0,
+          0.88,
+          0
+        ],
+        "fov": 30,
+        "extra": {
+          "world": "vitc",
+          "dropperLift": 0,
+          "explode": 0,
+          "ingredients": 0,
+          "splash": 1
+        }
+      }
+    },
+    {
+      "step": 5,
+      "requestedDeg": 225,
+      "yawDeg": 135,
+      "yawTotalDeg": -225,
+      "pitch": 0,
+      "dolly": 1,
+      "camera": {
+        "scroll": 0,
+        "position": [
+          4.031,
+          1.02,
+          -4.031
+        ],
+        "target": [
+          0,
+          0.88,
+          0
+        ],
+        "fov": 30,
+        "extra": {
+          "world": "vitc",
+          "dropperLift": 0,
+          "explode": 0,
+          "ingredients": 0,
+          "splash": 1
+        }
+      }
+    },
+    {
+      "step": 6,
+      "requestedDeg": 270,
+      "yawDeg": 90,
+      "yawTotalDeg": -270,
+      "pitch": 0,
+      "dolly": 1,
+      "camera": {
+        "scroll": 0,
+        "position": [
+          5.7,
+          1.02,
+          0
+        ],
+        "target": [
+          0,
+          0.88,
+          0
+        ],
+        "fov": 30,
+        "extra": {
+          "world": "vitc",
+          "dropperLift": 0,
+          "explode": 0,
+          "ingredients": 0,
+          "splash": 1
+        }
+      }
+    },
+    {
+      "step": 7,
+      "requestedDeg": 315,
+      "yawDeg": 45,
+      "yawTotalDeg": -315,
+      "pitch": 0,
+      "dolly": 1,
+      "camera": {
+        "scroll": 0,
+        "position": [
+          4.031,
+          1.02,
+          4.031
+        ],
+        "target": [
+          0,
+          0.88,
+          0
+        ],
+        "fov": 30,
+        "extra": {
+          "world": "vitc",
+          "dropperLift": 0,
+          "explode": 0,
+          "ingredients": 0,
+          "splash": 1
+        }
+      }
+    }
+  ],
+  "variants": [
+    {
+      "index": 0,
+      "id": "vitc",
+      "label": "Vitamin C",
+      "primary": {
+        "color": "#f2b878",
+        "emissive": "#000000",
+        "emissiveIntensity": 1,
+        "roughness": 0.035,
+        "metalness": 0,
+        "transmission": 1,
+        "clearcoat": 0,
+        "rim": 0,
+        "opacity": 1
+      },
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0,
+        "explode": 0,
+        "ingredients": 0,
+        "splash": 1
+      }
+    },
+    {
+      "index": 1,
+      "id": "rose",
+      "label": "Rose Hyaluron",
+      "primary": {
+        "color": "#f2b2b9",
+        "emissive": "#000000",
+        "emissiveIntensity": 1,
+        "roughness": 0.035,
+        "metalness": 0,
+        "transmission": 1,
+        "clearcoat": 0,
+        "rim": 0,
+        "opacity": 1
+      },
+      "extra": {
+        "world": "rose",
+        "dropperLift": 0,
+        "explode": 0,
+        "ingredients": 0,
+        "splash": 1
+      }
+    },
+    {
+      "index": 2,
+      "id": "lime",
+      "label": "Verdant Niacinamide",
+      "primary": {
+        "color": "#b4cf8e",
+        "emissive": "#000000",
+        "emissiveIntensity": 1,
+        "roughness": 0.035,
+        "metalness": 0,
+        "transmission": 1,
+        "clearcoat": 0,
+        "rim": 0,
+        "opacity": 1
+      },
+      "extra": {
+        "world": "lime",
+        "dropperLift": 0,
+        "explode": 0,
+        "ingredients": 0,
+        "splash": 1
+      }
+    }
+  ],
+  "hover": {
+    "idle": 0,
+    "on": 1,
+    "onId": "jar",
+    "afterLeave": 0,
+    "primaryWhileHovered": {
+      "color": "#f2b878",
+      "emissive": "#000000",
+      "emissiveIntensity": 1,
+      "roughness": 0.035,
+      "metalness": 0,
+      "transmission": 1,
+      "clearcoat": 0,
+      "rim": 1.4999988928649248,
+      "opacity": 1
+    }
+  },
+  "mobile": [
+    {
+      "p": 0,
+      "scroll": 0,
+      "position": [
+        0,
+        0.874,
+        8.722
+      ],
+      "target": [
+        0,
+        0.66,
+        0
+      ],
+      "fov": 30,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0,
+        "explode": 0,
+        "ingredients": 0,
+        "splash": 1
+      }
+    },
+    {
+      "p": 0.5,
+      "scroll": 0.5,
+      "position": [
+        -2.328,
+        1.695,
+        11.477
+      ],
+      "target": [
+        0,
+        0.78,
+        0
+      ],
+      "fov": 31.995,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0.42,
+        "explode": 0,
+        "ingredients": 1,
+        "splash": 0
+      }
+    },
+    {
+      "p": 1,
+      "scroll": 1,
+      "position": [
+        1.431,
+        2.273,
+        13.639
+      ],
+      "target": [
+        0.1,
+        0.66,
+        0
+      ],
+      "fov": 28.004,
+      "extra": {
+        "world": "vitc",
+        "dropperLift": 0,
+        "explode": 0,
+        "ingredients": 0,
+        "splash": 1
+      }
+    }
+  ],
+  "gpu": {
+    "renderer": "ANGLE (Intel, Intel(R) HD Graphics 530 (0x00001912) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36"
+  },
+  "materials": [
+    "primary",
+    "collar",
+    "liquid"
+  ],
+  "fps": {
+    "avg": 40.404,
+    "frames": 7909
+  },
+  "consoleErrors": [],
+  "mobileErrors": []
+}

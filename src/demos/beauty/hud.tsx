@@ -9,31 +9,30 @@ import { calloutEls } from './rig';
 import { WORLDS } from './palette';
 
 const COPY = [
-  { no: '', title: ['Calm,', 'held in glass.'], line: 'Kem dưỡng đánh bông từ gel lô hội tươi — mát, nhẹ, tan ngay trên da.' },
-  { no: '01 — Unveil', title: ['Twist.', 'Breathe.'], line: 'Nắp gân soft-touch xoay mở, để lộ lớp kem xoáy bông như mây.' },
-  { no: '02 — Botanicals', title: ['Five quiet', 'actives.'], line: 'Năm thành phần quay quanh một mục tiêu: cấp ẩm sâu và làm dịu.' },
-  { no: '03 — Craft', title: ['Made in', 'layers.'], line: 'Nắp — lõi kem — thân thủy tinh mờ: mỗi lớp được làm riêng.' },
-  { no: '04 — Ritual', title: ['Skin,', 'at rest.'], line: 'Một nghi thức, ba sắc thái — chọn màu để cả thế giới đổi theo.' },
+  { no: '', title: ['Bright,', 'held in glass.'], line: 'Serum cô đặc trong thủy tinh dày nhuộm màu — chắn tia UV, giữ hoạt chất luôn tươi.' },
+  { no: '01 — Unveil', title: ['Twist.', 'Draw.'], line: 'Nắp gân mảnh xoay mở, ống hút thủy tinh rút lên một giọt serum.' },
+  { no: '02 — Actives', title: ['Five bright', 'actives.'], line: 'Năm thành phần quay quanh một mục tiêu: da sáng, đều màu, căng mọng.' },
+  { no: '03 — Craft', title: ['Made in', 'layers.'], line: 'Bầu bóp — ống hút thủy tinh — chai thủy tinh dày: mỗi lớp được làm riêng.' },
+  { no: '04 — Ritual', title: ['Skin,', 'awake.'], line: 'Ba giọt mỗi sáng, ba sắc thái — chọn màu để cả thế giới đổi theo.' },
 ];
 
 const INGREDIENTS = [
-  { k: 'Aloe gel', v: 'Làm dịu · cấp ẩm tức thì' },
-  { k: 'Vitamin E', v: 'Chống oxy hoá' },
-  { k: 'Squalane', v: 'Khoá ẩm, không bết' },
-  { k: 'Shea butter', v: 'Nuôi hàng rào da' },
-  { k: 'Green tea', v: 'Thanh lọc · làm sáng' },
-];
-
-const DETAILS = [
-  { k: 'Soft-touch cap', v: '72 gân · in foil' },
-  { k: 'Whipped core', v: 'Kem bông · 92% lô hội' },
-  { k: 'Frosted glass', v: 'Thành dày · tái nạp được' },
+  { k: 'Sweet orange', v: 'Vitamin C tự nhiên · làm sáng' },
+  { k: 'Vitamin C 15%', v: 'Ascorbic acid · chống oxy hoá' },
+  { k: 'Hyaluronic acid', v: 'Cấp ẩm đa tầng' },
+  { k: 'Vitamin E', v: 'Ổn định vitamin C' },
+  { k: 'Orange peel oil', v: 'Tinh dầu vỏ · hương tươi' },
 ];
 
 export function BeautyHud({ variants }: { variants: VariantDef[] }) {
   const idx = useStageIndex();
   const vi = variantStore.use((s) => s.index);
   const world = WORLDS[vi] ?? WORLDS[0];
+  const details = [
+    { k: 'Soft bulb', v: 'Cao su mềm · bóp một giọt' },
+    { k: 'Glass pipette', v: 'Ống hút thủy tinh · nắp 96 gân' },
+    { k: world.glassName, v: 'Thành dày · chắn UV · 30 ml' },
+  ];
   return (
     <div className="bt" data-stage={idx} style={{ ['--bt-ink' as string]: world.ink }}>
       <div className="bt-mark" aria-hidden>
@@ -43,7 +42,7 @@ export function BeautyHud({ variants }: { variants: VariantDef[] }) {
 
       {COPY.map((c, i) => (
         <section key={i} className={`bt-copy${idx === i ? ' on' : ''}${i === 0 ? ' bt-hero' : ''}`} aria-hidden={idx !== i}>
-          {i === 0 ? <p className="bt-kicker">{world.name} Cloud Cream · 50 ml</p> : <p className="bt-kicker">{c.no}</p>}
+          {i === 0 ? <p className="bt-kicker">{world.name} serum · {world.active} · 30 ml</p> : <p className="bt-kicker">{c.no}</p>}
           <h2>
             <span>{c.title[0]}</span>
             <em>{c.title[1]}</em>
@@ -58,14 +57,14 @@ export function BeautyHud({ variants }: { variants: VariantDef[] }) {
             <i className="bt-dot" />
             <span className="bt-lead" />
             <div className="bt-txt">
-              <b>{it.k}</b>
+              <b>{i === 0 ? world.fruit : i === 4 ? world.peel : it.k}</b>
               <small>{it.v}</small>
             </div>
             <span className="bt-num">{i + 1}</span>
           </div>
         ))}
-        {DETAILS.map((it, i) => (
-          <div key={it.k} className="bt-co bt-detail" data-side="r" ref={(el) => { calloutEls.detail[i] = el; }}>
+        {details.map((it, i) => (
+          <div key={i} className="bt-co bt-detail" data-side="r" ref={(el) => { calloutEls.detail[i] = el; }}>
             <i className="bt-dot" />
             <span className="bt-lead" />
             <div className="bt-txt">
@@ -80,7 +79,7 @@ export function BeautyHud({ variants }: { variants: VariantDef[] }) {
         {INGREDIENTS.map((it, i) => (
           <li key={it.k}>
             <i>{i + 1}</i>
-            {it.k}
+            {i === 0 ? world.fruit : i === 4 ? world.peel : it.k}
           </li>
         ))}
       </ol>

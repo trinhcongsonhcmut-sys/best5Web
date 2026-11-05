@@ -1,0 +1,727 @@
+{
+ "readyMs_dev": 7423,
+ "materials": [
+  "primary",
+  "glass",
+  "rearLight"
+ ],
+ "initial": {
+  "variant": {
+   "id": "pearl",
+   "index": 0,
+   "count": 4
+  },
+  "extra": {
+   "exploded": 0,
+   "rearLight": 0,
+   "hoverPart": ""
+  },
+  "cam": {
+   "position": [
+    4.749999999999999,
+    0.8999999999999997,
+    8.15
+   ],
+   "target": [
+    0.12,
+    0.92,
+    0
+   ],
+   "fov": 27
+  }
+ },
+ "scroll": {
+  "fwd": {
+   "0": {
+    "pos": [
+     4.75,
+     0.9,
+     8.15
+    ],
+    "tgt": [
+     0.12,
+     0.92,
+     0
+    ],
+    "fov": 27,
+    "smooth": 0,
+    "extra": {
+     "exploded": 0,
+     "rearLight": 0,
+     "hoverPart": ""
+    }
+   },
+   "1": {
+    "pos": [
+     6.1,
+     0.62,
+     6.3
+    ],
+    "tgt": [
+     0.15,
+     0.84,
+     0
+    ],
+    "fov": 29,
+    "smooth": 1,
+    "extra": {
+     "exploded": 0,
+     "rearLight": 0.5,
+     "hoverPart": ""
+    }
+   },
+   "0.125": {
+    "pos": [
+     1.964,
+     0.618,
+     8.88
+    ],
+    "tgt": [
+     0.123,
+     0.808,
+     0
+    ],
+    "fov": 26.92,
+    "smooth": 0.125,
+    "extra": {
+     "exploded": 0,
+     "rearLight": 0,
+     "hoverPart": ""
+    }
+   },
+   "0.25": {
+    "pos": [
+     0.2,
+     0.68,
+     9.25
+    ],
+    "tgt": [
+     0.12,
+     0.74,
+     0
+    ],
+    "fov": 27,
+    "smooth": 0.25,
+    "extra": {
+     "exploded": 0,
+     "rearLight": 0,
+     "hoverPart": ""
+    }
+   },
+   "0.375": {
+    "pos": [
+     2.748,
+     2.382,
+     8.056
+    ],
+    "tgt": [
+     0.101,
+     0.872,
+     0
+    ],
+    "fov": 28.69,
+    "smooth": 0.375,
+    "extra": {
+     "exploded": 0.179,
+     "rearLight": 0,
+     "hoverPart": ""
+    }
+   },
+   "0.5": {
+    "pos": [
+     5.3,
+     3.95,
+     6.85
+    ],
+    "tgt": [
+     0.05,
+     1.02,
+     0
+    ],
+    "fov": 30,
+    "smooth": 0.5,
+    "extra": {
+     "exploded": 1,
+     "rearLight": 0,
+     "hoverPart": ""
+    }
+   },
+   "0.625": {
+    "pos": [
+     -1.754,
+     2.049,
+     8.599
+    ],
+    "tgt": [
+     -0.2,
+     0.86,
+     0
+    ],
+    "fov": 29,
+    "smooth": 0.625,
+    "extra": {
+     "exploded": 0.573,
+     "rearLight": 0.097,
+     "hoverPart": ""
+    }
+   },
+   "0.75": {
+    "pos": [
+     -6.05,
+     1.55,
+     4.95
+    ],
+    "tgt": [
+     -0.32,
+     0.8,
+     0
+    ],
+    "fov": 27,
+    "smooth": 0.75,
+    "extra": {
+     "exploded": 0,
+     "rearLight": 1,
+     "hoverPart": ""
+    }
+   },
+   "0.875": {
+    "pos": [
+     -0.446,
+     0.98,
+     8.951
+    ],
+    "tgt": [
+     0,
+     0.8,
+     0
+    ],
+    "fov": 28,
+    "smooth": 0.875,
+    "extra": {
+     "exploded": 0,
+     "rearLight": 1,
+     "hoverPart": ""
+    }
+   }
+  },
+  "back": {
+   "0": {
+    "pos": [
+     4.75,
+     0.9,
+     8.15
+    ],
+    "dPos": 0,
+    "smooth": 0,
+    "extra": {
+     "exploded": 0,
+     "rearLight": 0,
+     "hoverPart": ""
+    }
+   },
+   "0.75": {
+    "pos": [
+     -6.05,
+     1.55,
+     4.95
+    ],
+    "dPos": 0,
+    "smooth": 0.75,
+    "extra": {
+     "exploded": 0,
+     "rearLight": 1,
+     "hoverPart": ""
+    }
+   },
+   "0.5": {
+    "pos": [
+     5.3,
+     3.95,
+     6.85
+    ],
+    "dPos": 0,
+    "smooth": 0.5,
+    "extra": {
+     "exploded": 1,
+     "rearLight": 0,
+     "hoverPart": ""
+    }
+   },
+   "0.25": {
+    "pos": [
+     0.2,
+     0.68,
+     9.25
+    ],
+    "dPos": 0,
+    "smooth": 0.25,
+    "extra": {
+     "exploded": 0,
+     "rearLight": 0,
+     "hoverPart": ""
+    }
+   }
+  }
+ },
+ "orbit": {
+  "0": {
+   "steps": [
+    {
+     "i": 1,
+     "yaw": -0.783,
+     "yawTotal": -0.783,
+     "pos": [
+      -2.347,
+      0.9,
+      9.043
+     ]
+    },
+    {
+     "i": 2,
+     "yaw": -1.566,
+     "yawTotal": -1.566,
+     "pos": [
+      -8.008,
+      0.9,
+      4.669
+     ]
+    },
+    {
+     "i": 3,
+     "yaw": -2.349,
+     "yawTotal": -2.349,
+     "pos": [
+      -8.935,
+      0.9,
+      -2.424
+     ]
+    },
+    {
+     "i": 4,
+     "yaw": -3.132,
+     "yawTotal": -3.132,
+     "pos": [
+      -4.588,
+      0.9,
+      -8.105
+     ]
+    },
+    {
+     "i": 5,
+     "yaw": 2.368,
+     "yawTotal": -3.915,
+     "pos": [
+      2.5,
+      0.9,
+      -9.066
+     ]
+    },
+    {
+     "i": 6,
+     "yaw": 1.585,
+     "yawTotal": -4.698,
+     "pos": [
+      8.202,
+      0.9,
+      -4.747
+     ]
+    },
+    {
+     "i": 7,
+     "yaw": 0.802,
+     "yawTotal": -5.481,
+     "pos": [
+      9.197,
+      0.9,
+      2.337
+     ]
+    },
+    {
+     "i": 8,
+     "yaw": 0.019,
+     "yawTotal": -6.264,
+     "pos": [
+      4.906,
+      0.9,
+      8.06
+     ]
+    }
+   ],
+   "highPitch": 1.2,
+   "lowPitch": -1.2,
+   "resetYaw": 0
+  },
+  "1": {
+   "steps": [
+    {
+     "i": 1,
+     "yaw": -0.783,
+     "yawTotal": -13.349,
+     "pos": [
+      -0.077,
+      0.62,
+      8.663
+     ]
+    },
+    {
+     "i": 2,
+     "yaw": -1.566,
+     "yawTotal": -14.132,
+     "pos": [
+      -6.121,
+      0.62,
+      5.98
+     ]
+    },
+    {
+     "i": 3,
+     "yaw": -2.349,
+     "yawTotal": -14.915,
+     "pos": [
+      -8.514,
+      0.62,
+      -0.185
+     ]
+    },
+    {
+     "i": 4,
+     "yaw": -3.132,
+     "yawTotal": -15.698,
+     "pos": [
+      -5.86,
+      0.62,
+      -6.243
+     ]
+    },
+    {
+     "i": 5,
+     "yaw": 2.368,
+     "yawTotal": -16.481,
+     "pos": [
+      0.293,
+      0.62,
+      -8.664
+     ]
+    },
+    {
+     "i": 6,
+     "yaw": 1.585,
+     "yawTotal": -17.264,
+     "pos": [
+      6.364,
+      0.62,
+      -6.04
+     ]
+    },
+    {
+     "i": 7,
+     "yaw": 0.802,
+     "yawTotal": -18.047,
+     "pos": [
+      8.815,
+      0.62,
+      0.102
+     ]
+    },
+    {
+     "i": 8,
+     "yaw": 0.019,
+     "yawTotal": -18.83,
+     "pos": [
+      6.22,
+      0.62,
+      6.185
+     ]
+    }
+   ],
+   "highPitch": 1.2,
+   "lowPitch": -1.2,
+   "resetYaw": 0
+  },
+  "0.5": {
+   "steps": [
+    {
+     "i": 1,
+     "yaw": -0.783,
+     "yawTotal": -7.066,
+     "pos": [
+      -1.061,
+      3.95,
+      8.559
+     ]
+    },
+    {
+     "i": 2,
+     "yaw": -1.566,
+     "yawTotal": -7.849,
+     "pos": [
+      -6.775,
+      3.95,
+      5.283
+     ]
+    },
+    {
+     "i": 3,
+     "yaw": -2.349,
+     "yawTotal": -8.632,
+     "pos": [
+      -8.514,
+      3.95,
+      -1.07
+     ]
+    },
+    {
+     "i": 4,
+     "yaw": -3.132,
+     "yawTotal": -9.415,
+     "pos": [
+      -5.266,
+      3.95,
+      -6.799
+     ]
+    },
+    {
+     "i": 5,
+     "yaw": 2.368,
+     "yawTotal": -10.198,
+     "pos": [
+      1.079,
+      3.95,
+      -8.569
+     ]
+    },
+    {
+     "i": 6,
+     "yaw": 1.585,
+     "yawTotal": -10.981,
+     "pos": [
+      6.824,
+      3.95,
+      -5.348
+     ]
+    },
+    {
+     "i": 7,
+     "yaw": 0.802,
+     "yawTotal": -11.764,
+     "pos": [
+      8.624,
+      3.95,
+      0.987
+     ]
+    },
+    {
+     "i": 8,
+     "yaw": 0.019,
+     "yawTotal": -12.547,
+     "pos": [
+      5.431,
+      3.95,
+      6.748
+     ]
+    }
+   ],
+   "highPitch": 1.2,
+   "lowPitch": -1.2,
+   "resetYaw": 0
+  },
+  "full360": {
+   "yaw": -0.676657854237952,
+   "yawTotal": -25.809399082956297,
+   "pitch": -3.2229778317689816e-26,
+   "dolly": 1
+  }
+ },
+ "variants": [
+  {
+   "p": 0,
+   "i": 0,
+   "id": "pearl",
+   "primary": {
+    "color": "#e9e7e2",
+    "emissive": "#000000",
+    "emissiveIntensity": 1,
+    "roughness": 0.2,
+    "metalness": 0.06,
+    "transmission": 0,
+    "clearcoat": 1,
+    "rim": 0.31999999999999984,
+    "opacity": 1
+   }
+  },
+  {
+   "p": 0,
+   "i": 1,
+   "id": "carmine",
+   "primary": {
+    "color": "#7e0b14",
+    "emissive": "#000000",
+    "emissiveIntensity": 1,
+    "roughness": 0.23999924841071402,
+    "metalness": 0.49999173251785406,
+    "transmission": 0,
+    "clearcoat": 1,
+    "rim": 0.3199999999999999,
+    "opacity": 1
+   }
+  },
+  {
+   "p": 0,
+   "i": 2,
+   "id": "graphite",
+   "primary": {
+    "color": "#2c2e33",
+    "emissive": "#000000",
+    "emissiveIntensity": 1,
+    "roughness": 0.2399999999925326,
+    "metalness": 0.7799947229857831,
+    "transmission": 0,
+    "clearcoat": 1,
+    "rim": 0.3199999999999999,
+    "opacity": 1
+   }
+  },
+  {
+   "p": 0,
+   "i": 3,
+   "id": "bronze",
+   "primary": {
+    "color": "#7d5a3a",
+    "emissive": "#000000",
+    "emissiveIntensity": 1,
+    "roughness": 0.23999999999999985,
+    "metalness": 0.7200011361596979,
+    "transmission": 0,
+    "clearcoat": 1,
+    "rim": 0.3199999999999999,
+    "opacity": 1
+   }
+  },
+  {
+   "p": 0.5,
+   "i": 0,
+   "id": "pearl",
+   "primary": {
+    "color": "#e9e7e2",
+    "emissive": "#000000",
+    "emissiveIntensity": 1,
+    "roughness": 0.20000000000000154,
+    "metalness": 0.06000000000002557,
+    "transmission": 0,
+    "clearcoat": 1,
+    "rim": 0.8199999999996297,
+    "opacity": 1
+   }
+  },
+  {
+   "p": 0.5,
+   "i": 1,
+   "id": "carmine",
+   "primary": {
+    "color": "#7e0b14",
+    "emissive": "#000000",
+    "emissiveIntensity": 1,
+    "roughness": 0.2399993093798152,
+    "metalness": 0.4999924031779677,
+    "transmission": 0,
+    "clearcoat": 1,
+    "rim": 0.8199999999999995,
+    "opacity": 1
+   }
+  },
+  {
+   "p": 0.5,
+   "i": 2,
+   "id": "graphite",
+   "primary": {
+    "color": "#2c2e33",
+    "emissive": "#000000",
+    "emissiveIntensity": 1,
+    "roughness": 0.23999999999412594,
+    "metalness": 0.7799947356527643,
+    "transmission": 0,
+    "clearcoat": 1,
+    "rim": 0.8199999999999996,
+    "opacity": 1
+   }
+  },
+  {
+   "p": 0.5,
+   "i": 3,
+   "id": "bronze",
+   "primary": {
+    "color": "#7d5a3a",
+    "emissive": "#000000",
+    "emissiveIntensity": 1,
+    "roughness": 0.23999999999999985,
+    "metalness": 0.7200010365039891,
+    "transmission": 0,
+    "clearcoat": 1,
+    "rim": 0.8199999999999996,
+    "opacity": 1
+   }
+  }
+ ],
+ "hover": {
+  "off": {
+   "v": 0,
+   "rim": 0
+  },
+  "hits": [
+   {
+    "fx": 0.25,
+    "fy": 0.5,
+    "id": "axiom-gt",
+    "part": "body",
+    "v": 1,
+    "rim": 0.8194845309359035
+   },
+   {
+    "fx": 0.58,
+    "fy": 0.5,
+    "id": "axiom-gt",
+    "part": "glass",
+    "v": 1,
+    "rim": 0.32015093779250287
+   },
+   {
+    "fx": 0.25,
+    "fy": 0.58,
+    "id": "axiom-gt",
+    "part": "wheels",
+    "v": 1,
+    "rim": 0.31994064571577385
+   }
+  ],
+  "afterLeave": 0
+ },
+ "jitter": {
+  "frames": 248,
+  "maxCamJumpPerFrame": 1.3443,
+  "maxSmoothJumpPerFrame": 0.0357,
+  "maxFrameDt": 66.7,
+  "endSmooth": 0.364516,
+  "restoredDiff": 0
+ },
+ "gpu": {
+  "r": "ANGLE (Intel, Intel(R) HD Graphics 530 (0x00001912) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "dpr": 1
+ },
+ "overflow1440": 0,
+ "errorsDesk": [
+  "warning: THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."
+ ],
+ "overflow1920": 0,
+ "errors1920": [
+  "warning: THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."
+ ],
+ "overflow390": 0,
+ "touch": {
+  "yawBefore": 0,
+  "yawAfter": -1.3919945685769193,
+  "scrollAfter": 0
+ },
+ "errors390": [
+  "warning: THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."
+ ]
+}

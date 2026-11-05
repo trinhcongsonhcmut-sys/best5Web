@@ -1,7 +1,8 @@
 import { useEffect, useLayoutEffect, useMemo, useRef } from 'react';
-import { useFrame, useThree } from '@react-three/fiber';
-import { Environment, Lightformer, PerformanceMonitor } from '@react-three/drei';
+import { useFrame, useLoader, useThree } from '@react-three/fiber';
+import { PerformanceMonitor } from '@react-three/drei';
 import * as THREE from 'three';
+import { HDRLoader } from 'three/examples/jsm/loaders/HDRLoader.js';
 import { CameraRig, orbit } from '../../lib/CameraRig';
 import { bridge } from '../../lib/bridge';
 import { scrollState } from '../../lib/scroll';
@@ -10,38 +11,47 @@ import { Landscape } from './Landscape';
 import { SkyDome } from './Sky';
 import { Villa } from './Villa';
 import { createLib } from './materials';
-import { colliders, LEVELS, nightOf, railOf } from './state';
+import { prepareEnv } from './env';
+import { preloadPbr, usePbrSets } from './textures';
+import { preloadProps, Props } from './Props';
+import { colliders, ENV_ROT, LEVELS, lightState, nightOf, railOf, SUN_DIR } from './state';
+
+export const HDR_URL = '/assets/hdri/belfast_sunset_puresky_2k.hdr';
+// kick the downloads off at module evaluation (outside any React render)
+useLoader.preload(HDRLoader, HDR_URL);
+preloadPbr();
+preloadProps();
 
 /**
- * Camera = one long flight: aerial dusk hero → down to the arrival court (GROUND) → crane up the living glass
- * (LEVEL 1) → past the teak-finned suite (LEVEL 2) → over the infinity pool (ROOFTOP) → pull out to the night overview.
+ * Camera = one long flight (same beats as v1): hero over the lawn → down to the terrace (GROUND) → up to the
+ * glass balcony (LEVEL 1) → round the west corner to the suite (SUITE) → over the roof pool (ROOF) → pull out to
+ * the night overview.
  */
 const STOPS: PoseStop[] = [
-  { t: 0, pos: [25, 6.4, 38], target: [-3.4, 6.4, 0], fov: 34 },
-  { t: 0.25, pos: [9.6, 1.75, 19.5], target: [1.6, 2.5, 5], fov: 44 },
-  { t: 0.5, pos: [0.4, 7.0, 29.5], target: [-3.6, 7.0, 3], fov: 38 },
-  { t: 0.62, pos: [-11.5, 10.9, 19.5], target: [-4.6, 10.4, 2], fov: 35 },
-  { t: 0.75, pos: [9.8, 16.4, 13.2], target: [-3.6, 13.0, 1.8], fov: 40 },
-  { t: 1, pos: [-31, 17.5, 37], target: [1, 6.4, 0], fov: 38 },
+  { t: 0, pos: [21, 3.4, 40], target: [-1.2, 3.9, 0], fov: 34 },
+  { t: 0.25, pos: [9.5, 1.7, 15.5], target: [0.5, 2.0, 4.2], fov: 44 },
+  { t: 0.5, pos: [-1.5, 5.6, 21.5], target: [-3.6, 5.5, 4.5], fov: 38 },
+  { t: 0.62, pos: [-16, 6.6, 14], target: [-5.5, 5.4, 3], fov: 35 },
+  { t: 0.75, pos: [9, 12.8, 12.5], target: [-2.2, 8.0, -0.2], fov: 40 },
+  { t: 1, pos: [-31, 15, 36], target: [0.5, 3.4, 0], fov: 38 },
 ];
 const LIMITS = { elevMin: -0.05, elevMax: 1.2, dollyMin: 0.62, dollyMax: 1.5 };
 
 const C = (h: string) => new THREE.Color(h);
 const LIGHT = {
-  hemiSky: [C('#8d9cbc'), C('#24304d')],
-  hemiGround: [C('#3a332c'), C('#0a0a0d')],
-  key: [C('#ffd0ac'), C('#8ea6df')],
-  fog: [C('#55678e'), C('#0d1526')],
+  hemiSky: [C('#9fb0cc'), C('#25304c')],
+  hemiGround: [C('#8a7048'), C('#0a0c0a')],
+  key: [C('#ff9a50'), C('#8ea6df')],
+  fog: [C('#d2ae8c'), C('#0d1526')],
 };
 
-function Lighting() {
+function Lighting({ env }: { env: THREE.Texture }) {
   const { scene, gl } = useThree();
   const hemi = useRef<THREE.HemisphereLight>(null);
   const key = useRef<THREE.DirectionalLight>(null);
-  const fog = useMemo(() => new THREE.Fog(LIGHT.fog[0].clone(), 55, 265), []);
+  const fog = useMemo(() => new THREE.Fog(LIGHT.fog[0].clone(), 70, 340), []);
   const frames = useRef(0);
 
-  const camera = useThree((s) => s.camera);
   // explicit PCF (three r18x removed PCFSoft and warns) — set before the first frame, restored on unmount
   useLayoutEffect(() => {
     const prev = gl.shadowMap.type;
@@ -50,10 +60,16 @@ function Lighting() {
       gl.shadowMap.type = prev;
     };
   }, [gl]);
-  useEffect(() => {
-    camera.layers.enable(1); // far/vegetation layer (see Landscape) — the reflection camera only sees layer 0
-    return () => camera.layers.disable(1);
-  }, [camera]);
+  // image-based lighting = the same HDRI as the sky dome (glass/pool reflect the sky you see)
+  useLayoutEffect(() => {
+    scene.environment = env;
+    scene.environmentRotation.set(0, ENV_ROT, 0);
+    return () => {
+      scene.environment = null;
+      scene.environmentRotation.set(0, 0, 0);
+      scene.environmentIntensity = 1;
+    };
+  }, [scene, env]);
   useEffect(() => {
     scene.fog = fog;
     gl.shadowMap.autoUpdate = true;
@@ -67,52 +83,46 @@ function Lighting() {
     const n = nightOf(scrollState.smooth);
     // one baked shadow: the key light never moves, so render the map a few frames then freeze it
     frames.current++;
-    if (frames.current === 4) gl.shadowMap.autoUpdate = false;
+    if (frames.current === 6) gl.shadowMap.autoUpdate = false;
     if (hemi.current) {
       hemi.current.color.lerpColors(LIGHT.hemiSky[0], LIGHT.hemiSky[1], n);
       hemi.current.groundColor.lerpColors(LIGHT.hemiGround[0], LIGHT.hemiGround[1], n);
-      hemi.current.intensity = 1.2 - 0.6 * n;
+      hemi.current.intensity = 0.9 - 0.45 * n;
     }
     if (key.current) {
       key.current.color.lerpColors(LIGHT.key[0], LIGHT.key[1], n);
-      key.current.intensity = 1.7 - 1.15 * n;
+      key.current.intensity = 3.7 - 3.15 * n;
+    }
+    if (hemi.current && key.current) {
+      lightState.sun.copy(key.current.color).multiplyScalar(key.current.intensity);
+      lightState.sky.copy(hemi.current.color).multiplyScalar(hemi.current.intensity);
+      lightState.ground.copy(hemi.current.groundColor).multiplyScalar(hemi.current.intensity);
     }
     fog.color.lerpColors(LIGHT.fog[0], LIGHT.fog[1], n);
-    scene.environmentIntensity = 0.95 - 0.55 * n;
+    scene.environmentIntensity = 0.68 - 0.52 * n;
     const r = railOf(scrollState.smooth);
     bridge.state.extra.level = LEVELS[Math.round(r)].id;
+    bridge.state.extra.calls = gl.info.render.calls;
   });
 
+  const sun = SUN_DIR.clone().multiplyScalar(80);
   return (
     <>
       <hemisphereLight ref={hemi} />
       <directionalLight
         ref={key}
-        position={[-30, 34, 28]}
+        position={[sun.x, sun.y, sun.z]}
         castShadow
         shadow-mapSize={[2048, 2048]}
-        shadow-camera-left={-34}
-        shadow-camera-right={34}
-        shadow-camera-top={30}
-        shadow-camera-bottom={-26}
-        shadow-camera-near={5}
-        shadow-camera-far={110}
-        shadow-bias={-0.0004}
-        shadow-normalBias={0.04}
+        shadow-camera-left={-36}
+        shadow-camera-right={36}
+        shadow-camera-top={26}
+        shadow-camera-bottom={-22}
+        shadow-camera-near={20}
+        shadow-camera-far={150}
+        shadow-bias={-0.0005}
+        shadow-normalBias={0.05}
       />
-      {/* reflections only: blue-hour sky, warm western afterglow, a few city glints */}
-      <Environment resolution={256} frames={1}>
-        <mesh scale={100}>
-          <sphereGeometry args={[1, 32, 16]} />
-          <meshBasicMaterial color="#1c2f57" side={THREE.BackSide} />
-        </mesh>
-        <Lightformer form="rect" intensity={1.6} color="#7b97cf" position={[0, 30, 0]} rotation-x={Math.PI / 2} scale={[80, 80, 1]} />
-        <Lightformer form="rect" intensity={3.2} color="#ffb27a" position={[-40, 2, -50]} scale={[90, 8, 1]} />
-        <Lightformer form="rect" intensity={1.2} color="#9fb6e6" position={[40, 6, 40]} scale={[80, 14, 1]} />
-        <Lightformer form="rect" intensity={0.8} color="#3b4a6b" position={[0, -10, 0]} rotation-x={-Math.PI / 2} scale={[80, 80, 1]} />
-        <Lightformer form="circle" intensity={6} color="#ffd9a0" position={[30, 4, -60]} scale={4} />
-        <Lightformer form="circle" intensity={6} color="#ffd9a0" position={[-60, 3, 20]} scale={3} />
-      </Environment>
     </>
   );
 }
@@ -126,7 +136,7 @@ const CLEAR = 0.7; // metres kept between the lens and any surface
 
 /**
  * Camera guard, runs after the shared rig every frame (pure function of scroll + orbit → reversible):
- *  1. close-up marks (25/50/75%) allow ±60° of orbit around their framing; 0% and 100% keep the full 360°
+ *  1. close-up marks (25/50/75%) allow ±43° of orbit around their framing; 0% and 100% keep the full 360°
  *  2. collision: the lens is pushed out of tree crowns/trunks (spheres) and building volumes (AABBs), never below 0.9 m
  *  3. portrait phones: pan up so the villa sits under the headline
  */
@@ -134,7 +144,7 @@ function cameraGuard(cam: THREE.PerspectiveCamera) {
   const p = scrollState.smooth;
   sample(p, _p, _tgt);
   const w = lerp(Math.PI, 0.75, smoothstep(0.06, 0.14, p) * (1 - smoothstep(0.86, 0.94, p)));
-  // final overview: never orbit below the hero's own elevation (no fence-in-face low angles)
+  // final overview: never orbit below the hero's own elevation (no hedge-in-face low angles)
   const pitchFloor = lerp(-1.2, -0.02, smoothstep(0.86, 0.95, p));
   if (orbit.tPitch < pitchFloor) orbit.tPitch = pitchFloor;
   if (w < Math.PI - 1e-3) {
@@ -143,7 +153,6 @@ function cameraGuard(cam: THREE.PerspectiveCamera) {
   }
   const c = cam.position;
   let moved = false;
-  // portrait: the rig's generic fit backs off a bit more than this villa needs — come 7% closer (same direction)
   if (cam.aspect < 1) c.sub(_tgt).multiplyScalar(0.99).add(_tgt);
   for (const [x, y, z, r] of colliders.spheres) {
     _d.set(c.x - x, c.y - y, c.z - z);
@@ -179,14 +188,47 @@ function cameraGuard(cam: THREE.PerspectiveCamera) {
   }
 }
 
-/** adaptive resolution guard: slow GPU (e.g. shared Intel HD 530) → render at 0.8× DPR, back up when it recovers */
+/**
+ * Warm-up before bridge.ready (frame 2): compile EVERY program the flight will need — including objects that start
+ * hidden (hologram) or outside the hero frustum (roof pool, back rooms) — and upload every texture, so nothing
+ * compiles / uploads mid-scroll (ANGLE/D3D11 on the HD 530 stalls ~100–300 ms per program).
+ */
+function Warmup() {
+  const { gl, scene, camera } = useThree();
+  const frame = useRef(0);
+  useFrame(() => {
+    if (++frame.current !== 2) return;
+    const hidden: THREE.Object3D[] = [];
+    scene.traverse((o) => {
+      if (!o.visible) {
+        hidden.push(o);
+        o.visible = true;
+      }
+    });
+    const seen = new Set<THREE.Texture>();
+    scene.traverse((o) => {
+      const mat = (o as THREE.Mesh).material as THREE.Material | THREE.Material[] | undefined;
+      for (const m of mat ? (Array.isArray(mat) ? mat : [mat]) : []) {
+        const rec = m as unknown as Record<string, unknown> & { uniforms?: Record<string, { value: unknown }> };
+        const vals = [...Object.values(rec), ...Object.values(rec.uniforms ?? {}).map((u) => u?.value)];
+        for (const v of vals) if (v && (v as THREE.Texture).isTexture && !seen.has(v as THREE.Texture)) seen.add(v as THREE.Texture);
+      }
+    });
+    seen.forEach((t) => gl.initTexture(t));
+    gl.compile(scene, camera);
+    hidden.forEach((o) => (o.visible = false));
+  });
+  return null;
+}
+
+/** adaptive resolution guard: slow / shared GPU (Intel HD 530) under 48 fps → render at 0.8× DPR, back up above 64 */
 function AdaptiveDpr() {
   const setDpr = useThree((s) => s.setDpr);
   const base = Math.min(typeof window !== 'undefined' ? window.devicePixelRatio : 1, 1.5);
   useEffect(() => () => setDpr(base), [setDpr, base]);
   return (
     <PerformanceMonitor
-      bounds={() => [40, 58]}
+      bounds={() => [48, 64]}
       flipflops={4}
       onDecline={() => setDpr(Math.max(0.8, base * 0.8))}
       onIncline={() => setDpr(base)}
@@ -196,16 +238,23 @@ function AdaptiveDpr() {
 }
 
 export function RealEstateScene() {
-  const lib = useMemo(() => createLib(), []);
+  // both suspend → Stage's Suspense + useProgress keep bridge.ready false until scans + HDRI are in
+  const sets = usePbrSets();
+  const raw = useLoader(HDRLoader, HDR_URL);
+  const env = useMemo(() => prepareEnv(raw as THREE.DataTexture), [raw]);
+  useEffect(() => () => env.dispose(), [env]);
+  const lib = useMemo(() => createLib(sets), [sets]);
   useEffect(() => () => lib.dispose(), [lib]);
   return (
     <>
       <CameraRig stops={STOPS} limits={LIMITS} fitAspect={1.45} defaultFov={36} onAfter={cameraGuard} />
       <AdaptiveDpr />
-      <SkyDome />
-      <Lighting />
+      <SkyDome env={env} />
+      <Lighting env={env} />
       <Villa lib={lib} />
       <Landscape lib={lib} />
+      <Props lib={lib} />
+      <Warmup />
     </>
   );
 }

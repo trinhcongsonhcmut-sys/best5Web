@@ -1,5 +1,17 @@
 # QC_REPORT — BAHA 3D SHOWCASE V2
 
+> ## V2 (photoreal) — đo bản production trên máy rảnh, 05/11/2026 05:33 UTC (`qc-evidence/perf-production.md`; bản v1 cùng lúc lưu ở `perf-production-run2-v1.*`)
+> Chrome 156 headless · Intel HD 530 (D3D11) · 1440×900 · DPR 1 · cuộn script 8 s 0→100 %.
+> | Demo v2 | Cold ready | Idle fps | Cuộn fps | p95 | Frame xấu nhất | Console error | Đánh giá |
+> |---|---|---|---|---|---|---|---|
+> | automotive | 3,6 s | 68,3 | 62,2 | 26,7 ms | 53,6 ms | 0 | đạt (≥ 55) |
+> | beauty | 7,5 s | 75,3 | 72,7 | 13,5 ms | 133,4 ms | 0 | đạt; ready lạnh dài hơn v1 (4,3 s) |
+> | real-estate | 6,7 s | 67,6 | **44,0** | 26,8 ms | **2106,5 ms** | 0 | **KHÔNG ĐẠT** — có lần đứng hình ~2,1 s khi cuộn ⇒ builder sửa: nguyên nhân = bật/tắt `visible` đèn viền giữa lúc cuộn làm biên dịch lại shader; đã bỏ đèn đó, thêm `Warmup` biên dịch mọi shader + upload texture trước `ready`, cỏ 90k → 48k. **Builder tự đo production sau sửa: cuộn 60,1 / 58,6 fps, frame xấu nhất 53 / 80 ms, ready lạnh 1–2 s** (chờ orchestrator đo lại) |
+> **Giám khảo độc lập V2 lượt 1** (`qc-evidence/judge/v2/`, ~150 ảnh): **automotive 70/100** (3D 18 · tương tác 25 · bám mẫu 11 · FE 8 · hiệu năng 8) — sơn lì có hạt, không phản chiếu; ốp sườn/cản sau đen như lỗ; núi procedural loang lổ, có vết nối ở orbit 135°. **beauty 78/100** (22 · 26 · 15 · 8 · 7) — nước bắn như ribbon nilon; ánh sáng phẳng thiếu backlight xuyên chai; callout 50 % chen nhau + vệt phản chiếu hình lá trên vai chai; ready lạnh 7,5 s. Cả hai PASS mọi mục bắt buộc (orbit, ≥3 biến thể đổi vật liệu thật, hover, cuộn xuôi/ngược khớp camera Δ=0, 0 console error, cảm ứng). **Kết luận giám khảo: chưa đủ chuẩn giới thiệu khách hàng.** Đã giao builder sửa lượt 3.
+> Mobile giả lập 390×844 DPR 2: 72,8–75,1 fps cuộn, 0 lỗi (real-estate frame xấu nhất 240 ms). Ảnh so sánh v1|v2 cùng khung: `baseline/compare/<id>/*.jpg` (lưu ý: ảnh cuộn v1 chụp khi con trỏ đang hover sản phẩm; v2 không hover).
+>
+> **Mục tiêu hiện hành: `../CURRENT_GOAL.md`** (05/11/2026). Các vòng giám khảo dưới đây là kết quả **giai đoạn v1** (5 demo). Fashion + F&B **tạm dừng** — điểm cuối giữ ở vòng 6. QC giai đoạn v2 (photoreal) chỉ áp dụng cho Automotive, Beauty, Real Estate và sẽ ghi thành mục riêng "V2".
+
 > Báo cáo trung thực: chỉ ghi PASS khi có bằng chứng đo/chụp. **Chưa demo nào đạt nghiệm thu.**
 > Cập nhật: 04/11/2026 — vòng 1.
 

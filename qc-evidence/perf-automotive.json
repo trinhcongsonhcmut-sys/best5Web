@@ -1,8 +1,8 @@
 {
   "demo": "automotive",
-  "idleFps": 66.118060629517,
-  "scrollFps": 73.80160755830963,
-  "minFps": 66.118060629517,
+  "idleFps": 39.6832017963834,
+  "scrollFps": 48.94522120839643,
+  "minFps": 35.41084915100642,
   "condition": {
     "renderer": "ANGLE (Intel, Intel(R) HD Graphics 530 (0x00001912) Direct3D11 vs_5_0 ps_5_0, D3D11)",
     "vendor": "Google Inc. (Intel)",
@@ -10,5 +10,5 @@
     "dpr": 1,
     "viewport": "1440x900"
   },
-  "at": "2026-11-05T02:10:34.210Z"
+  "at": "2026-11-05T07:17:35.834Z"
 }

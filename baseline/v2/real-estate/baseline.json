@@ -1,0 +1,1429 @@
+{
+  "demo": "real-estate",
+  "route": "/real-estate",
+  "base": "http://localhost:5193",
+  "capturedAt": "2026-11-05T07:12:09.513Z",
+  "viewport": "1440x900",
+  "marks": [
+    {
+      "p": 0,
+      "scroll": 0,
+      "position": [
+        21,
+        3.4,
+        40
+      ],
+      "target": [
+        -1.2,
+        3.9,
+        0
+      ],
+      "fov": 34,
+      "extra": {
+        "level": "overview",
+        "calls": 49,
+        "night": 0,
+        "facade": "sandstone"
+      },
+      "hover": 0,
+      "fps": 73.498
+    },
+    {
+      "p": 0.125,
+      "scroll": 0.125,
+      "position": [
+        15.568,
+        2.011,
+        25.308
+      ],
+      "target": [
+        -0.008,
+        2.63,
+        2.339
+      ],
+      "fov": 40.246,
+      "extra": {
+        "level": "overview",
+        "calls": 49,
+        "night": 0.016,
+        "facade": "sandstone"
+      },
+      "hover": 0,
+      "fps": 67.749
+    },
+    {
+      "p": 0.25,
+      "scroll": 0.25,
+      "position": [
+        9.5,
+        1.7,
+        15.5
+      ],
+      "target": [
+        0.5,
+        2,
+        4.2
+      ],
+      "fov": 44,
+      "extra": {
+        "level": "ground",
+        "calls": 49,
+        "night": 0.125,
+        "facade": "sandstone"
+      },
+      "hover": 0,
+      "fps": 63.556
+    },
+    {
+      "p": 0.375,
+      "scroll": 0.375,
+      "position": [
+        4.271,
+        3.567,
+        18.069
+      ],
+      "target": [
+        -1.268,
+        3.672,
+        4.803
+      ],
+      "fov": 41.625,
+      "extra": {
+        "level": "ground",
+        "calls": 49,
+        "night": 0.304,
+        "facade": "sandstone"
+      },
+      "hover": 0,
+      "fps": 63.453
+    },
+    {
+      "p": 0.5,
+      "scroll": 0.5,
+      "position": [
+        -1.5,
+        5.6,
+        21.5
+      ],
+      "target": [
+        -3.6,
+        5.5,
+        4.5
+      ],
+      "fov": 38.005,
+      "extra": {
+        "level": "level1",
+        "calls": 49,
+        "night": 0.517,
+        "facade": "sandstone"
+      },
+      "hover": 0,
+      "fps": 62.453
+    },
+    {
+      "p": 0.625,
+      "scroll": 0.625,
+      "position": [
+        -15.861,
+        6.743,
+        13.774
+      ],
+      "target": [
+        -5.502,
+        5.447,
+        2.895
+      ],
+      "fov": 35.021,
+      "extra": {
+        "level": "suite",
+        "calls": 49,
+        "night": 0.728,
+        "facade": "sandstone"
+      },
+      "hover": 0,
+      "fps": 61.264
+    },
+    {
+      "p": 0.75,
+      "scroll": 0.75,
+      "position": [
+        9,
+        12.8,
+        12.5
+      ],
+      "target": [
+        -2.2,
+        8,
+        -0.2
+      ],
+      "fov": 39.997,
+      "extra": {
+        "level": "roof",
+        "calls": 49,
+        "night": 0.898,
+        "facade": "sandstone"
+      },
+      "hover": 0,
+      "fps": 54.206
+    },
+    {
+      "p": 0.875,
+      "scroll": 0.875,
+      "position": [
+        -5.733,
+        14.338,
+        22.423
+      ],
+      "target": [
+        -0.811,
+        6.152,
+        -0.314
+      ],
+      "fov": 39.25,
+      "extra": {
+        "level": "roof",
+        "calls": 49,
+        "night": 0.992,
+        "facade": "sandstone"
+      },
+      "hover": 0,
+      "fps": 53.79
+    },
+    {
+      "p": 1,
+      "scroll": 1,
+      "position": [
+        -31,
+        15,
+        36
+      ],
+      "target": [
+        0.5,
+        3.4,
+        0
+      ],
+      "fov": 38.002,
+      "extra": {
+        "level": "overview",
+        "calls": 48,
+        "night": 1,
+        "facade": "sandstone"
+      },
+      "hover": 0,
+      "fps": 69.886
+    }
+  ],
+  "cameraPath": [
+    {
+      "scroll": 0,
+      "position": [
+        21,
+        3.4,
+        40
+      ],
+      "target": [
+        -1.2,
+        3.9,
+        0
+      ],
+      "fov": 34.003,
+      "extra": {
+        "level": "overview",
+        "calls": 49,
+        "night": 0,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "scroll": 0.025,
+      "position": [
+        19.873,
+        3.191,
+        37.374
+      ],
+      "target": [
+        -1.005,
+        3.687,
+        0.437
+      ],
+      "fov": 35.088,
+      "extra": {
+        "level": "overview",
+        "calls": 49,
+        "night": 0,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "scroll": 0.05,
+      "position": [
+        18.781,
+        2.922,
+        34.475
+      ],
+      "target": [
+        -0.772,
+        3.438,
+        0.901
+      ],
+      "fov": 36.319,
+      "extra": {
+        "level": "overview",
+        "calls": 49,
+        "night": 0,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "scroll": 0.075,
+      "position": [
+        17.71,
+        2.619,
+        31.419
+      ],
+      "target": [
+        -0.517,
+        3.169,
+        1.38
+      ],
+      "fov": 37.629,
+      "extra": {
+        "level": "overview",
+        "calls": 49,
+        "night": 0.001,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "scroll": 0.1,
+      "position": [
+        16.644,
+        2.306,
+        28.325
+      ],
+      "target": [
+        -0.257,
+        2.894,
+        1.863
+      ],
+      "fov": 38.958,
+      "extra": {
+        "level": "overview",
+        "calls": 49,
+        "night": 0.006,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "scroll": 0.125,
+      "position": [
+        15.568,
+        2.011,
+        25.308
+      ],
+      "target": [
+        -0.008,
+        2.63,
+        2.339
+      ],
+      "fov": 40.249,
+      "extra": {
+        "level": "overview",
+        "calls": 49,
+        "night": 0.016,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "scroll": 0.15,
+      "position": [
+        14.466,
+        1.76,
+        22.487
+      ],
+      "target": [
+        0.214,
+        2.392,
+        2.795
+      ],
+      "fov": 41.439,
+      "extra": {
+        "level": "roof",
+        "calls": 49,
+        "night": 0.031,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "scroll": 0.175,
+      "position": [
+        13.324,
+        1.577,
+        19.978
+      ],
+      "target": [
+        0.393,
+        2.194,
+        3.221
+      ],
+      "fov": 42.467,
+      "extra": {
+        "level": "suite",
+        "calls": 49,
+        "night": 0.049,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "scroll": 0.2,
+      "position": [
+        12.126,
+        1.488,
+        17.899
+      ],
+      "target": [
+        0.511,
+        2.053,
+        3.605
+      ],
+      "fov": 43.276,
+      "extra": {
+        "level": "level1",
+        "calls": 49,
+        "night": 0.071,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "scroll": 0.225,
+      "position": [
+        10.856,
+        1.521,
+        16.368
+      ],
+      "target": [
+        0.552,
+        1.983,
+        3.935
+      ],
+      "fov": 43.81,
+      "extra": {
+        "level": "ground",
+        "calls": 49,
+        "night": 0.096,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "scroll": 0.25,
+      "position": [
+        9.5,
+        1.7,
+        15.5
+      ],
+      "target": [
+        0.5,
+        2,
+        4.2
+      ],
+      "fov": 43.996,
+      "extra": {
+        "level": "ground",
+        "calls": 49,
+        "night": 0.125,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "scroll": 0.275,
+      "position": [
+        8.508,
+        1.934,
+        15.388
+      ],
+      "target": [
+        0.327,
+        2.142,
+        4.414
+      ],
+      "fov": 43.879,
+      "extra": {
+        "level": "ground",
+        "calls": 49,
+        "night": 0.156,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "scroll": 0.3,
+      "position": [
+        7.488,
+        2.259,
+        15.682
+      ],
+      "target": [
+        0.041,
+        2.41,
+        4.577
+      ],
+      "fov": 43.539,
+      "extra": {
+        "level": "ground",
+        "calls": 49,
+        "night": 0.19,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "scroll": 0.325,
+      "position": [
+        6.44,
+        2.653,
+        16.289
+      ],
+      "target": [
+        -0.335,
+        2.775,
+        4.694
+      ],
+      "fov": 43.021,
+      "extra": {
+        "level": "ground",
+        "calls": 49,
+        "night": 0.226,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "scroll": 0.35,
+      "position": [
+        5.367,
+        3.096,
+        17.116
+      ],
+      "target": [
+        -0.779,
+        3.205,
+        4.768
+      ],
+      "fov": 42.367,
+      "extra": {
+        "level": "ground",
+        "calls": 49,
+        "night": 0.264,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "scroll": 0.375,
+      "position": [
+        4.271,
+        3.567,
+        18.069
+      ],
+      "target": [
+        -1.268,
+        3.672,
+        4.803
+      ],
+      "fov": 41.626,
+      "extra": {
+        "level": "ground",
+        "calls": 49,
+        "night": 0.304,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "scroll": 0.4,
+      "position": [
+        3.153,
+        4.044,
+        19.058
+      ],
+      "target": [
+        -1.78,
+        4.145,
+        4.801
+      ],
+      "fov": 40.828,
+      "extra": {
+        "level": "ground",
+        "calls": 49,
+        "night": 0.345,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "scroll": 0.425,
+      "position": [
+        2.016,
+        4.507,
+        19.988
+      ],
+      "target": [
+        -2.292,
+        4.594,
+        4.766
+      ],
+      "fov": 40.03,
+      "extra": {
+        "level": "ground",
+        "calls": 49,
+        "night": 0.387,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "scroll": 0.45,
+      "position": [
+        0.86,
+        4.935,
+        20.767
+      ],
+      "target": [
+        -2.781,
+        4.99,
+        4.702
+      ],
+      "fov": 39.261,
+      "extra": {
+        "level": "level1",
+        "calls": 49,
+        "night": 0.43,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "scroll": 0.475,
+      "position": [
+        -0.313,
+        5.306,
+        21.302
+      ],
+      "target": [
+        -3.224,
+        5.302,
+        4.612
+      ],
+      "fov": 38.571,
+      "extra": {
+        "level": "level1",
+        "calls": 49,
+        "night": 0.474,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "scroll": 0.5,
+      "position": [
+        -1.5,
+        5.6,
+        21.5
+      ],
+      "target": [
+        -3.6,
+        5.5,
+        4.5
+      ],
+      "fov": 38.002,
+      "extra": {
+        "level": "level1",
+        "calls": 49,
+        "night": 0.517,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "scroll": 0.525,
+      "position": [
+        -4.892,
+        5.979,
+        20.819
+      ],
+      "target": [
+        -4.098,
+        5.581,
+        4.286
+      ],
+      "fov": 37.205,
+      "extra": {
+        "level": "level1",
+        "calls": 49,
+        "night": 0.561,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "scroll": 0.55,
+      "position": [
+        -8.92,
+        6.091,
+        19.154
+      ],
+      "target": [
+        -4.609,
+        5.521,
+        3.999
+      ],
+      "fov": 36.375,
+      "extra": {
+        "level": "level1",
+        "calls": 49,
+        "night": 0.604,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "scroll": 0.575,
+      "position": [
+        -12.694,
+        6.125,
+        17.061
+      ],
+      "target": [
+        -5.062,
+        5.414,
+        3.662
+      ],
+      "fov": 35.641,
+      "extra": {
+        "level": "suite",
+        "calls": 49,
+        "night": 0.646,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "scroll": 0.6,
+      "position": [
+        -15.321,
+        6.272,
+        15.1
+      ],
+      "target": [
+        -5.384,
+        5.352,
+        3.297
+      ],
+      "fov": 35.143,
+      "extra": {
+        "level": "suite",
+        "calls": 49,
+        "night": 0.688,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "scroll": 0.625,
+      "position": [
+        -15.861,
+        6.743,
+        13.774
+      ],
+      "target": [
+        -5.502,
+        5.447,
+        2.895
+      ],
+      "fov": 35.02,
+      "extra": {
+        "level": "suite",
+        "calls": 49,
+        "night": 0.728,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "scroll": 0.65,
+      "position": [
+        -12.557,
+        7.735,
+        12.719
+      ],
+      "target": [
+        -5.223,
+        5.923,
+        2.272
+      ],
+      "fov": 35.673,
+      "extra": {
+        "level": "suite",
+        "calls": 49,
+        "night": 0.766,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "scroll": 0.675,
+      "position": [
+        -6.394,
+        9.037,
+        11.906
+      ],
+      "target": [
+        -4.585,
+        6.639,
+        1.554
+      ],
+      "fov": 36.923,
+      "extra": {
+        "level": "suite",
+        "calls": 50,
+        "night": 0.803,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "scroll": 0.7,
+      "position": [
+        0.604,
+        10.448,
+        11.493
+      ],
+      "target": [
+        -3.756,
+        7.372,
+        0.837
+      ],
+      "fov": 38.348,
+      "extra": {
+        "level": "roof",
+        "calls": 49,
+        "night": 0.837,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "scroll": 0.725,
+      "position": [
+        6.41,
+        11.77,
+        11.638
+      ],
+      "target": [
+        -2.905,
+        7.9,
+        0.22
+      ],
+      "fov": 39.514,
+      "extra": {
+        "level": "roof",
+        "calls": 49,
+        "night": 0.869,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "scroll": 0.75,
+      "position": [
+        9,
+        12.8,
+        12.5
+      ],
+      "target": [
+        -2.2,
+        8,
+        -0.2
+      ],
+      "fov": 39.996,
+      "extra": {
+        "level": "roof",
+        "calls": 49,
+        "night": 0.898,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "scroll": 0.775,
+      "position": [
+        8.413,
+        13.304,
+        13.666
+      ],
+      "target": [
+        -1.905,
+        7.833,
+        -0.319
+      ],
+      "fov": 39.967,
+      "extra": {
+        "level": "roof",
+        "calls": 49,
+        "night": 0.924,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "scroll": 0.8,
+      "position": [
+        6.393,
+        13.689,
+        15.329
+      ],
+      "target": [
+        -1.62,
+        7.543,
+        -0.379
+      ],
+      "fov": 39.856,
+      "extra": {
+        "level": "roof",
+        "calls": 49,
+        "night": 0.947,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "scroll": 0.825,
+      "position": [
+        3.194,
+        13.975,
+        17.401
+      ],
+      "target": [
+        -1.344,
+        7.152,
+        -0.392
+      ],
+      "fov": 39.698,
+      "extra": {
+        "level": "roof",
+        "calls": 49,
+        "night": 0.966,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "scroll": 0.85,
+      "position": [
+        -0.932,
+        14.185,
+        19.795
+      ],
+      "target": [
+        -1.075,
+        6.681,
+        -0.367
+      ],
+      "fov": 39.49,
+      "extra": {
+        "level": "roof",
+        "calls": 49,
+        "night": 0.981,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "scroll": 0.875,
+      "position": [
+        -5.733,
+        14.338,
+        22.423
+      ],
+      "target": [
+        -0.811,
+        6.152,
+        -0.314
+      ],
+      "fov": 39.252,
+      "extra": {
+        "level": "roof",
+        "calls": 49,
+        "night": 0.992,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "scroll": 0.9,
+      "position": [
+        -10.955,
+        14.457,
+        25.197
+      ],
+      "target": [
+        -0.55,
+        5.587,
+        -0.244
+      ],
+      "fov": 38.992,
+      "extra": {
+        "level": "roof",
+        "calls": 49,
+        "night": 0.998,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "scroll": 0.925,
+      "position": [
+        -16.345,
+        14.561,
+        28.029
+      ],
+      "target": [
+        -0.29,
+        5.008,
+        -0.168
+      ],
+      "fov": 38.729,
+      "extra": {
+        "level": "overview",
+        "calls": 48,
+        "night": 1,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "scroll": 0.95,
+      "position": [
+        -21.652,
+        14.672,
+        30.832
+      ],
+      "target": [
+        -0.03,
+        4.436,
+        -0.095
+      ],
+      "fov": 38.465,
+      "extra": {
+        "level": "overview",
+        "calls": 48,
+        "night": 1,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "scroll": 0.975,
+      "position": [
+        -26.621,
+        14.812,
+        33.518
+      ],
+      "target": [
+        0.233,
+        3.893,
+        -0.035
+      ],
+      "fov": 38.221,
+      "extra": {
+        "level": "overview",
+        "calls": 48,
+        "night": 1,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "scroll": 1,
+      "position": [
+        -31,
+        15,
+        36
+      ],
+      "target": [
+        0.5,
+        3.4,
+        0
+      ],
+      "fov": 38.004,
+      "extra": {
+        "level": "overview",
+        "calls": 48,
+        "night": 1,
+        "facade": "sandstone"
+      }
+    }
+  ],
+  "orbit": [
+    {
+      "step": 0,
+      "requestedDeg": 0,
+      "yawDeg": 0,
+      "yawTotalDeg": 0,
+      "pitch": 0,
+      "dolly": 1,
+      "camera": {
+        "scroll": 0,
+        "position": [
+          21,
+          3.4,
+          40
+        ],
+        "target": [
+          -1.2,
+          3.9,
+          0
+        ],
+        "fov": 34,
+        "extra": {
+          "level": "overview",
+          "calls": 49,
+          "night": 0,
+          "facade": "sandstone"
+        }
+      }
+    },
+    {
+      "step": 1,
+      "requestedDeg": 45,
+      "yawDeg": -45,
+      "yawTotalDeg": -45,
+      "pitch": 0,
+      "dolly": 1,
+      "camera": {
+        "scroll": 0,
+        "position": [
+          -13.786,
+          3.4,
+          43.982
+        ],
+        "target": [
+          -1.2,
+          3.9,
+          0
+        ],
+        "fov": 34,
+        "extra": {
+          "level": "overview",
+          "calls": 49,
+          "night": 0,
+          "facade": "sandstone"
+        }
+      }
+    },
+    {
+      "step": 2,
+      "requestedDeg": 90,
+      "yawDeg": -90,
+      "yawTotalDeg": -90,
+      "pitch": 0,
+      "dolly": 1,
+      "camera": {
+        "scroll": 0,
+        "position": [
+          -41.2,
+          3.4,
+          22.2
+        ],
+        "target": [
+          -1.2,
+          3.9,
+          0
+        ],
+        "fov": 34,
+        "extra": {
+          "level": "overview",
+          "calls": 49,
+          "night": 0,
+          "facade": "sandstone"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "requestedDeg": 135,
+      "yawDeg": -135,
+      "yawTotalDeg": -135,
+      "pitch": 0,
+      "dolly": 1,
+      "camera": {
+        "scroll": 0,
+        "position": [
+          -45.182,
+          3.4,
+          -12.586
+        ],
+        "target": [
+          -1.2,
+          3.9,
+          0
+        ],
+        "fov": 34,
+        "extra": {
+          "level": "overview",
+          "calls": 49,
+          "night": 0,
+          "facade": "sandstone"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "requestedDeg": 180,
+      "yawDeg": -180,
+      "yawTotalDeg": -180,
+      "pitch": 0,
+      "dolly": 1,
+      "camera": {
+        "scroll": 0,
+        "position": [
+          -23.4,
+          3.4,
+          -40
+        ],
+        "target": [
+          -1.2,
+          3.9,
+          0
+        ],
+        "fov": 34,
+        "extra": {
+          "level": "overview",
+          "calls": 49,
+          "night": 0,
+          "facade": "sandstone"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "requestedDeg": 225,
+      "yawDeg": 135,
+      "yawTotalDeg": -225,
+      "pitch": 0,
+      "dolly": 1,
+      "camera": {
+        "scroll": 0,
+        "position": [
+          11.386,
+          3.4,
+          -43.982
+        ],
+        "target": [
+          -1.2,
+          3.9,
+          0
+        ],
+        "fov": 34,
+        "extra": {
+          "level": "overview",
+          "calls": 49,
+          "night": 0,
+          "facade": "sandstone"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "requestedDeg": 270,
+      "yawDeg": 90,
+      "yawTotalDeg": -270,
+      "pitch": 0,
+      "dolly": 1,
+      "camera": {
+        "scroll": 0,
+        "position": [
+          38.8,
+          3.4,
+          -22.2
+        ],
+        "target": [
+          -1.2,
+          3.9,
+          0
+        ],
+        "fov": 34,
+        "extra": {
+          "level": "overview",
+          "calls": 49,
+          "night": 0,
+          "facade": "sandstone"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "requestedDeg": 315,
+      "yawDeg": 45,
+      "yawTotalDeg": -315,
+      "pitch": 0,
+      "dolly": 1,
+      "camera": {
+        "scroll": 0,
+        "position": [
+          42.782,
+          3.4,
+          12.586
+        ],
+        "target": [
+          -1.2,
+          3.9,
+          0
+        ],
+        "fov": 34,
+        "extra": {
+          "level": "overview",
+          "calls": 49,
+          "night": 0,
+          "facade": "sandstone"
+        }
+      }
+    }
+  ],
+  "variants": [
+    {
+      "index": 0,
+      "id": "sandstone",
+      "label": "Sandstone",
+      "primary": {
+        "color": "#f4ece0",
+        "emissive": "#3a2610",
+        "emissiveIntensity": 0,
+        "roughness": 1,
+        "metalness": 0,
+        "transmission": null,
+        "clearcoat": null,
+        "rim": 0,
+        "opacity": 1
+      },
+      "extra": {
+        "level": "overview",
+        "calls": 49,
+        "night": 0,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "index": 1,
+      "id": "basalt",
+      "label": "Basalt",
+      "primary": {
+        "color": "#70757d",
+        "emissive": "#3a2610",
+        "emissiveIntensity": 0,
+        "roughness": 0.780000260509181,
+        "metalness": 0,
+        "transmission": null,
+        "clearcoat": null,
+        "rim": 0,
+        "opacity": 1
+      },
+      "extra": {
+        "level": "overview",
+        "calls": 49,
+        "night": 0,
+        "facade": "basalt"
+      }
+    },
+    {
+      "index": 2,
+      "id": "concrete",
+      "label": "Board Concrete",
+      "primary": {
+        "color": "#e9e7e3",
+        "emissive": "#3a2610",
+        "emissiveIntensity": 0,
+        "roughness": 0.9499998100599177,
+        "metalness": 0,
+        "transmission": null,
+        "clearcoat": null,
+        "rim": 0,
+        "opacity": 1
+      },
+      "extra": {
+        "level": "overview",
+        "calls": 49,
+        "night": 0,
+        "facade": "concrete"
+      }
+    }
+  ],
+  "hover": {
+    "idle": 0,
+    "on": 1,
+    "onId": "roof",
+    "afterLeave": 0,
+    "primaryWhileHovered": {
+      "color": "#f4ece0",
+      "emissive": "#3a2610",
+      "emissiveIntensity": 0.15749999625380529,
+      "roughness": 1,
+      "metalness": 0,
+      "transmission": null,
+      "clearcoat": null,
+      "rim": 0.6749999839448799,
+      "opacity": 1
+    }
+  },
+  "mobile": [
+    {
+      "p": 0,
+      "scroll": 0,
+      "position": [
+        49.532,
+        9.779,
+        85.886
+      ],
+      "target": [
+        -1.2,
+        3.9,
+        0
+      ],
+      "fov": 34,
+      "extra": {
+        "level": "overview",
+        "calls": 48,
+        "night": 0,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "p": 0.5,
+      "scroll": 0.5,
+      "position": [
+        1.968,
+        8.327,
+        41.388
+      ],
+      "target": [
+        -3.6,
+        5.5,
+        4.5
+      ],
+      "fov": 38.002,
+      "extra": {
+        "level": "level1",
+        "calls": 49,
+        "night": 0.517,
+        "facade": "sandstone"
+      }
+    },
+    {
+      "p": 1,
+      "scroll": 1,
+      "position": [
+        -64.774,
+        35.95,
+        78.977
+      ],
+      "target": [
+        0.5,
+        3.4,
+        0
+      ],
+      "fov": 38.002,
+      "extra": {
+        "level": "overview",
+        "calls": 48,
+        "night": 1,
+        "facade": "sandstone"
+      }
+    }
+  ],
+  "gpu": {
+    "renderer": "ANGLE (Intel, Intel(R) HD Graphics 530 (0x00001912) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36"
+  },
+  "materials": [
+    "primary",
+    "glass",
+    "water"
+  ],
+  "fps": {
+    "avg": 34.091,
+    "frames": 5486
+  },
+  "consoleErrors": [],
+  "mobileErrors": []
+}

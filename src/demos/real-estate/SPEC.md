@@ -27,3 +27,12 @@ Trỏ vào từng bộ phận (hồ bơi, tường kính phòng khách, mái, la
 
 ## Hiệu năng
 Tối đa ~250k tam giác; instancing cho cây/lam gỗ/cửa sổ; shadow ≤ 2048 một directional baked; MeshReflector ≤ 512; tắt shadow động nếu cần.
+
+## v2 · photoreal (05/11/2026) — mẫu `reference/v2/real-estate-ref-1.webp`
+- **Kiến trúc** (`architecture.ts`): biệt thự 2 tầng mái bằng kiểu "khung đua": khối A (sàn L1 + mái bê tông sẫm đua 2,2 m, trụ đá khối, ốp gỗ ấm, kính sàn-trần, lan can kính không khung, ống khói đá, hồ tràn trên mái), sảnh thang kính sau lam thép đen, cánh B (garage cửa gỗ + phòng trên có ban công kính). Đèn âm trần + vệt sáng "scallop" trên trụ/ốp gỗ, nội thất ấm.
+- **Mốc camera giữ nhịp v1** (`Scene.tsx` STOPS): 0 hero trên bãi cỏ → 0,25 Ground (hiên dưới sàn đua) → 0,5 Level 1 (ban công kính) → 0,62 Suite (góc tây) → 0,75 Roof (hồ tràn + hologram) → 1 Overview đêm. Rail: Overview · Roof · Suite · Level 1 · Ground.
+- **Vật liệu** (`materials.ts`): scan CC0 Poly Haven, UV theo mét thật (`kit.ts` `UV_TILE`), normal + ARM (AO/roughness): đá `sandstone_blocks_05`, fascia/sàn đua `concrete_floor_02` (Lambert mờ, khử bão hoà + nén tương phản), hiên `concrete_floor_02` sáng, gỗ `brown_planks_03` (ván ngang), cỏ `leafy_grass` (chuyển sắc xanh, sọc cắt cỏ, biến thiên macro, AO nền nướng trong shader). Contact-AO giải tích theo cao độ sàn/trần trên tường.
+- **Biến thể mặt tiền** (`primary` = `mass:stone`): Sandstone (scan đá) · Basalt (cùng scan, tint lạnh, khử bão hoà, nhám 0,78, normal mạnh) · Board Concrete (đổi hẳn sang bộ scan bê tông).
+- **Ánh sáng**: HDRI `belfast_sunset_puresky_2k.hdr` → `env.ts` lọc 2K→1K + nén đỉnh mặt trời (mặt trời do đèn key có bóng đảm nhận); cùng texture cho IBL và vòm trời (`Sky.tsx`, trộn gradient chạng vạng → đêm có sao). Key light thấp phía trước-trái, shadow map 2048 đóng băng sau 6 frame.
+- **Cảnh quan** (`Landscape.tsx`): cỏ thật 90k ngọn (cửa sổ cuộn theo ống kính, neo theo thế giới), cây sồi/thông bằng thẻ lá alpha + lõi đặc (early-z), shader lá chiếu sáng theo đỉnh (rẻ ~3× Lambert), vòng cây xa, cây che chủ thể tự mờ dần.
+- **Texture dẫn xuất**: `node src/demos/real-estate/scripts/make-textures.mjs` (sharp, lanczos3) tạo `<id>_{diff,nor_gl,arm}_1k.webp` cạnh bản 2K gốc trong `public/assets/textures/<id>/`.

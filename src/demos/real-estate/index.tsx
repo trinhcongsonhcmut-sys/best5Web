@@ -25,7 +25,7 @@ export default function RealEstate() {
     <ShowcasePage
       meta={META}
       scene={
-        <Stage background="#0e1626" fov={34} exposure={1.0} tone="aces" dprMax={1.5}>
+        <Stage background="#0e1626" fov={34} exposure={1.08} tone="aces" dprMax={1.5}>
           <RealEstateScene />
         </Stage>
       }

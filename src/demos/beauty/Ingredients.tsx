@@ -1,8 +1,8 @@
 /**
- * Five botanicals orbiting the jar (aloe slice, vitamin-E capsule, squalane drop, shea nut, green-tea leaf)
- * + a ring of dew droplets. Each ingredient is hoverable (rim + spring scale + its callout brightens).
- * World positions are projected every frame to drive DOM callouts that are pushed OUTWARD from the jar
- * (never on top of the mesh) and clamped inside the viewport; the three "craft" labels at 75 % use the same layout.
+ * Five actives orbiting the bottle (orange wheel, vitamin-C softgel, hyaluronic water drop, vitamin-E oil drop,
+ * peel twist with real rind thickness) + a ring of water beads. Each active is hoverable (rim + spring scale + its callout brightens).
+ * World positions are projected every frame to drive DOM callouts that are pushed OUTWARD from the bottle
+ * (never on top of the mesh) and clamped inside the viewport; the three "craft" labels at 75 % use the same writer.
  */
 import { useEffect, useMemo, useRef, type ReactNode } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
@@ -10,12 +10,17 @@ import * as THREE from 'three';
 import { scrollState } from '../../lib/scroll';
 import { addRim, useHoverRim, type RimUniforms } from '../../lib/rim';
 import { pose } from './anim';
-import { calloutEls, JS, rig, warm, steadyHover } from './rig';
-import { aloeSliceGeometries, dropGeometry, nutGeometry, teaLeafGeometry } from './geometry';
+import { look } from './palette';
+import { calloutEls, rig, warm, steadyHover } from './rig';
+import { BOT, dropGeometry, peelGeometries, sliceGeometries } from './geometry';
+import { fleshMaterial, rindMaterial, skipTransmissionPass, waterMaterial } from './materials';
 
-const RING_R = 1.12 * JS;
+const RING_R = 1.12;
 const TILT = 0.32;
 const DEW = 18;
+const ING_SCALE = 1.9;
+/** orbit slots (rad) at the 50 % mark: front-right, right, back-left, left, front-left (0 = toward camera) — two actives right, three left, none in front of the label */
+const SLOTS = [40, 112, 205, 262, 322].map((d) => (d * Math.PI) / 180);
 
 /** Hover wrapper: rim on the item's materials + spring scale; mirrors the amount to rig.ingHover[i]. */
 function Hot({ i, uniforms, children }: { i: number; uniforms: RimUniforms[]; children: ReactNode }) {
@@ -41,56 +46,46 @@ export function Ingredients() {
   const { camera, size } = useThree();
 
   const res = useMemo(() => {
-    const slice = aloeSliceGeometries();
-    const tea = teaLeafGeometry();
+    const wheel = sliceGeometries(0.15, 0.034);
+    const peel = peelGeometries();
     const geos = {
-      skin: slice.skin,
-      gel: slice.gel,
-      capsule: new THREE.CapsuleGeometry(0.045, 0.12, 8, 20),
-      drop: dropGeometry(0.068),
-      nut: nutGeometry(),
-      tea: tea.leaf,
-      stem: tea.stem,
-      dew: new THREE.SphereGeometry(1, 20, 14),
+      face: wheel.face,
+      band: wheel.rind,
+      capsule: new THREE.CapsuleGeometry(0.045, 0.12, 10, 24),
+      drop: dropGeometry(0.07),
+      oil: dropGeometry(0.06),
+      peelRind: peel.rind,
+      peelPith: peel.pith,
+      dew: new THREE.SphereGeometry(1, 18, 12),
     };
+    const flesh = fleshMaterial(true);
+    const rind = rindMaterial([4, 0.3], true);
+    const peelRind = rindMaterial([6, 1], true);
+    peelRind.material.side = THREE.FrontSide;
     const m = {
-      skin: rim(new THREE.MeshPhysicalMaterial({ color: '#1a6b34', roughness: 0.36, clearcoat: 0.8, clearcoatRoughness: 0.2 })),
-      gel: rim(new THREE.MeshPhysicalMaterial({ color: '#dff5d8', roughness: 0.08, clearcoat: 1, clearcoatRoughness: 0.04, emissive: new THREE.Color('#bfe3a8'), emissiveIntensity: 0.35, transparent: true, opacity: 0.9 })),
-      capsule: rim(new THREE.MeshPhysicalMaterial({ color: '#f0a92a', roughness: 0.06, clearcoat: 1, clearcoatRoughness: 0.03, emissive: new THREE.Color('#a85a00'), emissiveIntensity: 0.35 })),
-      oil: rim(new THREE.MeshPhysicalMaterial({ color: '#f2d27a', roughness: 0.04, clearcoat: 1, clearcoatRoughness: 0.02, transparent: true, opacity: 0.92, emissive: new THREE.Color('#b8902e'), emissiveIntensity: 0.2, iridescence: 0.75, iridescenceIOR: 1.47, envMapIntensity: 1.7 })),
-      nut: rim(new THREE.MeshStandardMaterial({ color: '#8b5a37', roughness: 0.72 })),
-      tea: rim(new THREE.MeshPhysicalMaterial({ color: '#4f8a3a', roughness: 0.42, clearcoat: 0.5, clearcoatRoughness: 0.3, side: THREE.DoubleSide })),
+      capsule: rim(new THREE.MeshPhysicalMaterial({ color: '#ff9a1a', roughness: 0.07, clearcoat: 1, clearcoatRoughness: 0.03, emissive: new THREE.Color('#c85400'), emissiveIntensity: 0.32 })),
+      oil: rim(new THREE.MeshPhysicalMaterial({ color: '#f2d27a', roughness: 0.04, clearcoat: 1, clearcoatRoughness: 0.02, transparent: true, opacity: 0.92, emissive: new THREE.Color('#b8902e'), emissiveIntensity: 0.2, envMapIntensity: 1.7 })),
+      pith: rim(new THREE.MeshPhysicalMaterial({ color: '#fbf0d8', roughness: 0.7, side: THREE.DoubleSide })),
     };
-    // dew droplets: clear centre, bright Fresnel rim + one specular glint → read as water, never as a grey disc
-    const dewMat = new THREE.ShaderMaterial({
-      transparent: true,
-      depthWrite: false,
-      vertexShader: `varying vec3 vN; varying vec3 vV;
-        void main(){
-          vec4 mv = modelViewMatrix * instanceMatrix * vec4(position, 1.0);
-          vN = normalize(normalMatrix * mat3(instanceMatrix) * normal);
-          vV = normalize(-mv.xyz);
-          gl_Position = projectionMatrix * mv;
-        }`,
-      fragmentShader: `varying vec3 vN; varying vec3 vV;
-        void main(){
-          float f = pow(1.0 - abs(dot(vN, vV)), 2.2);
-          float g = smoothstep(0.9, 0.985, dot(vN, normalize(vec3(-0.45, 0.6, 0.66))));
-          float a = clamp(f * 0.75 + g, 0.0, 1.0);
-          gl_FragColor = vec4(vec3(1.0), a);
-        }`,
-    });
+    m.pith.material.color = look.pith;
+    // same (transparent-flagged) programs as the hero citrus / oil drop → fewer cold shader compiles, and none of
+    // these is ever needed inside the glass's transmission pre-pass
+    [flesh, rind, peelRind, m.capsule, m.oil, m.pith].forEach((x) => skipTransmissionPass(x.material));
+    const hyal = waterMaterial();
+    const dewMat = waterMaterial();
     let s = 7;
     const rnd = () => ((s = (s * 16807) % 2147483647) / 2147483647);
-    const seeds = Array.from({ length: DEW }, () => ({ a: rnd() * Math.PI * 2, r: (1.35 + rnd() * 0.5) * JS, y: (rnd() - 0.5) * 0.9, s: 0.012 + rnd() * 0.016, sp: 0.4 + rnd() * 0.8 }));
-    return { geos, m, dewMat, seeds };
+    const seeds = Array.from({ length: DEW }, () => ({ a: rnd() * Math.PI * 2, r: 1.25 + rnd() * 0.45, y: (rnd() - 0.5) * 1.1, s: 0.012 + rnd() * 0.016, sp: 0.4 + rnd() * 0.8 }));
+    return { geos, flesh, rind, peelRind, m, hyal, dewMat, seeds };
   }, []);
 
   useEffect(
     () => () => {
       Object.values(res.geos).forEach((g) => g.dispose());
       Object.values(res.m).forEach((x) => x.material.dispose());
-      res.dewMat.dispose();
+      [res.flesh.material, res.rind.material, res.peelRind.material, res.hyal.material, res.dewMat.material].forEach((x) => x.dispose());
+      res.rind.material.normalMap?.dispose();
+      res.peelRind.material.normalMap?.dispose();
     },
     [res],
   );
@@ -105,17 +100,20 @@ export function Ingredients() {
     if (!g) return;
     g.visible = k > 0.001 || warm.on;
     g.position.copy(rig.jarCenter);
+    res.hyal.fade.value = 1;
+    res.dewMat.fade.value = Math.min(1, k * 1.5);
     const portrait = size.width / size.height < 0.8;
     items.current.forEach((it, i) => {
       if (!it) return;
-      const ang = (i / 5) * Math.PI * 2 + a.orbitAngle + 1.085;
-      // never closer than jar radius + 0.3 (no ingredient poking through the jar mouth)
-      const rr = Math.max(RING_R * (0.55 + 0.45 * k) * (portrait ? 0.8 : 1), (portrait ? 0.92 : 1.0) * JS * (0.6 + 0.4 * k));
+      // uneven spacing keeps the front sector (the label) and the dead-back sector clear at the 50 % mark
+      const ang = SLOTS[i] + a.orbitAngle;
+      // never closer than the bottle radius + 0.45 (nothing pokes through the glass)
+      const rr = Math.max(RING_R * (0.55 + 0.45 * k) * (portrait ? 0.82 : 1), (portrait ? 0.68 : 0.75) * (0.6 + 0.4 * k));
       const x = Math.sin(ang) * rr;
       const z = Math.cos(ang) * rr;
-      it.position.set(x, -z * 0.2 + Math.sin(t * 0.8 + i) * 0.03 + (i % 2 ? 0.08 : -0.08), z * Math.cos(TILT));
-      it.scale.setScalar(Math.max(0.0001, k) * 1.75 * JS);
-      // gentle rock — faces (slice cross-section, leaf blade) stay mostly toward the viewer
+      it.position.set(x, -z * 0.2 + Math.sin(t * 0.8 + i) * 0.03 + (i % 2 ? 0.12 : -0.12), z * Math.cos(TILT));
+      it.scale.setScalar(Math.max(0.0001, k) * ING_SCALE);
+      // gentle rock — faces (wheel cross-section, peel) stay mostly toward the viewer
       it.rotation.set(0.25 * Math.sin(t * 0.45 + i), Math.sin(t * 0.3 + i * 1.7) * 0.7, 0.3 * Math.sin(t * 0.5 + i));
       it.getWorldPosition(rig.ingredients[i]);
     });
@@ -125,7 +123,7 @@ export function Ingredients() {
         const ang = sd.a + a.orbitAngle * 0.6 + t * 0.05 * sd.sp;
         const rr = sd.r * (0.6 + 0.4 * k);
         tmp.p.set(Math.sin(ang) * rr, sd.y + Math.sin(t * sd.sp + i) * 0.04, Math.cos(ang) * rr * 0.9);
-        tmp.sc.setScalar(sd.s * Math.max(0.0001, k));
+        tmp.sc.setScalar(sd.s * Math.max(0.0001, k) * 1.4);
         tmp.q.identity();
         tmp.m.compose(tmp.p, tmp.q, tmp.sc);
         d.setMatrixAt(i, tmp.m);
@@ -149,16 +147,16 @@ export function Ingredients() {
       return Math.abs(proj(tmp.c)[0] - cx);
     };
     const [jx, jy] = proj(rig.jarCenter);
-    const jr = sr(rig.jarCenter, 0.62 * JS, jx);
-    // jar silhouette as a box (body + cap, follows the lift / tilt loosely)
-    tmp.c.copy(rig.jarCenter).addScaledVector(tmp.p, 0.62 * JS);
+    const jr = sr(rig.jarCenter, 0.4, jx);
+    // bottle silhouette as a box: glass + raised dropper (follows lift / tilt loosely)
+    tmp.c.copy(rig.jarCenter).addScaledVector(tmp.p, 1.35);
     const jTop = proj(tmp.c)[1];
-    tmp.c.copy(rig.jarCenter).addScaledVector(tmp.p, -0.62 * JS);
+    tmp.c.copy(rig.jarCenter).addScaledVector(tmp.p, -0.95);
     const jBot = proj(tmp.c)[1];
     const jarBox = { x0: jx - jr, x1: jx + jr, y0: Math.min(jTop, jBot), y1: Math.max(jTop, jBot) };
     const jarDist = camera.position.distanceTo(rig.jarCenter);
 
-    // every ingredient's projected silhouette (circle) = obstacle for ALL labels
+    // every active's projected silhouette (circle) = obstacle for ALL labels
     const circles = rig.ingredients.map((w, i) => {
       const it = items.current[i];
       const s = it ? it.scale.x * (1 + 0.16 * rig.ingHover[i]) : 0;
@@ -167,6 +165,13 @@ export function Ingredients() {
     });
     type Box = { x0: number; x1: number; y0: number; y1: number };
     const hitBox = (b: Box, o: Box) => b.x0 < o.x1 && b.x1 > o.x0 && b.y0 < o.y1 && b.y1 > o.y0;
+    /** distance from point (px,py) to segment a→b */
+    const segDist = (ax: number, ay: number, bx: number, by: number, px: number, py: number) => {
+      const vx = bx - ax;
+      const vy = by - ay;
+      const t = THREE.MathUtils.clamp(((px - ax) * vx + (py - ay) * vy) / Math.max(1e-6, vx * vx + vy * vy), 0, 1);
+      return Math.hypot(ax + vx * t - px, ay + vy * t - py);
+    };
     const hitCircle = (b: Box, c: { x: number; y: number; r: number }) => {
       const dx = c.x - Math.max(b.x0, Math.min(c.x, b.x1));
       const dy = c.y - Math.max(b.y0, Math.min(c.y, b.y1));
@@ -194,11 +199,11 @@ export function Ingredients() {
     };
 
     /**
-     * Pushes the label outward from the jar centre along its ray until its box clears the jar, every ingredient
-     * silhouette and every label already placed (nearest ingredients are placed first). Returns false if no
-     * free spot was found within the viewport.
+     * Pushes the label outward from the bottle centre along its ray until its box clears the bottle, every active's
+     * silhouette and every label already placed (nearest actives are placed first). Returns false if no free spot
+     * was found within the viewport.
      */
-    const solve = (i: number, x: number, y: number, el: HTMLElement) => {
+    const solve = (i: number, x: number, y: number, el: HTMLElement, strict = true) => {
       let dx = x - jx;
       let dy = (y - jy) * 0.5;
       const n = Math.hypot(dx, dy) || 1;
@@ -207,7 +212,7 @@ export function Ingredients() {
       if (Math.abs(dx) < 0.4) dx = Math.sign(dx || 1) * 0.4;
       const side: 'l' | 'r' = dx < 0 ? 'l' : 'r';
       const tries: [number, number][] = [];
-      for (let L = 70; L <= 330; L += 26) for (const off of [0, -34, 34, -68, 68]) tries.push([L, off]);
+      for (let L = 70; L <= 330; L += 26) for (const off of [0, -34, 34, -68, 68, -110, 110, -150, 150]) tries.push([L, off]);
       for (const [L, off] of tries) {
         let ex = x + dx * L;
         ex = side === 'r' ? Math.min(ex, W - 16 - LW) : Math.max(ex, 16 + LW);
@@ -215,7 +220,10 @@ export function Ingredients() {
         const b = labelBox(ex, ey, side);
         if (hitBox(b, jarBox)) continue;
         if (circles.some((c, j) => (j === i || c.r > 7) && rig.ingredients[j] && hitCircle(b, c))) continue;
-        if (placed.some((p) => hitBox(b, { x0: p.x0 - 6, x1: p.x1 + 6, y0: p.y0 - 8, y1: p.y1 + 8 }))) continue;
+        // the leader may not cut across another active
+        if (strict && circles.some((c, j) => j !== i && c.r > 7 && segDist(x, y, ex, ey, c.x, c.y) < c.r * 0.95)) continue;
+        const gy = strict ? 16 : 8;
+        if (placed.some((p) => hitBox(b, { x0: p.x0 - 10, x1: p.x1 + 10, y0: p.y0 - gy, y1: p.y1 + gy }))) continue;
         placed.push(b);
         write(el, x, y, ex, ey, side);
         return true;
@@ -229,37 +237,46 @@ export function Ingredients() {
       if (!el) continue;
       const c = circles[i];
       const { x, y } = c;
-      // hidden when the ingredient is behind the jar silhouette, or largely covered by a nearer ingredient
+      // hidden when the active is behind the bottle silhouette, or largely covered by a nearer active
       const depth = c.d - jarDist;
-      const overJar = 1 - THREE.MathUtils.smoothstep(Math.hypot(x - jx, (y - jy) * 0.8) / Math.max(1, jr), 0.55, 0.8);
+      const inside = x > jarBox.x0 - 4 && x < jarBox.x1 + 4 && y > jarBox.y0 && y < jarBox.y1 ? 1 : 0;
+      const overJar = inside * (1 - THREE.MathUtils.smoothstep(Math.abs(x - jx) / Math.max(1, jr), 0.7, 1.1));
       const coveredBy = circles.some((o, j) => j !== i && o.d < c.d - 0.05 && Math.hypot(o.x - x, o.y - y) < o.r * 0.8);
       let op = a.callouts * (1 - THREE.MathUtils.smoothstep(depth, 0.0, 0.3) * overJar) * (coveredBy ? 0 : 1);
       if (mobile) {
         el.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)`;
-      } else if (op > 0.01 && !solve(i, x, y, el)) op = 0;
+      } else if (op > 0.01 && !solve(i, x, y, el) && !solve(i, x, y, el, false)) op = 0;
       el.style.opacity = op.toFixed(3);
       el.style.visibility = op < 0.01 ? 'hidden' : 'visible';
       const hot = rig.ingHover[i] > 0.3;
       if (el.classList.contains('hot') !== hot) el.classList.toggle('hot', hot);
     }
 
-    // craft labels (75 %): leader from the right silhouette edge of each separated layer, stacked without overlap
-    const layers: [THREE.Vector3, number][] = [
-      [rig.capCenter, 0.6 * JS],
-      [rig.creamCenter, 0.46 * JS],
-      [rig.bodyCenter, 0.58 * JS],
+    // craft labels (75 %): bulb + pipette on the right of the raised dropper, glass body on the left of the bottle
+    const layers: [THREE.Vector3, number, 'l' | 'r'][] = [
+      [rig.bulbAnchor, BOT.bulbR + 0.01, 'r'],
+      [rig.pipetteAnchor, 0.035, 'r'],
+      [rig.bodyAnchor, BOT.r + 0.012, 'l'],
     ];
     const dW = mobile ? 104 : 170;
     let lastY = -1e9;
     calloutEls.detail.forEach((el, i) => {
       if (!el) return;
-      const [cc, r] = layers[i];
-      tmp.c.copy(cc).addScaledVector(tmp.r, r);
+      const [cc, r, sd] = layers[i];
+      // phones: every craft label sits on the right of the stack (the left edge is too narrow)
+      const side = mobile ? 'r' : sd;
+      tmp.c.copy(cc).addScaledVector(tmp.r, side === 'r' ? r : -r);
       const [x, y] = proj(tmp.c);
-      const ex = Math.min(x + (mobile ? 34 : 70), W - 16 - dW);
-      const ey = Math.max(THREE.MathUtils.clamp(y, 74, H - 140), lastY + 48);
-      lastY = ey;
-      write(el, x, y, Math.max(ex, x + 20), ey, 'r');
+      if (side === 'r') {
+        const ex = Math.min(x + (mobile ? 34 : 70), W - 16 - dW);
+        const ey = Math.max(THREE.MathUtils.clamp(y, 74, H - 140), lastY + 48);
+        lastY = ey;
+        write(el, x, y, Math.max(ex, x + 20), ey, 'r');
+      } else {
+        const ex = Math.max(x - (mobile ? 30 : 70), 16 + (mobile ? 96 : dW));
+        const ey = THREE.MathUtils.clamp(y, 74, H - 140);
+        write(el, x, y, Math.min(ex, x - 20), ey, 'l');
+      }
       el.style.opacity = a.details.toFixed(3);
       el.style.visibility = a.details < 0.01 ? 'hidden' : 'visible';
     });
@@ -272,9 +289,11 @@ export function Ingredients() {
   return (
     <group ref={group}>
       <group ref={set(0)}>
-        <Hot i={0} uniforms={[m.skin.uniforms, m.gel.uniforms]}>
-          <mesh geometry={geos.skin} material={m.skin.material} />
-          <mesh geometry={geos.gel} material={m.gel.material} renderOrder={1} />
+        <Hot i={0} uniforms={[res.flesh.uniforms!, res.rind.uniforms!]}>
+          <group rotation-x={Math.PI / 2 - 0.25}>
+            <mesh geometry={geos.face} material={res.flesh.material} />
+            <mesh geometry={geos.band} material={res.rind.material} />
+          </group>
         </Hot>
       </group>
       <group ref={set(1)}>
@@ -283,22 +302,24 @@ export function Ingredients() {
         </Hot>
       </group>
       <group ref={set(2)}>
-        <Hot i={2} uniforms={[m.oil.uniforms]}>
-          <mesh geometry={geos.drop} material={m.oil.material} />
+        <Hot i={2} uniforms={[]}>
+          <mesh geometry={geos.drop} material={res.hyal.material} renderOrder={6} />
         </Hot>
       </group>
       <group ref={set(3)}>
-        <Hot i={3} uniforms={[m.nut.uniforms]}>
-          <mesh geometry={geos.nut} material={m.nut.material} />
+        <Hot i={3} uniforms={[m.oil.uniforms]}>
+          <mesh geometry={geos.oil} material={m.oil.material} />
         </Hot>
       </group>
       <group ref={set(4)}>
-        <Hot i={4} uniforms={[m.tea.uniforms]}>
-          <mesh geometry={geos.tea} material={m.tea.material} />
-          <mesh geometry={geos.stem} material={m.tea.material} />
+        <Hot i={4} uniforms={[res.peelRind.uniforms!, m.pith.uniforms]}>
+          <group rotation={[0.35, 0, 0.5]} scale={1.15}>
+            <mesh geometry={geos.peelRind} material={res.peelRind.material} />
+            <mesh geometry={geos.peelPith} material={m.pith.material} />
+          </group>
         </Hot>
       </group>
-      <instancedMesh ref={dew} args={[geos.dew, res.dewMat, DEW]} raycast={() => null} />
+      <instancedMesh ref={dew} args={[geos.dew, res.dewMat.material, DEW]} renderOrder={7} raycast={() => null} frustumCulled={false} />
     </group>
   );
 }

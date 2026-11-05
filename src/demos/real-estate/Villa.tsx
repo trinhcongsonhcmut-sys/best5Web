@@ -9,27 +9,25 @@ import { buildVilla, Y } from './architecture';
 import type { Part } from './kit';
 import { createLib, FACADES, type Lib } from './materials';
 import { colliders, hoverUi, nightOf } from './state';
-import { warmStones } from './textures';
 
 const PARTS: Exclude<Part, 'none'>[] = ['mass', 'glass', 'roof', 'fins', 'pool'];
 /** rim strength per part (glass/water need more to read) */
-const STRENGTH: Record<Exclude<Part, 'none'>, number> = { mass: 0.9, glass: 1.6, roof: 1.1, fins: 1.2, pool: 0.7 };
+const STRENGTH: Record<Exclude<Part, 'none'>, number> = { mass: 1.5, glass: 2.4, roof: 0.75, fins: 1.9, pool: 0.9 };
 
 export function Villa({ lib }: { lib: Lib }) {
   const { parts, edges } = useMemo(() => {
     const v = buildVilla();
-    // camera collision: every volume + plinth + rooftop pergola/core
+    // camera collision: every volume + the cantilever slabs / roofs + terrace + roof terrace
     colliders.boxes = [
       ...v.edges,
-      { min: [-12.5, 0, -8.6], max: [13.6, 0.5, 9.5] },
-      { min: [-11, 12.1, -6.5], max: [4, 16.2, 5.5] },
-      { min: [-30, 0, 22.4], max: [30, 1.2, 23.4] },
+      { min: [-12.4, Y.gfCeil, -6.1], max: [4.6, Y.l1, 6.2] },
+      { min: [-12.4, Y.l1Ceil, -6.1], max: [4.6, Y.roof, 6.2] },
+      { min: [5.9, Y.gfCeil, -5.4], max: [13.8, Y.l1, 5.0] },
+      { min: [5.9, Y.bCeil, -5.4], max: [13.8, Y.bRoof, 5.0] },
+      { min: [-12.9, 0, -6.6], max: [14.4, Y.terrace, 8.8] },
+      { min: [-9.9, Y.roof, -5.5], max: [3.7, Y.deck + 1.1, 3.5] },
     ];
     return v;
-  }, []);
-  useEffect(() => {
-    const id = window.setTimeout(warmStones, 2500);
-    return () => window.clearTimeout(id);
   }, []);
   const index = variantStore.use((s) => s.index);
   const hovered = useRef<Part | null>(null);
@@ -40,6 +38,7 @@ export function Villa({ lib }: { lib: Lib }) {
   const pointerIn = useRef(false);
   const ndc = useRef(new THREE.Vector2(9, 9));
   const tapTimer = useRef(0);
+  const repick = useRef(0);
   const gl = useThree((s) => s.gl);
   const raycaster = useThree((s) => s.raycaster);
   const camera = useThree((s) => s.camera);
@@ -117,13 +116,14 @@ export function Villa({ lib }: { lib: Lib }) {
     };
   }, [lib]);
 
-  // variant → swap the actual stone texture set (pattern + relief), colour/roughness ease in useFrame
+  // variant → swap the actual PBR scan (albedo + normal + AO/roughness); tint / roughness / relief ease in useFrame
   useEffect(() => {
-    const set = lib.stone(index);
+    const set = lib.sets[FACADES[index].set];
     for (const m of lib.stones) {
       m.map = set.map;
-      m.roughnessMap = set.rough;
-      m.bumpMap = set.rough;
+      m.normalMap = set.normal;
+      m.roughnessMap = set.arm;
+      m.aoMap = set.arm;
     }
     bridge.state.extra.facade = FACADES[index].id;
   }, [index, lib]);
@@ -163,11 +163,14 @@ export function Villa({ lib }: { lib: Lib }) {
     for (const m of lib.stones) {
       m.color.lerp(tint, 1 - Math.exp(-7 * dt));
       m.roughness = damp(m.roughness, f.rough, 7, dt);
-      m.bumpScale = damp(m.bumpScale, f.bump, 7, dt);
+      const ns = damp(m.normalScale.x, f.normal, 7, dt);
+      m.normalScale.set(ns, ns);
     }
+    lib.stoneSat.value = damp(lib.stoneSat.value, f.sat, 7, dt);
 
-    // interior / LED ramps dusk → night (pure function of p)
+    // interior / LED / downlight ramps dusk → night (pure function of p)
     for (const [m, a, b] of lib.ramps) m.emissiveIntensity = a + (b - a) * n;
+    for (const [m, a, b] of lib.cards) m.opacity = a + (b - a) * n;
 
     // camera flying (scroll / orbit) → drop the hover; once it settles, re-pick under the still pointer
     const cp = state.camera.position;
@@ -182,6 +185,14 @@ export function Villa({ lib }: { lib: Lib }) {
       }
     }
     lastCam.current.copy(cp);
+    // fast pointer jumps (part → sky in one event) can skip R3F's pointerout: while the pointer is on the canvas
+    // and the camera is still, re-pick every 4th frame and drop / switch the hover to what is really under it
+    if (pointerIn.current && !camDirty.current && ++repick.current % 4 === 0) {
+      const part = pick();
+      if (!part) {
+        if (hovered.current) clearHover();
+      } else if (part !== hovered.current) setHover(part, hoverUi.x, hoverUi.y);
+    }
 
     // hover per part (exponential smoothing → no flicker)
     let best = 0;
@@ -203,8 +214,7 @@ export function Villa({ lib }: { lib: Lib }) {
       for (const u of rims) u.uRim.value = v * STRENGTH[part];
     }
     const glass = lib.get('glass', 'glass') as THREE.MeshPhysicalMaterial;
-    glass.opacity = 0.38 - 0.13 * n + hv.current.glass * 0.1;
-    (lib.get('none', 'wash') as unknown as THREE.MeshBasicMaterial).opacity = 0.45 + 0.4 * n;
+    glass.opacity = 0.32 - 0.1 * n + hv.current.glass * 0.1;
     const pool = lib.get('pool', 'water');
     pool.emissiveIntensity += hv.current.pool * 0.25;
     const stone = lib.primary.material;
@@ -224,9 +234,9 @@ export function Villa({ lib }: { lib: Lib }) {
     if (holo.current) holo.current.visible = holoMat.opacity > 0.002;
   });
 
-  /** the pool basin seen from below the deck (overview) reads as roof, not water */
+  /** the pool basin seen from below the roof deck reads as roof, not water */
   function resolve(part: Part | null): Part | null {
-    return part === 'pool' && camera.position.y < 12.6 ? 'roof' : part;
+    return part === 'pool' && camera.position.y < Y.deck ? 'roof' : part;
   }
   function pick(): Part | null {
     if (!hoverGroup.current || Math.abs(ndc.current.x) > 1 || Math.abs(ndc.current.y) > 1) return null;
@@ -273,18 +283,19 @@ export function Villa({ lib }: { lib: Lib }) {
   };
 
   return (
-    <group>
+    <group name="villa">
       <group ref={hoverGroup} onPointerMove={onMove} onPointerOut={onOut}>
         {parts.map(({ part, mat, geometry }) => {
           const material = lib.get(part, mat);
-          const transparent = mat === 'glass' || mat === 'curtain' || mat === 'wash';
-          const emissiveOnly = mat === 'glow' || mat === 'led' || mat === 'glowCool' || mat === 'wash';
+          const transparent = mat === 'glass' || mat === 'curtain' || mat === 'wash' || mat === 'scallop';
+          const emissiveOnly = mat === 'glow' || mat === 'led' || mat === 'glowCool' || mat === 'wash' || mat === 'scallop';
           return (
             <mesh
               key={`${part}:${mat}`}
+              name={`${part}:${mat}`}
               geometry={geometry}
               material={material}
-              castShadow={!transparent && !emissiveOnly && mat !== 'interiorWall'}
+              castShadow={!transparent && !emissiveOnly}
               receiveShadow={!transparent && !emissiveOnly}
               userData={{ part: part === 'none' ? null : part }}
               raycast={part === 'none' ? () => undefined : undefined}
@@ -293,8 +304,8 @@ export function Villa({ lib }: { lib: Lib }) {
           );
         })}
         {/* infinity pool water + overflow sheet */}
-        <mesh ref={water} position={[-3.7, Y.water, 3.26]} rotation-x={-Math.PI / 2} material={lib.get('pool', 'water')} userData={{ part: 'pool' }} renderOrder={3}>
-          <planeGeometry args={[11.0, 4.5]} />
+        <mesh name="pool:waterplane" ref={water} position={[-2.0, Y.water, 0.02]} rotation-x={-Math.PI / 2} material={lib.get('pool', 'water')} userData={{ part: 'pool' }} renderOrder={3}>
+          <planeGeometry args={[8.6, 3.66]} />
         </mesh>
       </group>
       <lineSegments ref={holo} geometry={holoGeo} material={holoMat} visible={false} renderOrder={5} />

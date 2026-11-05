@@ -1,101 +1,146 @@
 /**
- * BAHA BOTANICA — "Aloe & Sky" art direction (reference/PALETTES.md Demo 1, A1 + A2 colour-world mechanic).
- * One palette per variant: the whole WebGL world (backdrop gradient, glass, cream, cap, leaves, word) lerps to it.
+ * BAHA BOTANICA v2 — three serum worlds (amber Vitamin C · rose Hyaluronic · verdant Niacinamide).
+ * One palette per variant: the whole WebGL world (backdrop, bottle glass + liquid, label accent, citrus, word) lerps to it.
  */
 import * as THREE from 'three';
 
 export interface World {
   id: string;
   label: string;
-  /** product name printed on the jar label */
+  /** product name printed on the label (+ HUD kicker) */
   name: string;
-  /** giant display word behind the jar */
+  /** active line on the label */
+  active: string;
+  /** glass description (craft callout) */
+  glassName: string;
+  /** citrus used in the still-life */
+  fruit: string;
+  /** peel-oil active (5th orbiting ingredient) */
+  peel: string;
+  /** giant display word behind the bottle */
   word: string;
   bgTop: string;
   bgMid: string;
   bgBot: string;
   glow: string;
+  /** bottle glass tint (bridge "primary") + Beer–Lambert attenuation colour */
   glass: string;
   atten: string;
-  cream: string;
-  cap: string;
+  liquid: string;
+  collar: string;
+  bulb: string;
   ink: string;
+  paper: string;
   labelInk: string;
-  leaf: string;
+  accent: string;
+  rind: string;
+  rindCut: string;
+  pulp: string;
+  pith: string;
   plinth: string;
-  serum: string;
   shadow: string;
-  foil: string;
+  /** dark edge tint of the water splash (water on a pale set reads by its refraction lines) */
+  waterEdge: string;
 }
 
 export const WORLDS: World[] = [
   {
-    id: 'aloe',
-    label: 'Aloe Mist',
-    name: 'Aloe',
-    word: 'SOOTHE',
-    bgTop: '#6aa9dc',
-    bgMid: '#7ab9e6',
-    bgBot: '#cdeeff',
-    glow: '#e4f6ff',
-    glass: '#0f4a2a',
-    atten: '#0a3a1f',
-    cream: '#e4ecd9',
-    cap: '#1b2129',
-    ink: '#0d2219',
-    labelInk: '#d8ecd9',
-    leaf: '#1d6236',
-    plinth: '#dceff8',
-    serum: '#cfe9b8',
-    shadow: '#2b5d7c',
-    foil: '#d9c08a',
+    id: 'vitc',
+    label: 'Vitamin C',
+    name: 'Radiance',
+    active: 'Vitamin C 15%',
+    glassName: 'Amber glass',
+    fruit: 'Sweet orange',
+    peel: 'Orange peel oil',
+    word: 'GLOW',
+    bgTop: '#eadccb',
+    bgMid: '#f4ebdf',
+    bgBot: '#fbf6ef',
+    glow: '#fffaf2',
+    glass: '#f2b878',
+    atten: '#8f3f07',
+    liquid: '#e08c26',
+    collar: '#ebe7e0',
+    bulb: '#f3f0ea',
+    ink: '#33200f',
+    paper: '#f2e8d7',
+    labelInk: '#3a2a1d',
+    accent: '#e08a3a',
+    rind: '#f28a16',
+    rindCut: '#f7a62e',
+    pulp: '#ff8f1c',
+    pith: '#fbf0d8',
+    plinth: '#efe5d8',
+    shadow: '#7a4a24',
+    waterEdge: '#6b5a48',
   },
   {
     id: 'rose',
-    label: 'Rose Quartz',
-    name: 'Rose',
+    label: 'Rose Hyaluron',
+    name: 'Hydra',
+    active: 'Hyaluronic 2%',
+    glassName: 'Rose glass',
+    fruit: 'Pink grapefruit',
+    peel: 'Grapefruit peel oil',
     word: 'BLOOM',
-    bgTop: '#e6b2bd',
-    bgMid: '#f3d2d6',
-    bgBot: '#fcf0ec',
-    glow: '#fff9f6',
-    glass: '#c9768a',
-    atten: '#8e3550',
-    cream: '#f3dcd8',
-    cap: '#f2ebe7',
+    bgTop: '#ecd2cf',
+    bgMid: '#f6e6e3',
+    bgBot: '#fdf4f1',
+    glow: '#fffaf8',
+    glass: '#f2b2b9',
+    atten: '#a63a55',
+    liquid: '#f4a9b4',
+    collar: '#eee7e4',
+    bulb: '#f6f0ed',
     ink: '#47192a',
-    labelInk: '#fff0f2',
-    leaf: '#3f6e48',
-    plinth: '#f7e5e3',
-    serum: '#f3bfc9',
+    paper: '#f7ece8',
+    labelInk: '#4a2430',
+    accent: '#d4657c',
+    rind: '#f4a77a',
+    rindCut: '#f7b98e',
+    pulp: '#e4566a',
+    pith: '#fde9df',
+    plinth: '#f4e4e0',
     shadow: '#8c4b5d',
-    foil: '#c79a6c',
+    waterEdge: '#7a5a60',
   },
   {
-    id: 'amber',
-    label: 'Amber Dew',
-    name: 'Amber',
-    word: 'GLOW',
-    bgTop: '#e0a067',
-    bgMid: '#efc79b',
-    bgBot: '#fcefdf',
-    glow: '#fff8ee',
-    glass: '#a8561a',
-    atten: '#5e2a08',
-    cream: '#f0dfbf',
-    cap: '#2a1c14',
-    ink: '#3a210e',
-    labelInk: '#fff3df',
-    leaf: '#3a662c',
-    plinth: '#f5e1c9',
-    serum: '#f1b260',
-    shadow: '#7c4a22',
-    foil: '#e1c38c',
+    id: 'lime',
+    label: 'Verdant Niacinamide',
+    name: 'Clarity',
+    active: 'Niacinamide 10%',
+    glassName: 'Verdant glass',
+    fruit: 'Lime',
+    peel: 'Lime peel oil',
+    word: 'CLEAR',
+    bgTop: '#dae2cf',
+    bgMid: '#e9efe1',
+    bgBot: '#f6f8f0',
+    glow: '#fbfdf6',
+    glass: '#b4cf8e',
+    atten: '#2f6a22',
+    liquid: '#cfe08a',
+    collar: '#e9ebe3',
+    bulb: '#f1f3ec',
+    ink: '#1c2c18',
+    paper: '#eef0e3',
+    labelInk: '#25331f',
+    accent: '#6e9a35',
+    rind: '#4f8f22',
+    rindCut: '#9cc054',
+    pulp: '#a2c25a',
+    pith: '#f1f5d8',
+    plinth: '#e5ebdd',
+    shadow: '#46633a',
+    waterEdge: '#55634c',
   },
 ];
 
-type ColorKey = Exclude<keyof World, 'id' | 'label' | 'name' | 'word'>;
-const KEYS: ColorKey[] = ['bgTop', 'bgMid', 'bgBot', 'glow', 'glass', 'atten', 'cream', 'cap', 'ink', 'labelInk', 'leaf', 'plinth', 'serum', 'shadow', 'foil'];
+type ColorKey = Exclude<keyof World, 'id' | 'label' | 'name' | 'active' | 'glassName' | 'fruit' | 'peel' | 'word'>;
+const KEYS: ColorKey[] = [
+  'bgTop', 'bgMid', 'bgBot', 'glow', 'glass', 'atten', 'liquid', 'collar', 'bulb', 'ink', 'paper', 'labelInk', 'accent',
+  'rind', 'rindCut', 'pulp', 'pith', 'plinth', 'shadow', 'waterEdge',
+];
 
 /** Live (damped) palette shared by every mesh in the scene. Driven once per frame by <LookDriver/>. */
 export const look = Object.fromEntries(KEYS.map((k) => [k, new THREE.Color(WORLDS[0][k])])) as Record<ColorKey, THREE.Color>;

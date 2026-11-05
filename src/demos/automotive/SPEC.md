@@ -1,3 +1,13 @@
+# v2 (photoreal) — AXIOM GT
+Model: `public/assets/models/CarConcept.baha.glb`, built from the approved `CarConcept.glb` (CC BY 4.0 — Eric Chadwick /
+Darmstadt Graphics Group; credit shown on the page) by `tools/build-car.mjs` (Khronos/3DCommerce marks removed from
+licence plate, emissive maps, steering emblem and tyre sidewalls; variant materials dropped; low-poly raycast proxies
+`HIT_*` added; textures → WebP). Rig + motion: `Car.tsx` (v1 mount points: body / chassis / 4 wheel roots + spin);
+world: `Scene.tsx` (graded HDRI sky baked to a cube, layered ridges, CC0 asphalt, baked contact shadows).
+The v1 spec below is kept for the motion beats (same 5 marks, same order).
+
+---
+
 # SPEC — Demo 5 · Automotive (`/automotive`)
 
 Đọc trước: `BUILDER_BRIEF.md`, `reference/F-analysis.md`, `reference/PALETTES.md`; xem `reference/shots/F-contact.jpg`.

@@ -5,18 +5,18 @@ import { scrollState } from '../../lib/scroll';
 import { clockOf, hoverUi, LEVELS, railOf } from './state';
 
 const COPY = [
-  { eyebrow: 'Halcyon House · Private Villa', title: ['Ánh chiều', 'giữ lại trong đá.'], line: 'Ba tầng, một hồ tràn bờ trên mái. Cuộn để bay vào ngôi nhà.' },
-  { eyebrow: 'Ground · Arrival', title: ['Sảnh đá', 'và cửa gỗ trục xoay.'], line: 'Sân đá ướt phản chiếu đèn; cửa teak cao 3,3 m mở vào sảnh ấm.' },
-  { eyebrow: 'Level 1 – 2 · Living & Suite', title: ['Tường kính,', 'lam gỗ teak.'], line: 'Phòng khách kính 14 m vươn ra vườn cọ; phòng ngủ chính khép sau lam teak.' },
-  { eyebrow: 'Rooftop · Infinity', title: ['Hồ tràn bờ', 'ở độ cao 13 m.'], line: 'Mặt nước, sàn teak và giàn pergola thép — trỏ chuột để xem từng phần.' },
+  { eyebrow: 'Halcyon House · Private Villa', title: ['Ánh chiều', 'giữ lại trong đá.'], line: 'Hai tầng mái bằng, sàn đua sâu, một bãi cỏ rộng. Cuộn để bay vào ngôi nhà.' },
+  { eyebrow: 'Ground · Arrival', title: ['Hiên đá', 'dưới sàn đua 2,2 m.'], line: 'Trụ đá khối, ốp gỗ ấm, đèn âm trần hắt vệt sáng xuống mặt đá.' },
+  { eyebrow: 'Level 1 · Living & Suite', title: ['Tường kính,', 'lan can kính.'], line: 'Kính sàn-trần phản chiếu trời chạng vạng; phòng ngủ chính mở ra ban công.' },
+  { eyebrow: 'Roof · Infinity', title: ['Hồ tràn bờ', 'trên mái đua.'], line: 'Mặt nước, sàn gỗ và ống khói đá — trỏ chuột để xem từng phần.' },
   { eyebrow: 'Overview · Night', title: ['Đêm xuống,', 'ngôi nhà thắp sáng.'], line: 'Kéo để xoay 360° quanh biệt thự, hoặc đổi vật liệu mặt tiền.' },
 ];
 
 const PART_LABEL: Record<string, [string, string]> = {
-  mass: ['Stone Mass', 'Khối ốp đá mặt tiền'],
-  glass: ['Glass Wall', 'Kính sàn-trần, khung thép đen'],
-  roof: ['Roof & Pergola', 'Mái đua mỏng · giàn lam'],
-  fins: ['Teak Fins', 'Lam gỗ đứng che nắng'],
+  mass: ['Stone Cladding', 'Trụ & tường ốp đá khối'],
+  glass: ['Glass Wall', 'Kính sàn-trần · lan can kính'],
+  roof: ['Cantilever Slabs', 'Sàn đua & mái bê tông sẫm'],
+  fins: ['Timber & Slats', 'Ốp gỗ ấm · lam thép đứng'],
   pool: ['Infinity Pool', 'Hồ tràn bờ trên mái'],
 };
 

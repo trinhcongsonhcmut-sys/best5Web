@@ -54,7 +54,8 @@ Mức photoreal ở 3 ảnh trên **không đạt được bằng hình khối d
 - Bộ `tests/qc` đủ 10 test/demo (orbit 360°, đổi màu đo trên vật liệu thật, hover, scroll xuôi/ngược, resize 3 cỡ, cảm ứng, FPS) + `scripts/measure-prod.mjs` trên máy rảnh + `record-demo.mjs` quay video mới.
 - Giám khảo độc lập chấm theo thang 100 với **mẫu v2 làm chuẩn hình ảnh** và **v1 làm chuẩn chuyển động**.
 
-## 6. Việc cần Founder quyết định
+## 6. Việc cần Founder quyết định — **ĐÃ QUYẾT 05/11/2026** (xem `../CURRENT_GOAL.md`)
+Founder: "đồng ý các quyết định, hãy thay thành các mẫu trong ảnh"; duyệt tải đủ danh sách (CarConcept.glb CC-BY 4.0, 3 HDRI CC0, 5 bộ texture CC0). Tài sản khác ngoài danh sách vẫn phải xin duyệt. Ghi chú: mục 0 nói "Chưa tự chọn và chưa thay sản phẩm" là trạng thái trước khi Founder duyệt.
 1. Ba ảnh vừa gửi có phải là **mẫu chuẩn mới** cho 3 demo không? (Beauty đổi từ hũ kem sang chai serum dropper.)
 2. Nguồn model: Founder gửi file (A), hay cho phép tôi tìm tài sản miễn phí giấy phép rõ ràng (B — tôi sẽ nêu tên, nguồn, giấy phép, dung lượng từng file để duyệt trước khi tải), hay duyệt mua (C)?
 3. Cho phép tải **HDRI + texture PBR CC0** (dự kiến 2–6 file, mỗi file 2–20 MB) — sẽ liệt kê cụ thể trước khi tải.

@@ -96,7 +96,7 @@ const result = { demo: id, route: ROUTES[id], base: BASE, capturedAt: new Date()
       await page.mouse.move(cx + px / 2, cy + 140, { steps: 30 });
       await page.mouse.up();
     }
-    await page.mouse.move(W - 30, H / 2);
+    await page.mouse.move(6, H - 6); // park the pointer on empty background (no hover) before the shot
     await page.waitForTimeout(1300);
     const s = await state(page);
     result.orbit.push({ step: k, requestedDeg: k * 45, yawDeg: r3((s.orbit.yaw * 180) / Math.PI), yawTotalDeg: r3((s.orbit.yawTotal * 180) / Math.PI), pitch: r3(s.orbit.pitch), dolly: r3(s.orbit.dolly), camera: pose(s) });
@@ -110,7 +110,7 @@ const result = { demo: id, route: ROUTES[id], base: BASE, capturedAt: new Date()
   const n = await chips.count();
   for (let i = 0; i < n; i++) {
     await chips.nth(i).click();
-    await page.mouse.move(W - 30, H / 2);
+    await page.mouse.move(6, H - 6); // park the pointer on empty background (no hover) before the shot
     await page.waitForTimeout(1900);
     const s = await state(page);
     result.variants.push({ index: i, id: s.variant.id, label: (await chips.nth(i).getAttribute('aria-label')) || (await chips.nth(i).innerText()).trim(), primary: await mat(page), extra: s.extra });

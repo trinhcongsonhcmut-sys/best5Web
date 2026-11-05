@@ -1,11 +1,55 @@
 /**
- * Procedural canvas textures for the villa (no network, no image files).
- * Every tile is periodic so it repeats without seams; architecture UVs are in metres / TILE.
+ * Textures for the villa.
+ *  - PBR: approved CC0 Poly Haven scans (public/assets/textures/<id>/), loaded as the 1K WebP copies made by
+ *    scripts/make-textures.mjs (diffuse sRGB · OpenGL normal · ARM = R AO, G roughness, B metal — all linear but diffuse).
+ *  - Procedural (light effects only, never a surface material): pool mosaic + water normal, light-pool / scallop
+ *    cards, foliage alpha cards, baked ground AO.
  */
+import { useLayoutEffect, useMemo } from 'react';
+import { useLoader, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 
-/** One façade texture tile covers TILE × TILE metres. */
-export const TILE = 2.4;
+// ───────── PBR sets ─────────
+export const PBR_IDS = ['sandstone_blocks_05', 'brown_planks_03', 'concrete_floor_02', 'leafy_grass'] as const;
+export type PbrId = (typeof PBR_IDS)[number];
+export interface PbrSet {
+  map: THREE.Texture;
+  normal: THREE.Texture;
+  arm: THREE.Texture;
+}
+const KINDS = ['diff', 'nor_gl', 'arm'] as const;
+const URLS = PBR_IDS.flatMap((id) => KINDS.map((k) => `/assets/textures/${id}/${id}_${k}_1k.webp`));
+/** start the downloads when the route chunk is evaluated — never inside a React render (keeps useProgress quiet) */
+export function preloadPbr() {
+  useLoader.preload(THREE.TextureLoader, URLS);
+}
+
+/** Suspends until all 12 maps are in, configures colour space / wrap / filtering and pre-uploads them to the GPU. */
+export function usePbrSets(): Record<PbrId, PbrSet> {
+  const tex = useLoader(THREE.TextureLoader, URLS);
+  const gl = useThree((s) => s.gl);
+  const sets = useMemo(() => {
+    const aniso = Math.min(8, gl.capabilities.getMaxAnisotropy());
+    const out = {} as Record<PbrId, PbrSet>;
+    PBR_IDS.forEach((id, i) => {
+      const [map, normal, arm] = tex.slice(i * 3, i * 3 + 3);
+      for (const t of [map, normal, arm]) {
+        t.wrapS = t.wrapT = THREE.RepeatWrapping;
+        t.anisotropy = aniso;
+        t.colorSpace = THREE.NoColorSpace;
+        t.needsUpdate = true;
+      }
+      map.colorSpace = THREE.SRGBColorSpace;
+      out[id] = { map, normal, arm };
+    });
+    return out;
+  }, [tex, gl]);
+  // upload now (inside the loading phase) → no first-frame hitch, and the variant swap never stalls
+  useLayoutEffect(() => {
+    for (const s of Object.values(sets)) for (const t of [s.map, s.normal, s.arm]) gl.initTexture(t);
+  }, [sets, gl]);
+  return sets;
+}
 
 // ───────── deterministic random + periodic value noise ─────────
 export function rng(seed: number) {
@@ -16,32 +60,6 @@ export function rng(seed: number) {
     s ^= s << 5;
     return ((s >>> 0) % 100000) / 100000;
   };
-}
-
-function makeNoise(period: number, seed: number) {
-  const r = rng(seed);
-  const g = new Float32Array(period * period);
-  for (let i = 0; i < g.length; i++) g[i] = r();
-  const at = (x: number, y: number) => g[(((y % period) + period) % period) * period + (((x % period) + period) % period)];
-  return (x: number, y: number) => {
-    const xi = Math.floor(x), yi = Math.floor(y);
-    const fx = x - xi, fy = y - yi;
-    const sx = fx * fx * (3 - 2 * fx), sy = fy * fy * (3 - 2 * fy);
-    const a = at(xi, yi), b = at(xi + 1, yi), c = at(xi, yi + 1), d = at(xi + 1, yi + 1);
-    return a + (b - a) * sx + (c - a) * sy + (a - b - c + d) * sx * sy;
-  };
-}
-
-/** fbm sampled on a periodic lattice: u,v in 0..1 → 0..1 */
-function fbm(n: ReturnType<typeof makeNoise>, u: number, v: number, base: number, oct = 4, sx = 1, sy = 1) {
-  let sum = 0, amp = 0.5, f = base, norm = 0;
-  for (let o = 0; o < oct; o++) {
-    sum += n(u * f * sx, v * f * sy) * amp;
-    norm += amp;
-    amp *= 0.5;
-    f *= 2;
-  }
-  return sum / norm;
 }
 
 function canvas(w: number, h = w) {
@@ -55,14 +73,15 @@ function tex(c: HTMLCanvasElement, srgb: boolean, repeat = true) {
   const t = new THREE.CanvasTexture(c);
   t.colorSpace = srgb ? THREE.SRGBColorSpace : THREE.NoColorSpace;
   if (repeat) t.wrapS = t.wrapT = THREE.RepeatWrapping;
-  t.anisotropy = 8;
+  t.anisotropy = 4;
   t.generateMipmaps = true;
   t.minFilter = THREE.LinearMipmapLinearFilter;
   t.needsUpdate = true;
   return t;
 }
 
-/** per-pixel pass helper */
+const clamp255 = (v: number) => Math.max(0, Math.min(255, v));
+
 function pixels(w: number, h: number, fn: (x: number, y: number) => [number, number, number]) {
   const { c, g } = canvas(w, h);
   const img = g.createImageData(w, h);
@@ -85,166 +104,6 @@ const CACHE = new Map<string, unknown>();
 export function cached<T>(key: string, make: () => T): T {
   if (!CACHE.has(key)) CACHE.set(key, make());
   return CACHE.get(key) as T;
-}
-export const STONE_KINDS = ['travertine', 'basalt', 'terracotta'] as const;
-export const stoneSet = (i: number) => cached(`stone:${i}`, () => stoneTextures(STONE_KINDS[i], 512));
-/** warm the other façade variants in idle time so the first click doesn't stall */
-export function warmStones() {
-  const ric = (window as unknown as { requestIdleCallback?: (f: () => void, o?: { timeout: number }) => number }).requestIdleCallback ?? ((f: () => void) => window.setTimeout(f, 200));
-  let i = 1;
-  const step = () => {
-    if (i > 2) return;
-    stoneSet(i++);
-    ric(step, { timeout: 2000 });
-  };
-  ric(step, { timeout: 2000 });
-}
-
-export interface StoneSet {
-  map: THREE.Texture;
-  rough: THREE.Texture;
-}
-
-const clamp255 = (v: number) => Math.max(0, Math.min(255, v));
-
-/**
- * Façade stone tiles. Albedo is a light, near-neutral luminance pattern — the material colour (variant tint)
- * multiplies it, so swapping variants changes both the colour and the actual surface pattern.
- * kind: travertine = cross-cut strata + pits, staggered 1.2×0.6 m panels
- *       basalt     = flamed fine-grain speckle, 0.6×1.2 m vertical slabs
- *       terracotta = long Roman bricks 0.6×0.08 m, per-brick firing variation
- */
-export function stoneTextures(kind: 'travertine' | 'basalt' | 'terracotta', size = 1024): StoneSet {
-  const s = size;
-  const px = s / TILE; // pixels per metre
-  const n1 = makeNoise(64, kind.length * 31 + 7);
-  const n2 = makeNoise(16, kind.length * 17 + 3);
-  const r = rng(kind.length * 977 + 11);
-
-  // joint layout (in px), returns [jointMask 0..1, panelTone -1..1]
-  const panelTone = new Float32Array(256);
-  for (let i = 0; i < panelTone.length; i++) panelTone[i] = r() * 2 - 1;
-
-  let pw: number, ph: number, stagger: number, joint: number;
-  if (kind === 'travertine') { pw = 1.2 * px; ph = 0.6 * px; stagger = 0.5; joint = 2.2; }
-  else if (kind === 'basalt') { pw = 0.6 * px; ph = 1.2 * px; stagger = 0; joint = 2.4; }
-  else { pw = 0.6 * px; ph = 0.08 * px; stagger = 0.5; joint = 2.6; }
-
-  const cell = (x: number, y: number) => {
-    const row = Math.floor(y / ph);
-    const off = (row % 2) * stagger * pw;
-    const xx = (((x + off) % s) + s) % s;
-    const col = Math.floor(xx / pw);
-    const lx = xx - col * pw, ly = y - row * ph;
-    const dj = Math.min(lx, pw - lx, ly, ph - ly);
-    const mask = dj < joint ? 1 - dj / joint : 0;
-    return { mask, tone: panelTone[(row * 7 + col * 13) & 255] };
-  };
-
-  const height = new Float32Array(s * s);
-  const albedo = pixels(s, s, (x, y) => {
-    const u = x / s, v = y / s;
-    const { mask, tone } = cell(x, y);
-    let l: number, warm = 0, h = 0.6;
-    if (kind === 'travertine') {
-      // strata: horizontal bands distorted by low noise
-      const warp = fbm(n1, u, v, 2, 3) * 0.08;
-      const band = fbm(n1, u * 0.25 + 0.3, v + warp, 8, 4, 0.15, 1);
-      const pit = fbm(n2, u, v, 8, 2, 0.5, 3.0);
-      l = 0.88 + (band - 0.5) * 0.22 + tone * 0.035;
-      warm = (band - 0.5) * 0.35;
-      const isPit = pit > 0.78 ? (pit - 0.78) * 4 : 0;
-      l -= isPit * 0.14;
-      h = 0.62 + (band - 0.5) * 0.15 - isPit * 0.5;
-    } else if (kind === 'basalt') {
-      const g1 = fbm(n1, u, v, 16, 3);
-      const speck = r() * 0.12 + (r() > 0.985 ? 0.25 : 0);
-      l = 0.82 + (g1 - 0.5) * 0.18 + speck - 0.06 + tone * 0.03;
-      h = 0.55 + (g1 - 0.5) * 0.4 + speck * 0.6;
-    } else {
-      const g1 = fbm(n1, u, v, 6, 3);
-      const fine = r() * 0.06;
-      l = 0.82 + tone * 0.11 + (g1 - 0.5) * 0.14 + fine;
-      warm = tone * 0.25;
-      h = 0.7 + fine;
-    }
-    l = l * (1 - mask * 0.55);
-    h = h * (1 - mask * 0.85);
-    height[y * s + x] = h;
-    const L = l * 255;
-    return [clamp255(L * (1 + warm * 0.06)), clamp255(L), clamp255(L * (1 - warm * 0.08))];
-  });
-
-  // roughness (G channel) + bump (R channel) from height — joints rough & recessed
-  const half = s >> 1;
-  const rough = pixels(half, half, (x, y) => {
-    const h = height[y * 2 * s + x * 2];
-    const ro = kind === 'basalt' ? 0.7 - h * 0.25 : kind === 'travertine' ? 0.78 - h * 0.28 : 0.86 - h * 0.12;
-    return [clamp255(h * 255), clamp255(ro * 255), 0];
-  });
-  return { map: tex(albedo.c, true), rough: tex(rough.c, false) };
-}
-
-/** Teak grain — runs along V (vertical fins). Albedo in colour. */
-export function woodTexture(): StoneSet {
-  const w = 128, h = 512;
-  const n = makeNoise(32, 91);
-  const r = rng(5);
-  const lineTone = new Float32Array(w);
-  for (let i = 0; i < w; i++) lineTone[i] = r();
-  const albedo = pixels(w, h, (x, y) => {
-    const u = x / w, v = y / h;
-    const wob = fbm(n, u, v, 2, 3, 1, 0.3) * 0.12;
-    const ring = Math.sin((u + wob) * Math.PI * 2 * 22) * 0.5 + 0.5;
-    const fleck = fbm(n, u, v, 8, 2, 4, 0.2);
-    const l = 0.62 + ring * 0.16 + (fleck - 0.5) * 0.2 + lineTone[x] * 0.04;
-    return [clamp255(170 * l + 20), clamp255(112 * l + 8), clamp255(70 * l)];
-  });
-  const rough = pixels(w / 2, h / 2, (x, y) => {
-    const u = (x * 2) / w;
-    const ring = Math.sin(u * Math.PI * 2 * 22) * 0.5 + 0.5;
-    return [clamp255(ring * 200 + 30), clamp255((0.55 + ring * 0.2) * 255), 0];
-  });
-  return { map: tex(albedo.c, true), rough: tex(rough.c, false) };
-}
-
-/** Large-format honed pavers for the forecourt (light grey, 1.2 m squares in a 2.4 m tile). */
-export function paverTexture(): StoneSet {
-  const s = 256;
-  const n = makeNoise(32, 41);
-  const r = rng(77);
-  const tones = Array.from({ length: 16 }, () => r() * 2 - 1);
-  const albedo = pixels(s, s, (x, y) => {
-    const u = x / s, v = y / s;
-    const cx = Math.floor(u * 2), cy = Math.floor(v * 2);
-    const lx = (u * 2) % 1, ly = (v * 2) % 1;
-    const dj = Math.min(lx, 1 - lx, ly, 1 - ly) * s * 0.5;
-    const joint = dj < 1.6 ? 1 - dj / 1.6 : 0;
-    const g = fbm(n, u, v, 8, 4);
-    const l = (0.56 + (g - 0.5) * 0.16 + tones[cy * 2 + cx] * 0.04 + (r() - 0.5) * 0.03) * (1 - joint * 0.55);
-    return [clamp255(l * 236), clamp255(l * 232), clamp255(l * 226)];
-  });
-  const rough = pixels(s / 2, s / 2, (x, y) => {
-    const u = (x * 2) / s, v = (y * 2) / s;
-    const g = fbm(n, u + 0.37, v + 0.11, 4, 4);
-    // puddles = smooth patches (wet look)
-    const wet = Math.max(0, Math.min(1, (g - 0.48) * 6));
-    return [0, clamp255((0.55 - wet * 0.3) * 255), 0];
-  });
-  return { map: tex(albedo.c, true), rough: tex(rough.c, false) };
-}
-
-/** generic grain (lawn / earth / asphalt): returns colour map around `base` with fbm variation */
-export function grainTexture(base: [number, number, number], amp: number, seed: number, size = 512, freq = 6) {
-  const n = makeNoise(64, seed);
-  const r = rng(seed * 3 + 1);
-  const { c } = pixels(size, size, (x, y) => {
-    const u = x / size, v = y / size;
-    const g = fbm(n, u, v, freq, 5) - 0.5;
-    const k = 1 + g * amp + (r() - 0.5) * amp * 0.35;
-    return [clamp255(base[0] * k), clamp255(base[1] * k), clamp255(base[2] * k)];
-  });
-  return tex(c, true);
 }
 
 /** pool mosaic — small glass tiles, used as albedo (tinted by material) */
@@ -288,101 +147,66 @@ export function waterNormal() {
   return tex(c, false);
 }
 
-/** distant tower façade: random lit windows on a dark grid → emissive map (also used as albedo darkened) */
-export function cityWindows() {
-  const w = 128, h = 256;
-  const r = rng(808);
-  const { c, g } = canvas(w, h);
-  g.fillStyle = '#000';
-  g.fillRect(0, 0, w, h);
-  const cols = 8, rows = 32;
-  for (let y = 0; y < rows; y++)
-    for (let x = 0; x < cols; x++) {
-      const on = r();
-      if (on < 0.42) continue;
-      const k = 0.5 + r() * 0.5;
-      const warm = r() > 0.25;
-      g.fillStyle = warm ? `rgba(255,${Math.round(190 + 40 * k)},${Math.round(120 + 60 * k)},${k})` : `rgba(190,220,255,${k * 0.8})`;
-      g.fillRect(x * (w / cols) + 3, y * (h / rows) + 2, w / cols - 6, h / rows - 4);
-    }
-  return tex(c, true);
-}
-
-/** palm frond leaflets (alpha in A) — frond spine runs along U, leaflets fan out along V */
-export function frondTexture() {
-  // leaflets are filled, tapered blades (not hairlines) so they read as foliage at distance and mip down to green, not black
-  const w = 512, h = 128;
-  const { c, g } = canvas(w, h);
-  g.clearRect(0, 0, w, h);
-  const r = rng(12);
-  const cy = h / 2;
-  const N = 38;
-  for (let i = 0; i < N; i++) {
-    const t = i / (N - 1);
-    const x = 14 + t * (w - 34);
-    const len = (h / 2 - 4) * Math.sin(Math.min(1, t * 1.1) * Math.PI * 0.9 + 0.18) * (0.88 + r() * 0.12);
-    const wid = 9 - t * 4;
-    for (const side of [-1, 1]) {
-      const k = 0.85 + r() * 0.3;
-      const tipX = x + 26 + r() * 8, tipY = cy + side * len;
-      const grd = g.createLinearGradient(x, cy, tipX, tipY);
-      grd.addColorStop(0, `rgb(${Math.round(96 * k)},${Math.round(128 * k)},${Math.round(58 * k)})`);
-      grd.addColorStop(1, `rgb(${Math.round(124 * k)},${Math.round(158 * k)},${Math.round(72 * k)})`);
-      g.fillStyle = grd;
-      g.beginPath();
-      g.moveTo(x - wid / 2, cy);
-      g.quadraticCurveTo(x + 4, cy + side * len * 0.55, tipX, tipY);
-      g.quadraticCurveTo(x + 14, cy + side * len * 0.5, x + wid / 2, cy);
-      g.closePath();
-      g.fill();
-    }
-  }
-  g.strokeStyle = '#8a8550';
-  g.lineWidth = 4;
-  g.beginPath();
-  g.moveTo(0, cy);
-  g.lineTo(w, cy);
-  g.stroke();
-  const t = tex(c, true, false);
-  return t;
-}
-
-/** bamboo leaf spray card (alpha) */
-export function leafCardTexture() {
+/**
+ * Deciduous leaf cluster card (alpha): ~150 small leaves in clumps, slight hue spread. Mips down to a soft
+ * green silhouette rather than black holes.
+ */
+export function leafClusterTexture() {
   const s = 256;
   const { c, g } = canvas(s);
   const r = rng(99);
   g.clearRect(0, 0, s, s);
-  for (let i = 0; i < 70; i++) {
-    const x = s * 0.5 + (r() - 0.5) * s * 0.75;
-    const y = s * 0.12 + r() * s * 0.8;
-    const a = (r() - 0.5) * 2.2 + Math.PI / 2;
-    const L = 26 + r() * 30;
-    const k = 0.65 + r() * 0.35;
-    g.fillStyle = `rgb(${Math.round(104 * k)},${Math.round(146 * k)},${Math.round(66 * k)})`;
-    g.save();
-    g.translate(x, y);
-    g.rotate(a);
-    g.beginPath();
-    g.ellipse(L / 2, 0, L / 2, 6 + r() * 3, 0, 0, Math.PI * 2);
-    g.fill();
-    g.restore();
+  // solid swatch for the opaque crown core (uv ≈ 0.035, see Landscape CORE_UV); cards sample uv ≥ 0.14
+  g.fillStyle = 'rgb(46,66,28)';
+  g.fillRect(0, s - 20, 20, 20);
+  for (let k = 0; k < 9; k++) {
+    const cx = s * (0.3 + r() * 0.5), cy = s * (0.14 + r() * 0.52);
+    for (let i = 0; i < 20; i++) {
+      const a = r() * Math.PI * 2;
+      const rad = r() * s * 0.2;
+      const x = cx + Math.cos(a) * rad, y = cy + Math.sin(a) * rad;
+      const L = 12 + r() * 12;
+      const t = 0.7 + r() * 0.3;
+      const hue = r();
+      g.fillStyle = `rgb(${Math.round((88 + hue * 30) * t)},${Math.round((128 + hue * 12) * t)},${Math.round((52 - hue * 14) * t)})`;
+      g.save();
+      g.translate(x, y);
+      g.rotate(r() * Math.PI * 2);
+      g.beginPath();
+      g.ellipse(L / 2, 0, L / 2, 4 + r() * 3, 0, 0, Math.PI * 2);
+      g.fill();
+      g.restore();
+    }
   }
   return tex(c, true, false);
 }
 
-/** palm trunk rings */
-export function trunkTexture() {
-  const w = 64, h = 512;
-  const n = makeNoise(16, 4);
-  const { c } = pixels(w, h, (x, y) => {
-    const v = y / h;
-    const ring = Math.pow(Math.abs(Math.sin(v * Math.PI * 40)), 6);
-    const g = fbm(n, x / w, v, 4, 3);
-    const l = 0.55 + g * 0.3 - ring * 0.25;
-    return [clamp255(150 * l), clamp255(128 * l), clamp255(100 * l)];
-  });
-  return tex(c, true);
+/** pine needle spray card (alpha): fan of dark needles on a twig */
+export function needleTexture() {
+  const s = 256;
+  const { c, g } = canvas(s);
+  const r = rng(41);
+  g.clearRect(0, 0, s, s);
+  g.fillStyle = 'rgb(40,66,44)';
+  g.fillRect(0, s - 20, 20, 20);
+  g.lineCap = 'round';
+  for (let b = 0; b < 5; b++) {
+    const y0 = s * (0.1 + b * 0.15);
+    for (let i = 0; i < 46; i++) {
+      const x = s * 0.2 + (i / 46) * s * 0.76;
+      const len = (18 + r() * 16) * (1 - Math.abs(i / 46 - 0.5) * 0.8);
+      const t = 0.65 + r() * 0.35;
+      g.strokeStyle = `rgb(${Math.round(48 * t)},${Math.round(84 * t)},${Math.round(52 * t)})`;
+      g.lineWidth = 2.4;
+      for (const side of [-1, 1]) {
+        g.beginPath();
+        g.moveTo(x, y0);
+        g.lineTo(x + 6, y0 + side * len);
+        g.stroke();
+      }
+    }
+  }
+  return tex(c, true, false);
 }
 
 /**
@@ -392,15 +216,13 @@ export function trunkTexture() {
 export function groundAO(size: number, rects: [number, number, number, number, number][], dots: [number, number, number, number][]) {
   const res = 1024;
   const { c, g } = canvas(res);
-  // white = occlusion amount (used as alphaMap on a black plane)
   g.fillStyle = '#000';
   g.fillRect(0, 0, res, res);
   const m = res / size;
   const toPx = (x: number, z: number) => [(x + size / 2) * m, (z + size / 2) * m];
-  // rects: x0, z0, x1, z1, strength
   for (const [x0, z0, x1, z1, k] of rects) {
     for (let i = 6; i >= 1; i--) {
-      const grow = i * 0.55;
+      const grow = i * 0.45;
       const [a, b] = toPx(x0 - grow, z0 - grow);
       const [cx, cz] = toPx(x1 + grow, z1 + grow);
       g.fillStyle = `rgba(255,255,255,${(k * 0.16) / i})`;
@@ -409,7 +231,6 @@ export function groundAO(size: number, rects: [number, number, number, number, n
       g.fill();
     }
   }
-  // dots: x, z, radius, strength
   for (const [x, z, rad, k] of dots) {
     const [px, pz] = toPx(x, z);
     const grd = g.createRadialGradient(px, pz, 0, px, pz, rad * m);
@@ -418,11 +239,10 @@ export function groundAO(size: number, rects: [number, number, number, number, n
     g.fillStyle = grd;
     g.fillRect(px - rad * m, pz - rad * m, rad * 2 * m, rad * 2 * m);
   }
-  const t = tex(c, false, false);
-  return t;
+  return tex(c, false, false);
 }
 
-/** soft round glow sprite for lamps */
+/** soft round glow (floor light pools, lamp halos) */
 export function glowTexture() {
   const s = 128;
   const { c, g } = canvas(s);
@@ -433,5 +253,25 @@ export function glowTexture() {
   grd.addColorStop(1, 'rgba(255,255,255,0)');
   g.fillStyle = grd;
   g.fillRect(0, 0, s, s);
+  return tex(c, true, false);
+}
+
+/**
+ * Downlight "scallop" on a wall: the hot parabolic cone a recessed soffit light throws down a stone pier
+ * (bright cusp just under the soffit, widening and fading towards the ground). Top of the card = soffit.
+ */
+export function scallopTexture() {
+  const w = 128, h = 256;
+  const { c } = pixels(w, h, (x, y) => {
+    const u = (x / (w - 1)) * 2 - 1; // −1..1 across
+    const v = y / (h - 1); // 0 top (soffit) … 1 bottom
+    // cone edge widens with depth: |u| < sqrt(v) shape, soft falloff, hot spot near the top
+    const edge = Math.sqrt(Math.max(v, 0.0001)) * 0.95 + 0.06;
+    const across = Math.max(0, 1 - Math.pow(Math.abs(u) / edge, 2.2));
+    const along = Math.pow(1 - v, 1.6) * Math.min(1, v * 9);
+    const cusp = Math.exp(-Math.pow(v - 0.08, 2) / 0.004) * Math.exp(-u * u * 30) * 0.6;
+    const k = Math.min(1, across * along * 1.05 + cusp);
+    return [clamp255(k * 255), clamp255(k * 255), clamp255(k * 255)];
+  });
   return tex(c, true, false);
 }

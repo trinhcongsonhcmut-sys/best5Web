@@ -1,130 +1,246 @@
 /**
- * Site + world: wet forecourt (low-res reflector), road with lamps, lawn, site walls, instanced palms / bamboo /
- * canopy trees, a baked AO decal grounding everything, and the hazy depth layers (tree line, city, two hill rings).
+ * Site: a wide manicured lawn (CC0 leafy_grass scan, green-graded, mowing stripes, macro variation to kill tiling),
+ * a band of real grass blades that follows the lens (world-anchored toroidal window → blades never swim), garden
+ * trees (deciduous + pines, alpha leaf-card crowns with sky-bent normals so they read lit from every side), shrubs,
+ * a dark tree line ring for depth, and a baked AO decal grounding house + trees.
  */
 import { useEffect, useLayoutEffect, useMemo, useRef } from 'react';
-import { WetCourt } from './WetCourt';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
+import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import { scrollState } from '../../lib/scroll';
-import { mergeGeometries, mergeVertices } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import type { Lib } from './materials';
-import { colliders, nightOf } from './state';
-import { cached, cityWindows, frondTexture, glowTexture, grainTexture, groundAO, leafCardTexture, paverTexture, rng, trunkTexture, TILE } from './textures';
-import { boxUV } from './kit';
+import { colliders, GLOW_DIR, lightState, nightOf, SUN_DIR } from './state';
+import { cached, groundAO, leafClusterTexture, needleTexture, rng } from './textures';
+import { SHRUB_BEDS } from './Props';
 
-// ───────── placements ─────────
-type P3 = [number, number, number]; // x, z, scale
-// placed by projecting every palm into the 0/25/50/62/75/100 % framings (± orbit yaw): no trunk closer than ~16 m
-// crosses the middle of a scripted shot — near palms frame the edges instead of splitting the subject.
-const PALMS: P3[] = [
-  [-15, 11, 1.05], [-17.5, 15.5, 0.92], [-21, 20, 1.12], [21, 10, 1.0], [23, 15, 1.15], [25, 21, 0.9],
-  [-26, 24, 1.1], [-38, 23, 1.0], [30, 23, 1.05], [42, 24, 0.95], [-21, -10, 1.1], [-16, -15, 0.95],
-  [22, -15, 1.05], [25, -6, 0.9], [8, -15, 1.1], [-6, -16, 1.0], [26, 4, 1.2], [-22, 4, 1.15],
-  [33, 37, 1.25], [-30, 38, 1.2], [21, 41, 1.15], [-12, 41, 1.1], [52, 10, 1.1], [-50, 6, 1.0],
+// ───────── placements (x, z, scale) — projected against the 0/25/50/62/75/100 % framings: nothing crosses a subject ─────────
+type P3 = [number, number, number];
+/**
+ * v2.2: garden trees only as soft distant silhouettes — every tree stands 54–80 m from the villa, i.e. OUTSIDE the
+ * hero/overview orbit circle (≈ 46–49 m), so no orbit angle ever puts a crown between the lens and the house.
+ * Arc behind the house + both flanks, varied heights.
+ */
+function arc(n: number, seed: number, r0: number, r1: number, a0: number, a1: number, s0: number, s1: number): P3[] {
+  const r = rng(seed);
+  return Array.from({ length: n }, (_, i) => {
+    const a = THREE.MathUtils.degToRad(a0 + ((i + 0.5 + (r() - 0.5) * 0.7) / n) * (a1 - a0));
+    const d = r0 + r() * (r1 - r0);
+    return [Math.cos(a) * d, Math.sin(a) * d, s0 + r() * (s1 - s0)] as P3;
+  });
+}
+const OAKS: P3[] = [...arc(10, 71, 54, 78, -168, -12, 1.25, 1.75), ...arc(2, 72, 56, 74, 10, 34, 1.2, 1.6), ...arc(2, 73, 56, 74, 150, 172, 1.2, 1.6)];
+const PINES: P3[] = [...arc(7, 81, 56, 82, -175, -95, 1.15, 1.55), ...arc(3, 82, 58, 80, 165, 200, 1.2, 1.5), ...arc(2, 83, 58, 80, -60, -20, 1.1, 1.4)];
+const SHRUBS: [number, number, number][] = [
+  [15.6, 5.6, 0.8], [15.3, 2.4, 0.7], [16.1, 0.2, 0.85], [15.4, -2.2, 0.75], [15.8, -4.6, 0.8],
+  [-14.4, 5.4, 0.8], [-14.0, 2.0, 0.72], [-14.6, -0.6, 0.85], [-14.1, -3.4, 0.75],
+  [9.0, -8.2, 0.9], [3.5, -8.4, 0.8], [-4.5, -8.3, 0.85], [-9.5, -8.0, 0.8],
 ];
-const CANOPY_SEED = 4242;
-const COURT_POS: [number, number, number] = [1, 0.016, 15.6];
-const COURT_SIZE: [number, number] = [30, 13];
+const OAK_H = 11; // crown centre height at scale 1
+const OAK_R = 4.2; // crown radius at scale 1
+const PINE_H = 16;
 
 /**
- * Foliage shading fix: thin alpha cards lit with their geometric normal go black whenever the back face points at
- * the camera. Instead every blade gets BOTH windings (front-side material only) and a normal bent towards the sky
- * plus outwards from the plant axis — so leaves read lit-from-above from every orbit angle, like real canopy.
+ * Leaf-card crown: an OPAQUE lumpy core (first in the buffer → early-z rejects the cards behind it) wrapped in a
+ * thin shell of alpha cards. Every card is emitted with BOTH windings (front-side material only) and a normal bent
+ * from the crown centre towards the sky → the canopy reads as a lit volume (sun side warm, shade side cool)
+ * instead of flat cards that go black when seen from behind. Cards sample uv 0.14…1 of the leaf texture, the core
+ * samples the solid swatch in its corner (CORE_UV).
  */
-function foliage(src: THREE.BufferGeometry, axisX = 0, axisZ = 0, up = 0.75) {
-  const g = src.index ? src.toNonIndexed() : src.clone();
-  const pos = g.attributes.position as THREE.BufferAttribute;
-  const uv = g.attributes.uv as THREE.BufferAttribute;
-  const n = pos.count;
-  const P = new Float32Array(n * 2 * 3), N = new Float32Array(n * 2 * 3), U = new Float32Array(n * 2 * 2);
-  const v = new THREE.Vector3(), nn = new THREE.Vector3(), upV = new THREE.Vector3(0, up, 0);
-  for (let i = 0; i < n; i++) {
-    v.fromBufferAttribute(pos, i);
-    nn.set(v.x - axisX, 0, v.z - axisZ);
-    if (nn.lengthSq() < 1e-6) nn.set(1, 0, 0);
-    nn.normalize().multiplyScalar(1 - up).add(upV).normalize();
-    for (const k of [0, 1]) {
-      // second copy: reversed winding (swap vertices 1 and 2 of each triangle)
-      const tri = Math.floor(i / 3), c = i % 3;
-      const j = k === 0 ? i : tri * 3 + (c === 0 ? 0 : 3 - c);
-      const o = k * n + j;
-      P.set([v.x, v.y, v.z], o * 3);
-      N.set([nn.x, nn.y, nn.z], o * 3);
-      U.set([uv.getX(i), uv.getY(i)], o * 2);
+const CORE_UV = 0.035;
+function crownGeometry(seed: number, count: number, card: number, shape: (r: () => number) => THREE.Vector3, up = 0.45, core: (v: THREE.Vector3) => void = () => {}) {
+  const r = rng(seed);
+  const P: number[] = [], N: number[] = [], U: number[] = [];
+  {
+    const ico = new THREE.IcosahedronGeometry(1, 2); // polyhedra are already non-indexed
+    const p = ico.attributes.position as THREE.BufferAttribute;
+    const v = new THREE.Vector3(), n = new THREE.Vector3();
+    for (let i = 0; i < p.count; i++) {
+      v.fromBufferAttribute(p, i);
+      n.copy(v).normalize().multiplyScalar(1 - up).add(new THREE.Vector3(0, up, 0)).normalize();
+      core(v);
+      P.push(v.x, v.y, v.z);
+      N.push(n.x, n.y, n.z);
+      U.push(CORE_UV, CORE_UV);
     }
+    ico.dispose();
   }
-  const out = new THREE.BufferGeometry();
-  out.setAttribute('position', new THREE.BufferAttribute(P, 3));
-  out.setAttribute('normal', new THREE.BufferAttribute(N, 3));
-  out.setAttribute('uv', new THREE.BufferAttribute(U, 2));
-  g.dispose();
-  return out;
+  const q = new THREE.Quaternion(), e = new THREE.Euler(), v = new THREE.Vector3(), n = new THREE.Vector3();
+  const lo = 0.14;
+  const corners: [number, number, number, number][] = [[-0.5, -0.5, lo, lo], [0.5, -0.5, 1, lo], [0.5, 0.5, 1, 1], [-0.5, 0.5, lo, 1]];
+  for (let i = 0; i < count; i++) {
+    const c = shape(r);
+    e.set(r() * Math.PI, r() * Math.PI * 2, r() * Math.PI);
+    q.setFromEuler(e);
+    const s = card * (0.75 + r() * 0.5);
+    const vs = corners.map(([x, y, u, w]) => {
+      v.set(x * s, y * s, 0).applyQuaternion(q).add(c);
+      n.copy(v).setY(v.y * 0.6);
+      if (n.lengthSq() < 1e-4) n.set(0, 1, 0);
+      n.normalize().multiplyScalar(1 - up).add(new THREE.Vector3(0, up, 0)).normalize();
+      return [v.x, v.y, v.z, n.x, n.y, n.z, u, w];
+    });
+    for (const tri of [[0, 1, 2], [0, 2, 3], [0, 2, 1], [0, 3, 2]])
+      for (const k of tri) {
+        const a = vs[k];
+        P.push(a[0], a[1], a[2]);
+        N.push(a[3], a[4], a[5]);
+        U.push(a[6], a[7]);
+      }
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(P, 3));
+  g.setAttribute('normal', new THREE.Float32BufferAttribute(N, 3));
+  g.setAttribute('uv', new THREE.Float32BufferAttribute(U, 2));
+  return g;
 }
 
-function makePalmGeometries() {
-  // trunk: tapered, gently curved
-  const trunk = new THREE.CylinderGeometry(0.16, 0.27, 9, 8, 10, true);
-  trunk.translate(0, 4.5, 0);
-  const tp = trunk.attributes.position as THREE.BufferAttribute;
-  for (let i = 0; i < tp.count; i++) {
-    const y = tp.getY(i) / 9;
-    tp.setX(i, tp.getX(i) + Math.pow(y, 2) * 0.9);
-  }
-  trunk.computeVertexNormals();
-  const tuv = trunk.attributes.uv as THREE.BufferAttribute;
-  for (let i = 0; i < tuv.count; i++) tuv.setY(i, tuv.getY(i) * 3);
+/** deciduous crown: lumpy shell of 3 overlapping lobes (unit radius ≈ 1), flat-ish underside */
+const oakShape = (r: () => number) => {
+  const lobes = [[0, 0, 0, 1], [0.45, 0.25, 0.2, 0.7], [-0.4, 0.15, -0.3, 0.72]];
+  const [lx, ly, lz, lr] = lobes[Math.floor(r() * 3)];
+  const u = r() * 2 - 1, a = r() * Math.PI * 2, rad = lr * (0.86 + 0.2 * r());
+  const s = Math.sqrt(1 - u * u);
+  const y = ly + u * rad * 0.8;
+  return new THREE.Vector3(lx + Math.cos(a) * s * rad, Math.max(y, -0.45), lz + Math.sin(a) * s * rad);
+};
+/** pine: whorls of drooping sprays on a cone (unit height 1 from y 0.18, base radius 0.3) */
+const pineShape = (r: () => number) => {
+  const t = Math.pow(r(), 0.8);
+  const y = 0.18 + t * 0.8;
+  const rad = (1 - t) * 0.3 * (0.8 + 0.25 * r()) + 0.02;
+  const a = r() * Math.PI * 2;
+  return new THREE.Vector3(Math.cos(a) * rad, y, Math.sin(a) * rad);
+};
 
-  // crown: 14 drooping fronds (strip geometry), leaflet alpha texture
-  const fronds: THREE.BufferGeometry[] = [];
-  const r = rng(7);
-  for (let i = 0; i < 14; i++) {
-    const len = 3.6 + r() * 0.9;
-    const g = new THREE.PlaneGeometry(len, 1.5, 10, 2);
-    const p = g.attributes.position as THREE.BufferAttribute;
-    const lift = 0.35 + r() * 0.5;
-    for (let k = 0; k < p.count; k++) {
-      const x = p.getX(k) + len / 2; // 0..len along the spine
-      const t = x / len;
-      const z = p.getY(k); // across
-      // arch up then droop, leaflets fold into a V
-      const y = Math.sin(t * Math.PI * 0.6) * lift * 1.6 - t * t * (1.6 + lift);
-      p.setXYZ(k, x, y - Math.abs(z) * 0.35, z * (1 - t * 0.25));
-    }
-    g.computeVertexNormals();
-    const tilt = (i % 2 ? 0.1 : -0.05) + r() * 0.15;
-    g.rotateZ(tilt);
-    g.rotateY((i / 14) * Math.PI * 2 + r() * 0.3);
-    fronds.push(g);
+function trunkGeometry(h: number, r0: number, r1: number, branches: number, seed: number) {
+  const parts: THREE.BufferGeometry[] = [];
+  const t = new THREE.CylinderGeometry(r1, r0, h, 7, 1, true);
+  t.translate(0, h / 2, 0);
+  parts.push(t);
+  const r = rng(seed);
+  for (let i = 0; i < branches; i++) {
+    const L = h * (0.24 + r() * 0.14); // short: branch tips stay inside the crown
+    const b = new THREE.CylinderGeometry(r1 * 0.35, r1 * 0.7, L, 5, 1, true);
+    b.translate(0, L / 2, 0);
+    b.rotateZ(0.5 + r() * 0.5);
+    b.rotateY((i / branches) * Math.PI * 2 + r());
+    b.translate(0, h * (0.7 + r() * 0.25), 0);
+    parts.push(b);
   }
-  const merged = mergeGeometries(fronds)!;
-  const crown = foliage(merged, 0, 0, 0.7);
-  crown.translate(0.9, 9, 0);
-  merged.dispose();
-  fronds.forEach((f) => f.dispose());
-  return { trunk, crown };
+  const g = mergeGeometries(parts.map((p) => p.toNonIndexed()))!;
+  parts.forEach((p) => p.dispose());
+  return g;
 }
 
-/**
- * Palms that would split the subject fade out (screen-door dither, per instance) instead of cutting the façade:
- * a trunk whose screen position falls inside the villa's projected footprint while standing in front of it —
- * or any palm within 7 m of the lens — eases to invisible, and back when the view clears.
- */
+/** occluder fade (screen-door dither per instance) so a tree never sits between the lens and the façade */
 const FADE_VERT = ['attribute float aFade;\nvarying float vFade;\n', 'vFade = aFade;\n'];
 const FADE_FRAG = 'varying float vFade;\n';
-const FADE_DISCARD = 'if (vFade < 0.999 && fract(52.9829189 * fract(dot(gl_FragCoord.xy, vec2(0.06711056, 0.00583715)))) > vFade) discard;\n';
-function withFade<T extends THREE.Material>(m: T) {
+const FADE_DISCARD = 'if (vFade < 0.55) discard;\n';
+function withFade<T extends THREE.Material>(m: T, key: string) {
   m.onBeforeCompile = (sh) => {
     sh.vertexShader = FADE_VERT[0] + sh.vertexShader.replace('#include <begin_vertex>', '#include <begin_vertex>\n' + FADE_VERT[1]);
     sh.fragmentShader = FADE_FRAG + sh.fragmentShader.replace('void main() {', 'void main() {\n' + FADE_DISCARD);
   };
-  m.customProgramCacheKey = () => 'baha-palm-fade';
+  m.customProgramCacheKey = () => 'baha-tree-fade-' + key;
   return m;
 }
-const VILLA_CORNERS = [-12.5, 13.6].flatMap((x) => [0, 16].flatMap((y) => [-8.6, 9.5].map((z) => new THREE.Vector3(x, y, z))));
+/**
+ * Vertex-lit foliage (the crowns are the biggest overdraw in the shot): hemisphere + key light evaluated per
+ * vertex on the sky-bent crown normals, alpha-tested leaf texture, per-instance dither fade, fog. Same light
+ * values as the scene (lightState), ~3× cheaper per fragment than Lambert.
+ */
+const FOLIAGE_VERT = /* glsl */ `
+#include <common>
+#include <fog_pars_vertex>
+uniform vec3 uSunDir, uSun, uSky, uGround, uGlowDir;
+attribute float aFade;
+varying vec2 vUv;
+varying vec3 vLight;
+varying float vFade;
+varying float vHaze;
+void main() {
+  vUv = uv;
+  vFade = aFade;
+  mat4 m = modelMatrix;
+  #ifdef USE_INSTANCING
+  m = modelMatrix * instanceMatrix;
+  #endif
+  vec4 wp = m * vec4(position, 1.0);
+  vec3 n = normalize(mat3(m) * normal);
+  vec3 tint = vec3(1.0);
+  #ifdef USE_INSTANCING_COLOR
+  tint = instanceColor;
+  #endif
+  // three's Lambert: (hemi irradiance + key·N·L) · albedo / π
+  // + a translucency lift: leaves scatter the key light through the crown (×2.4 matches the old per-pixel look)
+  // + warm backlight from the afterglow behind the trees (translucent leaf rim), scaled with the key (fades at night)
+  vec3 vd = normalize(cameraPosition - wp.xyz);
+  float back = pow(max(dot(-vd, uGlowDir), 0.0), 3.0) * (0.35 + 0.65 * max(dot(n, uGlowDir), 0.0));
+  vLight = tint * (mix(uGround, uSky, n.y * 0.5 + 0.5) + uSun * (max(dot(n, uSunDir), 0.0) + 0.18 + back * 0.9)) * RECIPROCAL_PI * 2.4;
+  // aerial perspective: crowns lighten, lose contrast and turn slightly blue with distance
+  vHaze = smoothstep(30.0, 160.0, distance(wp.xyz, cameraPosition)) * 0.5;
+  vec4 mvPosition = viewMatrix * wp;
+  gl_Position = projectionMatrix * mvPosition;
+  #include <fog_vertex>
+}`;
+const FOLIAGE_FRAG = /* glsl */ `
+#include <common>
+#include <fog_pars_fragment>
+uniform sampler2D map;
+uniform vec3 uEmissive;
+uniform float uAlphaTest;
+uniform vec3 uHaze;
+varying vec2 vUv;
+varying vec3 vLight;
+varying float vFade;
+varying float vHaze;
+void main() {
+  if (vFade < 0.02) discard;
+  vec4 t = texture2D(map, vUv);
+  if (t.a < uAlphaTest * 0.25) discard;
+  vec3 c = mix(t.rgb * (vLight + uEmissive), uHaze, vHaze);
+  // alpha-to-coverage (MSAA): soft leaf edges instead of hard cut-outs
+  gl_FragColor = vec4(c, smoothstep(uAlphaTest * 0.45, uAlphaTest * 1.25, t.a) * vFade);
+  #include <tonemapping_fragment>
+  #include <colorspace_fragment>
+  #include <fog_fragment>
+}`;
+function foliageMaterial(map: THREE.Texture, emissive: string, alphaTest: number) {
+  return new THREE.ShaderMaterial({
+    uniforms: THREE.UniformsUtils.merge([
+      THREE.UniformsLib.fog,
+      { map: { value: null }, uEmissive: { value: new THREE.Color(emissive) }, uAlphaTest: { value: alphaTest }, uSunDir: { value: SUN_DIR }, uGlowDir: { value: GLOW_DIR }, uHaze: { value: new THREE.Color() } },
+    ]),
+    alphaToCoverage: true,
+    vertexShader: FOLIAGE_VERT,
+    fragmentShader: FOLIAGE_FRAG,
+    fog: true,
+  });
+}
+function bindFoliage(m: THREE.ShaderMaterial, map: THREE.Texture) {
+  m.uniforms.map.value = map;
+  m.uniforms.uSunDir.value = SUN_DIR;
+  // live light colours (same Color objects the scene writes every frame)
+  m.uniforms.uSun = { value: lightState.sun };
+  m.uniforms.uSky = { value: lightState.sky };
+  m.uniforms.uGround = { value: lightState.ground };
+  m.uniforms.uHaze = { value: HAZE };
+  return m;
+}
+
+/** aerial haze colour (shared by all foliage), graded dusk → night in Landscape's frame loop */
+const HAZE = new THREE.Color();
+const HAZE_DUSK = new THREE.Color('#c4a68e');
+const HAZE_NIGHT = new THREE.Color('#0e1522');
+
+const VILLA_CORNERS = [-12.4, 13.8].flatMap((x) => [0, 9.6].flatMap((y) => [-6.1, 6.2].map((z) => new THREE.Vector3(x, y, z))));
 const _v = new THREE.Vector3();
 
-function Instanced({ geometry, material, mats, colors, castShadow = true, receiveShadow = false }: { geometry: THREE.BufferGeometry; material: THREE.Material; mats: THREE.Matrix4[]; colors?: THREE.Color[]; castShadow?: boolean; receiveShadow?: boolean }) {
+const M = (x: number, y: number, z: number, ry = 0, s = 1, sy = s, rx = 0, rz = 0) =>
+  new THREE.Matrix4().compose(new THREE.Vector3(x, y, z), new THREE.Quaternion().setFromEuler(new THREE.Euler(rx, ry, rz)), new THREE.Vector3(s, sy, s));
+
+function Instanced({ geometry, material, mats, colors, castShadow = true, receiveShadow = false, depth }: { geometry: THREE.BufferGeometry; material: THREE.Material; mats: THREE.Matrix4[]; colors?: THREE.Color[]; castShadow?: boolean; receiveShadow?: boolean; depth?: THREE.Material }) {
   const ref = useRef<THREE.InstancedMesh>(null);
   useLayoutEffect(() => {
     const m = ref.current;
@@ -134,413 +250,368 @@ function Instanced({ geometry, material, mats, colors, castShadow = true, receiv
     if (m.instanceColor) m.instanceColor.needsUpdate = true;
     m.instanceMatrix.needsUpdate = true;
     m.computeBoundingSphere();
-  }, [mats, colors]);
+    if (depth) m.customDepthMaterial = depth;
+  }, [mats, colors, depth]);
   return <instancedMesh ref={ref} args={[geometry, material, mats.length]} castShadow={castShadow} receiveShadow={receiveShadow} />;
 }
 
-const M = (x: number, y: number, z: number, ry = 0, s = 1, sy = s, rx = 0, rz = 0) =>
-  new THREE.Matrix4().compose(new THREE.Vector3(x, y, z), new THREE.Quaternion().setFromEuler(new THREE.Euler(rx, ry, rz)), new THREE.Vector3(s, sy, s));
+// ───────── lawn shading: scan luminance → manicured green, mowing stripes, macro variation ─────────
+function lawnMaterial(lib: Lib, ao: THREE.Texture, aoSize: number) {
+  const g = lib.sets.leafy_grass;
+  const m = new THREE.MeshLambertMaterial({ map: g.map, normalMap: g.normal, normalScale: new THREE.Vector2(0.9, 0.9), color: '#ffffff' });
+  m.onBeforeCompile = (sh) => {
+    sh.uniforms.uGroundAO = { value: ao };
+    sh.uniforms.uSunCol = { value: lightState.sun };
+    sh.vertexShader = 'varying vec3 vLawnW;\n' + sh.vertexShader.replace('#include <project_vertex>', '#include <project_vertex>\nvLawnW = (modelMatrix * vec4(transformed, 1.0)).xyz;');
+    sh.fragmentShader =
+      'varying vec3 vLawnW;\nuniform sampler2D uGroundAO;\nuniform vec3 uSunCol;\n' +
+      sh.fragmentShader.replace(
+        '#include <emissivemap_fragment>',
+        /* glsl */ `#include <emissivemap_fragment>
+        {
+          // warm sun glints on blade tips, strongest at grazing view (sparse mask from the scan's bright texels)
+          vec3 V = normalize(cameraPosition - vLawnW);
+          float sparkle = bahaSpark;
+          totalEmissiveRadiance += uSunCol * sparkle * 0.012 * (0.3 + 0.7 * pow(1.0 - V.y, 3.0));
+        }`,
+      ).replace(
+        '#include <map_fragment>',
+        /* glsl */ `float bahaSpark = 0.0;
+        #include <map_fragment>
+        {
+          float l = dot(diffuseColor.rgb, vec3(0.299, 0.587, 0.114));
+          bahaSpark = smoothstep(0.42, 0.62, l);
+          // deep, slightly desaturated lawn green
+          vec3 green = vec3(0.1, 0.195, 0.054) * (0.5 + 1.4 * l);
+          diffuseColor.rgb = mix(green, vec3(l) * vec3(0.5, 0.62, 0.38), 0.12);
+          // gentle mowing stripes, 4 m wide, soft edges
+          float sp = sin(dot(vLawnW.xz, vec2(0.6, 0.8)) * 0.785);
+          float sfar = smoothstep(8.0, 70.0, distance(vLawnW, cameraPosition));
+          diffuseColor.rgb *= mix(mix(0.95, 0.86, sfar), mix(1.04, 1.12, sfar), smoothstep(-0.4, 0.4, sp));
+          // two scales of macro variation (≈19× and ≈90× the tile) break the repeat into soft patches
+          float macro = texture2D(map, vMapUv * 0.053 + vec2(0.31, 0.17)).g;
+          float macro2 = texture2D(map, vMapUv * 0.011 + vec2(0.63, 0.29)).g;
+          diffuseColor.rgb *= (0.84 + 0.32 * macro) * (0.82 + 0.36 * macro2);
+          // darker foreground (the lens sits in the shade of the near lawn, like the reference)
+          diffuseColor.rgb *= mix(0.74, 1.0, smoothstep(3.0, 42.0, distance(vLawnW, cameraPosition)));
+          // baked contact AO of the house + trees (was a separate blended decal → one full-screen layer saved)
+          vec2 aoUv = vLawnW.xz / ${aoSize.toFixed(1)} + 0.5;
+          float occ = (aoUv.x > 0.0 && aoUv.x < 1.0 && aoUv.y > 0.0 && aoUv.y < 1.0) ? texture2D(uGroundAO, vec2(aoUv.x, 1.0 - aoUv.y)).r : 0.0;
+          diffuseColor.rgb *= 1.0 - 0.8 * occ;
+        }`,
+      );
+  };
+  m.customProgramCacheKey = () => 'baha-lawn';
+  return m;
+}
+
+// ───────── grass blades: a window of N blades that follows the lens ─────────
+const BLADES = 48000;
+const GR = 13; // half-size of the window (m)
+function grassGeometry() {
+  const r = rng(2024);
+  const pos = new Float32Array(BLADES * 9);
+  const off = new Float32Array(BLADES * 6);
+  const rnd = new Float32Array(BLADES * 9);
+  for (let i = 0; i < BLADES; i++) {
+    const ox = r() * GR * 2, oz = r() * GR * 2;
+    const a = r(), b = r(), c = r();
+    const verts = [[-1, 0], [1, 0], [0, 1]];
+    for (let k = 0; k < 3; k++) {
+      const j = i * 3 + k;
+      pos.set([verts[k][0], verts[k][1], 0], j * 3);
+      off.set([ox, oz], j * 2);
+      rnd.set([a, b, c], j * 3);
+    }
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  g.setAttribute('aOff', new THREE.BufferAttribute(off, 2));
+  g.setAttribute('aRnd', new THREE.BufferAttribute(rnd, 3));
+  g.boundingSphere = new THREE.Sphere(new THREE.Vector3(), 1e5);
+  return g;
+}
+function grassMaterial() {
+  const u = {
+    uCenter: { value: new THREE.Vector2() },
+    uOn: { value: 1 },
+    uTime: { value: 0 },
+  };
+  const m = new THREE.MeshLambertMaterial({ color: '#3d5a26' });
+  m.onBeforeCompile = (sh) => {
+    Object.assign(sh.uniforms, u);
+    sh.vertexShader =
+      'uniform vec2 uCenter;\nuniform float uOn;\nuniform float uTime;\nattribute vec2 aOff;\nattribute vec3 aRnd;\nvarying float vT;\n' +
+      sh.vertexShader
+        .replace(
+          '#include <beginnormal_vertex>',
+          /* glsl */ `
+          vec2 rel = mod(aOff - uCenter + ${GR.toFixed(1)}, ${(GR * 2).toFixed(1)}) - ${GR.toFixed(1)};
+          vec2 wp = uCenter + rel;
+          float edge = 1.0 - smoothstep(${(GR * 0.55).toFixed(2)}, ${(GR * 0.97).toFixed(2)}, length(rel));
+          float lens = smoothstep(2.6, 5.5, distance(wp, cameraPosition.xz));
+          vec2 hq = abs(wp - vec2(0.75, 1.1)) - vec2(13.9, 7.95); // terrace + house footprint
+          float outside = smoothstep(0.0, 0.35, max(hq.x, hq.y));
+          float bh = (0.03 + 0.045 * aRnd.x * aRnd.x) * edge * lens * outside * uOn;
+          // blades turn their face to the lens (± a random twist) → always front-facing, full width
+          vec2 tc = normalize(cameraPosition.xz - wp + vec2(1e-4));
+          float tw = (aRnd.y - 0.5) * 1.2;
+          vec2 bd = vec2(tc.y, -tc.x) * cos(tw) + tc * sin(tw);
+          float bw = 0.005 + 0.004 * aRnd.z;
+          float t = position.y;
+          vec2 lean = (vec2(aRnd.z, aRnd.x) - 0.5) * 0.05 * t
+            + vec2(sin(uTime * 1.3 + wp.x * 0.35 + wp.y * 0.21), cos(uTime * 1.1 + wp.y * 0.3)) * 0.01 * t;
+          vT = t;
+          vec3 objectNormal = normalize(vec3(tc.x * 0.45, 1.0, tc.y * 0.45));
+          #ifdef USE_TANGENT
+          vec3 objectTangent = vec3(1.0, 0.0, 0.0);
+          #endif`,
+        )
+        .replace(
+          '#include <begin_vertex>',
+          'vec3 transformed = vec3(wp.x + bd.x * position.x * bw * (1.0 - t) + lean.x, bh * t, wp.y + bd.y * position.x * bw * (1.0 - t) + lean.y);',
+        );
+    sh.fragmentShader = 'varying float vT;\n' + sh.fragmentShader
+      .replace('#include <color_fragment>', '#include <color_fragment>\ndiffuseColor.rgb *= mix(0.55, 0.9, vT);');
+  };
+  m.customProgramCacheKey = () => 'baha-grass';
+  return { m, u };
+}
 
 export function Landscape({ lib }: { lib: Lib }) {
   const res = useMemo(() => {
-    const frond = cached('frond2', frondTexture);
-    const leaf = cached('leaf2', leafCardTexture);
-    const trunkT = cached('trunk', trunkTexture);
-    const lawn = cached('lawn', () => grainTexture([52, 66, 44], 0.5, 11, 256, 8));
-    lawn.repeat.set(60, 60);
-    const asphalt = cached('asphalt', () => grainTexture([40, 42, 46], 0.35, 23, 128, 24));
-    asphalt.repeat.set(80, 2);
-    const pav = cached('pavers', paverTexture);
-    pav.map.repeat.set(30 / TILE, 13 / TILE);
-    pav.rough.repeat.copy(pav.map.repeat);
-    const city = cached('city', cityWindows);
-    const glow = cached('glow', glowTexture);
-    const palms = makePalmGeometries();
-    const fade = new THREE.InstancedBufferAttribute(new Float32Array(PALMS.length).fill(1), 1);
+    const leafT = cached('leafCluster', leafClusterTexture);
+    const needleT = cached('needles', needleTexture);
+    const barkT = cached('bark1', () => {
+      const t = new THREE.DataTexture(new Uint8Array([74, 60, 50, 255]), 1, 1);
+      t.colorSpace = THREE.SRGBColorSpace;
+      t.needsUpdate = true;
+      return t;
+    });
+    const fade = new THREE.InstancedBufferAttribute(new Float32Array(OAKS.length).fill(1), 1);
+    const pineFade = new THREE.InstancedBufferAttribute(new Float32Array(PINES.length).fill(1), 1);
     fade.setUsage(THREE.DynamicDrawUsage);
-    palms.trunk.setAttribute('aFade', fade);
-    palms.crown.setAttribute('aFade', fade);
+    pineFade.setUsage(THREE.DynamicDrawUsage);
+
+    // cores: lumpy lobed ellipsoid (oak), cone (pine), squat blob (shrub) — all inside the card shell
+    const lump = (v: THREE.Vector3, k: number) => v.multiplyScalar(k * (0.9 + 0.1 * Math.sin(v.x * 5.1 + v.y * 3.3) * Math.cos(v.z * 4.3)));
+    const oakCrown = crownGeometry(11, 150, 0.6, oakShape, 0.45, (v) => {
+      lump(v, 0.66);
+      if (v.y < -0.3) v.y = -0.3 + (v.y + 0.3) * 0.5;
+    });
+    const pineCrown = crownGeometry(23, 150, 0.13, pineShape, 0.35, (v) => {
+      const y = 0.2 + (v.y * 0.5 + 0.5) * 0.74; // cone from 0.2 to 0.94
+      const rad = (1 - (y - 0.2) / 0.74) * 0.24 + 0.01;
+      const a = Math.atan2(v.z, v.x);
+      v.set(Math.cos(a) * rad, y, Math.sin(a) * rad);
+    });
+    const shrubCrown = crownGeometry(31, 50, 0.55, oakShape, 0.5, (v) => {
+      lump(v, 0.78);
+    });
+    const oakTrunk = trunkGeometry(OAK_H * 0.72, 0.32, 0.2, 4, 3);
+    const pineTrunk = trunkGeometry(PINE_H * 0.9, 0.3, 0.08, 0, 5);
+    oakCrown.setAttribute('aFade', fade);
+    oakTrunk.setAttribute('aFade', fade);
+    pineCrown.setAttribute('aFade', pineFade);
+    pineTrunk.setAttribute('aFade', pineFade);
 
     const mats = {
-      trunk: withFade(new THREE.MeshLambertMaterial({ map: trunkT, color: '#b6a58c' })),
-      frond: withFade(new THREE.MeshLambertMaterial({ map: frond, alphaTest: 0.5, color: '#c9ccbd', emissive: '#1a2316', emissiveIntensity: 0.28 })),
-      leaf: withFade(new THREE.MeshLambertMaterial({ map: leaf, alphaTest: 0.5, color: '#a9ae9e', emissive: '#192214', emissiveIntensity: 0.2 })),
-      cane: withFade(new THREE.MeshLambertMaterial({ color: '#7f8a4a' })),
-      canopy: new THREE.MeshLambertMaterial({ color: '#ffffff', emissive: '#16220f', emissiveIntensity: 0.4 }),
-      hedge: new THREE.MeshLambertMaterial({ color: '#2f4429' }),
-      lawn: new THREE.MeshLambertMaterial({ map: lawn, color: '#d6e0ca' }),
-      asphalt: new THREE.MeshStandardMaterial({ map: asphalt, roughness: 0.42, metalness: 0.0, color: '#9a9ca4', envMapIntensity: 0.9 }),
-      curb: new THREE.MeshLambertMaterial({ color: '#8d8a84' }),
-      line: new THREE.MeshStandardMaterial({ color: '#cfcab8', roughness: 0.6, emissive: '#ffffff', emissiveIntensity: 0.05 }),
-      pole: new THREE.MeshLambertMaterial({ color: '#1a1b1e' }),
-      lamp: new THREE.MeshStandardMaterial({ color: '#000', emissive: '#ffd7a0', emissiveIntensity: 2 }),
-      ao: new THREE.MeshBasicMaterial({ color: '#000', transparent: true, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2 }),
-      city: new THREE.MeshStandardMaterial({ color: '#141a26', roughness: 0.6, emissiveMap: city, emissive: '#ffffff', emissiveIntensity: 0.4 }),
-      hillNear: new THREE.MeshBasicMaterial({ color: '#1a2333', side: THREE.DoubleSide }),
-      hillFar: new THREE.MeshBasicMaterial({ color: '#2a3650', side: THREE.DoubleSide }),
-      glow: new THREE.SpriteMaterial({ map: glow, color: '#ffcf8f', transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0.6 }),
+      oak: bindFoliage(foliageMaterial(leafT, '#090d06', 0.5), leafT),
+      pine: bindFoliage(foliageMaterial(needleT, '#040705', 0.45), needleT),
+      shrub: bindFoliage(foliageMaterial(leafT, '#080b05', 0.5), leafT),
+      bark: bindFoliage(foliageMaterial(barkT, '#000000', 0.5), barkT),
+      barkPine: bindFoliage(foliageMaterial(barkT, '#000000', 0.5), barkT),
     };
-    // alpha-tested shadows for leaves
-    const depthFrond = new THREE.MeshDepthMaterial({ map: frond, alphaTest: 0.45, depthPacking: THREE.RGBADepthPacking });
-    const depthLeaf = new THREE.MeshDepthMaterial({ map: leaf, alphaTest: 0.45, depthPacking: THREE.RGBADepthPacking });
+    const depthOak = new THREE.MeshDepthMaterial({ map: leafT, alphaTest: 0.45, depthPacking: THREE.RGBADepthPacking });
+    const depthPine = new THREE.MeshDepthMaterial({ map: needleT, alphaTest: 0.45, depthPacking: THREE.RGBADepthPacking });
 
-    // ── instances ──
-    const r = rng(CANOPY_SEED);
-    // local +x is the trunk's bend direction → rotate it to point away from the villa (+ a little jitter)
-    const palmM = PALMS.map(([x, z, s], i) => M(x, 0, z, Math.atan2(-z, x) + ((i * 0.37) % 0.6) - 0.3, s));
-    // bamboo: clusters along the west + east boundary and the back courtyard
-    const caneM: THREE.Matrix4[] = [];
-    const leafM: THREE.Matrix4[] = [];
-    const clusters: [number, number][] = [
-      [-13.6, -7], [-13.8, -4], [-13.6, -1], [-13.8, 2], [-13.6, 5], [17.6, -7.5], [17.8, -4], [17.6, -0.5],
-      [-8, -10.5], [-4, -10.8], [5, -10.6], [9, -10.4],
-    ];
-    for (const [cx, cz] of clusters)
-      for (let i = 0; i < 9; i++) {
-        const x = cx + (r() - 0.5) * 1.6, z = cz + (r() - 0.5) * 1.6;
-        const h = 4.2 + r() * 2.4;
-        caneM.push(M(x, h / 2, z, 0, 1, h, (r() - 0.5) * 0.08, (r() - 0.5) * 0.08));
-        for (let j = 0; j < 3; j++) {
-          const lx = x + (r() - 0.5) * 0.6, ly = h * (0.55 + j * 0.17), lz = z + (r() - 0.5) * 0.6, ry = r() * Math.PI, ls = 1.6 + r() * 0.6;
-          leafM.push(M(lx, ly, lz, ry, ls), M(lx, ly, lz, ry + Math.PI / 2, ls));
-        }
-      }
-    // tree line ring: dark canopies at 40–90 m (depth layer, also behind the house)
+    const r = rng(4242);
+    const oakM = OAKS.map(([x, z, s], i) => M(x, 0, z, i * 1.7, s));
+    const oakCrownM = OAKS.map(([x, z, s], i) => M(x, OAK_H * s, z, i * 2.3, OAK_R * s, OAK_R * s * 0.82));
+    const oakC = OAKS.map(() => new THREE.Color().setHSL(0.19 + r() * 0.07, 0.18 + r() * 0.1, 0.25 + r() * 0.07));
+    const pineM = PINES.map(([x, z, s], i) => M(x, 0, z, i * 1.1, s));
+    const pineCrownM = PINES.map(([x, z, s], i) => M(x, 0, z, i * 0.9, PINE_H * s * 0.95, PINE_H * s));
+    const pineC = PINES.map(() => new THREE.Color().setHSL(0.3 + r() * 0.06, 0.16 + r() * 0.08, 0.36 + r() * 0.08));
+    const shrubM = SHRUBS.map(([x, z, s], i) => M(x, 0.75 * s, z, i * 1.3, 1.25 * s, 0.85 * s));
+    const shrubC = SHRUBS.map(() => new THREE.Color().setHSL(0.24 + r() * 0.06, 0.25 + r() * 0.1, 0.3 + r() * 0.06));
+
+    // tree line ring at 110–175 m (depth layer, also behind the house; beyond the farthest lens — portrait phones
+    // back the camera off to ~100 m — so it never sits between the camera and the villa): crowns + pines, vertex-lit
     const canopyM: THREE.Matrix4[] = [];
-    for (let i = 0; i < 170; i++) {
+    const canopyC: THREE.Color[] = [];
+    const ringPineM: THREE.Matrix4[] = [];
+    const ringPineC: THREE.Color[] = [];
+    for (let i = 0; i < 110; i++) {
       const a = r() * Math.PI * 2;
-      const d = 82 + r() * 55;
+      const d = 110 + r() * 65;
       const x = Math.cos(a) * d, z = Math.sin(a) * d;
-      if (z > 20 && Math.abs(x) < 70) continue; // keep the street side open
-      const s = 3.5 + r() * 4;
-      canopyM.push(M(x, s * 0.9, z, r() * 6, s, s * (0.75 + r() * 0.3)));
+      if (r() < 0.3) {
+        const h = 16 + r() * 12;
+        ringPineM.push(M(x, 0, z, r() * 6, h * 0.9, h));
+        ringPineC.push(new THREE.Color().setHSL(0.3 + r() * 0.05, 0.14 + r() * 0.08, 0.22 + r() * 0.06));
+      } else {
+        const s = 5.5 + r() * 6;
+        canopyM.push(M(x, s * 0.85 + 2, z, r() * 6, s, s * (0.8 + r() * 0.4)));
+        canopyC.push(new THREE.Color().setHSL(0.21 + r() * 0.08, 0.16 + r() * 0.1, 0.2 + r() * 0.07));
+      }
     }
-    // a few garden canopy trees close to the house (frangipani-like)
+    const withOnes = (g: THREE.BufferGeometry, n: number) => {
+      g.setAttribute('aFade', new THREE.InstancedBufferAttribute(new Float32Array(n).fill(1), 1));
+      return g;
+    };
+    const canopy = withOnes(crownGeometry(41, 48, 0.85, oakShape, 0.5, (v) => lump(v, 0.72)), canopyM.length);
+    const ringPine = withOnes(crownGeometry(43, 64, 0.18, pineShape, 0.35, (v) => {
+      const y = 0.2 + (v.y * 0.5 + 0.5) * 0.74;
+      const rad = (1 - (y - 0.2) / 0.74) * 0.24 + 0.01;
+      const a = Math.atan2(v.z, v.x);
+      v.set(Math.cos(a) * rad, y, Math.sin(a) * rad);
+    }), ringPineM.length);
+
     // collision volumes for the camera (spheres: x, y, z, r)
     colliders.spheres = [
-      ...PALMS.map(([x, z, s]) => [x + 0.9 * s, 9 * s, z, 4.3 * s] as [number, number, number, number]),
-      ...PALMS.flatMap(([x, z, s]) => [0.25, 0.5, 0.75].map((f) => [x + f * f * 0.9 * s, 9 * s * f, z, 0.9] as [number, number, number, number])),
+      ...OAKS.map(([x, z, s]) => [x, OAK_H * s, z, OAK_R * s * 0.95] as [number, number, number, number]),
+      ...OAKS.flatMap(([x, z, s]) => [0.2, 0.45].map((f) => [x, OAK_H * s * f, z, 0.7] as [number, number, number, number])),
+      ...PINES.flatMap(([x, z, s]) => [0.3, 0.55, 0.8].map((f) => [x, PINE_H * s * f, z, (1 - f) * 0.3 * PINE_H * s * 0.95 + 0.6] as [number, number, number, number])),
+      ...SHRUBS.map(([x, z, s]) => [x, 0.75 * s, z, 1.2 * s] as [number, number, number, number]),
+      ...SHRUB_BEDS.map(([x, z]) => [x, 0.4, z, 0.6] as [number, number, number, number]),
+      ...ringPineM.map((m) => {
+        const p = new THREE.Vector3(), q = new THREE.Quaternion(), sc = new THREE.Vector3();
+        m.decompose(p, q, sc);
+        return [p.x, sc.y * 0.45, p.z, sc.x * 0.28 + 1] as [number, number, number, number];
+      }),
       ...canopyM.map((m) => {
         const p = new THREE.Vector3(), q = new THREE.Quaternion(), sc = new THREE.Vector3();
         m.decompose(p, q, sc);
         return [p.x, p.y, p.z, Math.max(sc.x, sc.y) * 1.05] as [number, number, number, number];
       }),
-      ...clusters.map(([x, z]) => [x, 3, z, 2.2] as [number, number, number, number]),
     ];
-    // city: towers at 140–230 m, mostly behind (−z) and to the sides
-    const cityM: THREE.Matrix4[] = [];
-    for (let i = 0; i < 240; i++) {
-      const a = -Math.PI * 0.08 - r() * Math.PI * 1.05; // behind arc: a low valley town between tree line and hills
-      const d = 120 + r() * 60;
-      const w = 4 + r() * 7;
-      const h = 4 + Math.pow(r(), 3) * 24;
-      cityM.push(new THREE.Matrix4().compose(new THREE.Vector3(Math.cos(a) * d, h / 2 - 1, Math.sin(a) * d), new THREE.Quaternion().setFromEuler(new THREE.Euler(0, r() * Math.PI, 0)), new THREE.Vector3(w, h, w * (0.6 + r() * 0.6))));
-    }
-    // street lamps along the far kerb + bollards along the drive
-    const lampPos: [number, number, number][] = [];
-    // the hero camera stands at x≈25 just behind this kerb — keep a 16 m gap in the lamp row there
-    for (let x = -52.5; x <= 52.5; x += 15) if (Math.abs(x - 25) > 8) lampPos.push([x, 6.2, 34.4]);
-    const bollards: [number, number, number][] = [];
-    for (const x of [-12.5, -6, 0.5, 13.5]) bollards.push([x, 0.7, 21.3]);
-    for (const z of [12.5, 16, 19.5]) { bollards.push([6.5, 0.7, z]); bollards.push([12.8, 0.7, z]); }
 
-    // ── geometry ──
-    const cane = new THREE.CylinderGeometry(0.045, 0.06, 1, 6, 1);
-    const leafCardSrc = new THREE.PlaneGeometry(1, 1.2);
-    const leafCard = foliage(leafCardSrc, 0, 0, 0.8);
-    leafCardSrc.dispose();
-    // per-instance fade for bamboo (one value per cluster, expanded to every cane / leaf card)
-    const caneFade = new THREE.InstancedBufferAttribute(new Float32Array(caneM.length).fill(1), 1);
-    const leafFade = new THREE.InstancedBufferAttribute(new Float32Array(leafM.length).fill(1), 1);
-    caneFade.setUsage(THREE.DynamicDrawUsage);
-    leafFade.setUsage(THREE.DynamicDrawUsage);
-    cane.setAttribute('aFade', caneFade);
-    leafCard.setAttribute('aFade', leafFade);
-    const leafC = leafM.map((_, i) => new THREE.Color().setHSL(0.24 + ((i * 0.618) % 1) * 0.05 - 0.025, 0.26 + ((i * 0.37) % 1) * 0.1, 0.5 + ((i * 0.71) % 1) * 0.12));
-    const canopy = mergeVertices(new THREE.IcosahedronGeometry(1, 1).deleteAttribute('normal').deleteAttribute('uv'));
-    {
-      const p = canopy.attributes.position as THREE.BufferAttribute;
-      const v = new THREE.Vector3();
-      for (let i = 0; i < p.count; i++) {
-        v.fromBufferAttribute(p, i);
-        const k = 0.86 + 0.1 * Math.sin(v.x * 4.1 + v.y * 2.3) * Math.cos(v.z * 3.7 - v.y * 1.9) + 0.06 * Math.sin(v.x * 9 + v.z * 7);
-        v.multiplyScalar(k);
-        if (v.y < -0.3) v.y = -0.3 + (v.y + 0.3) * 0.4; // flatter underside
-        p.setXYZ(i, v.x, v.y, v.z);
-      }
-      canopy.computeVertexNormals();
-    }
-    const cityBox = new THREE.BoxGeometry(1, 1, 1);
-
-    // hills: two silhouette rings
-    const hill = (radius: number, base: number, amp: number, seed: number) => {
-      const N = 480;
-      const rr = rng(seed);
-      const ph = [rr() * 6, rr() * 6, rr() * 6, rr() * 6, rr() * 6];
-      const pos: number[] = [];
-      const idx: number[] = [];
-      for (let i = 0; i <= N; i++) {
-        const a = (i / N) * Math.PI * 2;
-        const ridge = 1 - Math.abs(Math.sin(a * 5 + ph[3]));
-        const h = base + amp * (0.35 + 0.25 * Math.sin(a * 3 + ph[0]) + 0.12 * Math.sin(a * 9 + ph[1]) + 0.05 * Math.sin(a * 23 + ph[2]) + 0.025 * Math.sin(a * 61 + ph[4]) + 0.3 * ridge * ridge);
-        pos.push(Math.cos(a) * radius, -2, Math.sin(a) * radius, Math.cos(a) * radius, h, Math.sin(a) * radius);
-        if (i < N) {
-          const k = i * 2;
-          idx.push(k, k + 1, k + 2, k + 1, k + 3, k + 2);
-        }
-      }
-      const g = new THREE.BufferGeometry();
-      g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
-      g.setIndex(idx);
-      return g;
-    };
-    const hillNear = hill(185, 6, 26, 5);
-    const hillFar = hill(260, 18, 48, 9);
-
-    // AO decal: house footprint, plinth, walls, every tree
+    // AO decal: house + terrace edge, every trunk / shrub
     const aoSize = 110;
     const ao = groundAO(
       aoSize,
-      [[-12.5, -8.6, 13.6, 9.5, 1.1], [-1, -8.2, 2.6, -5.5, 0.8], [-30, 22.6, 6, 23.4, 0.7], [12, 22.6, 30, 23.4, 0.7]],
-      [...PALMS.map(([x, z, s]) => [x + 0.6, z, 1.8 * s, 0.55] as [number, number, number, number]), ...clusters.map(([x, z]) => [x, z, 2.2, 0.6] as [number, number, number, number])],
+      [[-12.9, -6.6, 14.4, 8.8, 0.85]],
+      [
+        ...OAKS.map(([x, z, s]) => [x, z, 3.2 * s, 0.6] as [number, number, number, number]),
+        ...PINES.map(([x, z, s]) => [x, z, 2.4 * s, 0.6] as [number, number, number, number]),
+        ...SHRUBS.map(([x, z, s]) => [x, z, 1.8 * s, 0.6] as [number, number, number, number]),
+        ...SHRUB_BEDS.map(([x, z]) => [x, z, 1.2, 0.45] as [number, number, number, number]),
+      ],
     );
-    mats.ao.alphaMap = ao;
-    mats.ao.opacity = 0.75;
+    const lawnMat = lawnMaterial(lib, ao, aoSize);
+    shrubCrown.setAttribute('aFade', new THREE.InstancedBufferAttribute(new Float32Array(SHRUBS.length).fill(1), 1));
 
-    const canopyC = canopyM.map(() => new THREE.Color().setHSL(0.22 + r() * 0.08, 0.32 + r() * 0.15, 0.12 + r() * 0.08));
-    return { fade, caneFade, leafFade, leafC, clusters, canopyC, mats, depthFrond, depthLeaf, pav, palms, palmM, cane, caneM, leafCard, leafM, canopy, canopyM, cityBox, cityM, hillNear, hillFar, lampPos, bollards, aoSize };
-  }, []);
+    // lawn disc with metre UVs (tile 1.8 m)
+    const lawn = new THREE.CircleGeometry(320, 96);
+    {
+      const p = lawn.attributes.position as THREE.BufferAttribute;
+      const uv = lawn.attributes.uv as THREE.BufferAttribute;
+      for (let i = 0; i < p.count; i++) uv.setXY(i, p.getX(i) / 1.8, p.getY(i) / 1.8);
+    }
+    const grass = grassGeometry();
+    const grassMat = grassMaterial();
+    return { lawnMat, ao, fade, pineFade, oakCrown, pineCrown, shrubCrown, oakTrunk, pineTrunk, mats, depthOak, depthPine, oakM, oakCrownM, oakC, pineM, pineCrownM, pineC, shrubM, shrubC, canopy, canopyM, canopyC, ringPine, ringPineM, ringPineC, aoSize, lawn, grass, grassMat };
+  }, [lib]);
 
   useEffect(
     () => () => {
       Object.values(res.mats).forEach((m) => {
-        const mm = m as THREE.MeshStandardMaterial;
-        mm.map?.dispose();
-        mm.emissiveMap?.dispose();
-        mm.alphaMap?.dispose();
-        mm.dispose();
+        m.dispose();
       });
-      res.pav.map.dispose(); // GPU copy only — the canvas stays cached and re-uploads on remount
-      res.pav.rough.dispose();
-      [res.palms.trunk, res.palms.crown, res.cane, res.leafCard, res.canopy, res.cityBox, res.hillNear, res.hillFar].forEach((g) => g.dispose());
+      res.grassMat.m.dispose();
+      res.lawnMat.dispose();
+      res.ao.dispose();
+      res.depthOak.dispose();
+      res.depthPine.dispose();
+      [res.oakCrown, res.pineCrown, res.shrubCrown, res.oakTrunk, res.pineTrunk, res.canopy, res.ringPine, res.lawn, res.grass].forEach((g) => g.dispose());
     },
     [res],
   );
 
-  // site walls (stone → follows the façade variant) + kerbs, as merged geometry
-  const site = useMemo(() => {
-    const walls: THREE.BufferGeometry[] = [];
-    const add = (arr: THREE.BufferGeometry[], x0: number, y0: number, z0: number, x1: number, y1: number, z1: number) => {
-      const g = boxUV(x1 - x0, y1 - y0, z1 - z0);
-      g.translate((x0 + x1) / 2, (y0 + y1) / 2, (z0 + z1) / 2);
-      arr.push(g);
-    };
-    add(walls, -30, 0, 22.6, 6, 0.6, 23.2);
-    add(walls, 12.8, 0, 22.6, 30, 0.6, 23.2);
-    add(walls, -30, 0, -20, -29.4, 1.1, 22.6);
-    add(walls, 29.4, 0, -20, 30, 1.1, 22.6);
-    add(walls, 5.6, 0, 22.4, 6.4, 1.2, 23.4); // gate piers
-    add(walls, 12.4, 0, 22.4, 13.2, 1.2, 23.4);
-    const kerbs: THREE.BufferGeometry[] = [];
-    add(kerbs, -200, 0, 25.6, 200, 0.14, 26.0);
-    add(kerbs, -200, 0, 33.0, 200, 0.14, 33.4);
-    add(kerbs, 6.5, 0.006, 20.9, 12.7, 0.012, 26.3); // drive apron
-    add(kerbs, -200, 0.01, 33.5, 200, 0.016, 38.5); // far pavement
-    const hedges: THREE.BufferGeometry[] = [];
-    add(hedges, -29.3, 0, 21.4, 5.4, 1.0, 22.5);
-    add(hedges, 13.3, 0, 21.4, 29.3, 1.0, 22.5);
-    add(hedges, -29.2, 0, -19.5, -27.8, 2.2, 21.2);
-    add(hedges, 27.8, 0, -19.5, 29.2, 2.2, 21.2);
-    add(hedges, -29.2, 0, -21, 29.2, 2.6, -19.5);
-    const w = mergeGeometries(walls)!;
-    const k = mergeGeometries(kerbs)!;
-    const h = mergeGeometries(hedges)!;
-    [...walls, ...kerbs, ...hedges].forEach((g) => g.dispose());
-    return { walls: w, kerbs: k, hedges: h };
-  }, []);
-  useEffect(() => () => { site.walls.dispose(); site.kerbs.dispose(); site.hedges.dispose(); }, [site]);
+  const grassMesh = useRef<THREE.Mesh>(null);
+  const fadeNow = useMemo(() => ({ oak: new Float32Array(OAKS.length).fill(1), pine: new Float32Array(PINES.length).fill(1) }), []);
+  const _f = useMemo(() => new THREE.Vector3(), []);
+  useFrame(({ camera, clock }, delta) => {
+    // grass window: centred ahead of the lens, hidden once the camera is high (blades would be sub-pixel)
+    const u = res.grassMat.u;
+    camera.getWorldDirection(_f);
+    _f.y = 0;
+    if (_f.lengthSq() < 1e-6) _f.set(0, 0, -1);
+    _f.normalize();
+    u.uCenter.value.set(camera.position.x + _f.x * GR * 0.78, camera.position.z + _f.z * GR * 0.78);
+    u.uOn.value = 1 - THREE.MathUtils.smoothstep(camera.position.y, 6.5, 9.5);
+    u.uTime.value = clock.elapsedTime;
+    if (grassMesh.current) grassMesh.current.visible = u.uOn.value > 0.01;
 
-  // road dashes
-  const dashes = useMemo(() => {
-    const out: THREE.Matrix4[] = [];
-    for (let x = -200; x <= 200; x += 6) out.push(M(x, 0.035, 29.5));
-    return out;
-  }, []);
-  const dashGeo = useMemo(() => new THREE.BoxGeometry(2.6, 0.01, 0.16), []);
-  const poleGeo = useMemo(() => new THREE.CylinderGeometry(0.07, 0.1, 6.2, 8), []);
-  const headGeo = useMemo(() => new THREE.BoxGeometry(0.9, 0.12, 0.3), []);
-  const bollardGeo = useMemo(() => new THREE.CylinderGeometry(0.09, 0.09, 0.7, 10), []);
-  const bollardCapGeo = useMemo(() => new THREE.CylinderGeometry(0.095, 0.095, 0.06, 10), []);
-  const furniture = useMemo(() => {
-    const at = (g: THREE.BufferGeometry, x: number, y: number, z: number) => g.clone().translate(x, y, z);
-    const dark = [
-      ...res.lampPos.map(([x, , z]) => at(poleGeo, x, 3.1, z)),
-      ...res.bollards.map(([x, , z]) => at(bollardGeo, x, 0.35, z)),
-    ];
-    const lit = [
-      ...res.lampPos.map(([x, y, z]) => at(headGeo, x, y, z - 0.35)),
-      ...res.bollards.map(([x, , z]) => at(bollardCapGeo, x, 0.62, z)),
-    ];
-    const out = { dark: mergeGeometries(dark)!, lit: mergeGeometries(lit)! };
-    [...dark, ...lit].forEach((g) => g.dispose());
-    return out;
-  }, [res, poleGeo, bollardGeo, headGeo, bollardCapGeo]);
-  useEffect(() => () => { furniture.dark.dispose(); furniture.lit.dispose(); }, [furniture]);
-  useEffect(() => () => { [dashGeo, poleGeo, headGeo, bollardGeo, bollardCapGeo].forEach((g) => g.dispose()); }, [dashGeo, poleGeo, headGeo, bollardGeo, bollardCapGeo]);
-
-  const glowGeo = useMemo(() => {
-    const mk = (pts: [number, number, number][]) => new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute(pts.flat(), 3));
-    return {
-      lamps: mk(res.lampPos.map(([x, y, z]) => [x, y - 0.1, z - 0.35] as [number, number, number])),
-      bollards: mk(res.bollards.map(([x, , z]) => [x, 0.62, z] as [number, number, number])),
-    };
-  }, [res]);
-  const glowMat = useMemo(() => {
-    const mk = (size: number) => new THREE.PointsMaterial({ map: res.mats.glow.map, color: '#ffcf8f', size, sizeAttenuation: true, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0.6 });
-    return { lamps: mk(3.2), bollards: mk(1.1) };
-  }, [res]);
-  useEffect(() => () => { glowGeo.lamps.dispose(); glowGeo.bollards.dispose(); glowMat.lamps.dispose(); glowMat.bollards.dispose(); }, [glowGeo, glowMat]);
-  const far = useRef<THREE.Group>(null);
-  useEffect(() => {
-    far.current?.traverse((o) => o.layers.set(1));
-  }, []);
-  const fadeNow = useMemo(() => new Float32Array(PALMS.length).fill(1), []);
-  const clusterFade = useMemo(() => new Float32Array(res.clusters.length).fill(1), [res]);
-  useFrame(({ camera }, delta) => {
-    // occluder fade: project the villa footprint, test every palm trunk against it
-    let x0 = 1, x1 = -1;
-    let villaDist = 0;
+    // occluder fade: project the villa's box, then fade any tree (trunk or crown disc) standing in front of it
+    // whose screen footprint overlaps the house — and any tree whose crown would brush the lens
+    let x0 = 1, x1 = -1, y0 = 1, y1 = -1;
     for (const c of VILLA_CORNERS) {
       _v.copy(c).project(camera);
       x0 = Math.min(x0, _v.x);
       x1 = Math.max(x1, _v.x);
+      y0 = Math.min(y0, _v.y);
+      y1 = Math.max(y1, _v.y);
     }
-    villaDist = camera.position.distanceTo(_v.set(0.5, 6, 0.5));
+    const vcx = (x0 + x1) / 2, vhw = Math.max(0, (x1 - x0) / 2 - 0.05), vcy = (y0 + y1) / 2, vhh = Math.max(0, (y1 - y0) / 2 - 0.05);
+    const villaDist = camera.position.distanceTo(_v.set(0.7, 4, 0));
+    const cam = camera as THREE.PerspectiveCamera;
+    const tanV = Math.tan(THREE.MathUtils.degToRad(cam.fov / 2)), tanH = tanV * cam.aspect;
     const k = 1 - Math.exp(-6 * Math.min(delta, 0.05));
-    let dirty = false;
-    PALMS.forEach(([x, z, s], i) => {
-      let want = 1;
-      const near = Math.hypot(camera.position.x - x, camera.position.z - z);
-      if (near < 7) want = 0;
-      else if (near < villaDist - 9) {
-        for (const f of [0.35, 0.7]) {
-          _v.set(x + f * f * 0.9 * s, 9 * s * f, z).project(camera);
-          if (_v.z < 1 && _v.x > x0 + 0.04 && _v.x < x1 - 0.04 && Math.abs(_v.y) < 1) want = 0;
+    const covers = (px: number, py: number, pz: number, r: number) => {
+      _v.set(px, py, pz);
+      const d = _v.distanceTo(camera.position);
+      if (d > villaDist - 3) return false;
+      _v.project(camera);
+      if (_v.z > 1) return false;
+      const rx = r / (d * tanH), ry = r / (d * tanV);
+      const dx = Math.max(0, Math.abs(_v.x - vcx) - vhw), dy = Math.max(0, Math.abs(_v.y - vcy) - vhh);
+      return dx < rx * 0.8 && dy < ry * 0.8;
+    };
+    // samples per tree: [height fraction, radius at scale 1] — trunk, lower crown, crown centre
+    const step = (list: P3[], now: Float32Array, attr: THREE.InstancedBufferAttribute, h: number, samples: [number, number][], crownR: number) => {
+      let dirty = false;
+      list.forEach(([x, z, s], i) => {
+        let want = 1;
+        const near = Math.hypot(camera.position.x - x, camera.position.z - z);
+        if (near < 5 + crownR * s) want = 0;
+        else for (const [f, r] of samples) if (covers(x, h * s * f, z, r * s)) want = 0;
+        const cur = now[i];
+        const nxt = Math.abs(want - cur) < 0.01 ? want : cur + (want - cur) * k;
+        if (nxt !== cur) {
+          now[i] = nxt;
+          attr.setX(i, nxt);
+          dirty = true;
         }
-      }
-      const cur = fadeNow[i];
-      const nxt = Math.abs(want - cur) < 0.01 ? want : cur + (want - cur) * k;
-      if (nxt !== cur) {
-        fadeNow[i] = nxt;
-        res.fade.setX(i, nxt);
-        dirty = true;
-      }
-    });
-    if (dirty) res.fade.needsUpdate = true;
-    // bamboo clusters between the lens and the villa fade out the same way (side/back orbits)
-    let bDirty = false;
-    res.clusters.forEach(([x, z], ci) => {
-      let want = 1;
-      const near = Math.hypot(camera.position.x - x, camera.position.z - z);
-      if (near < 6) want = 0;
-      else if (near < villaDist - 3) {
-        for (const y of [2.5, 5]) {
-          _v.set(x, y, z).project(camera);
-          if (_v.z < 1 && _v.x > x0 - 0.06 && _v.x < x1 + 0.06 && Math.abs(_v.y) < 1) want = 0; // incl. the low wings at the footprint edges
-        }
-      }
-      const cur = clusterFade[ci];
-      const nxt = Math.abs(want - cur) < 0.01 ? want : cur + (want - cur) * k;
-      if (nxt !== cur) {
-        clusterFade[ci] = nxt;
-        for (let i = 0; i < 9; i++) res.caneFade.setX(ci * 9 + i, nxt);
-        for (let i = 0; i < 54; i++) res.leafFade.setX(ci * 54 + i, nxt);
-        bDirty = true;
-      }
-    });
-    if (bDirty) {
-      res.caneFade.needsUpdate = true;
-      res.leafFade.needsUpdate = true;
-    }
+      });
+      if (dirty) attr.needsUpdate = true;
+    };
+    step(OAKS, fadeNow.oak, res.fade, OAK_H, [[0.3, 0.4], [0.85, OAK_R * 0.8], [1.0, OAK_R]], OAK_R);
+    step(PINES, fadeNow.pine, res.pineFade, PINE_H, [[0.25, 0.4], [0.45, 3.6], [0.7, 2.2]], 3);
+
     const n = nightOf(scrollState.smooth);
-    const m = res.mats;
-    m.lamp.emissiveIntensity = 1.2 + 3.5 * n;
-    m.city.emissiveIntensity = 0.14 + 0.55 * n;
-    glowMat.lamps.opacity = glowMat.bollards.opacity = 0.25 + 0.6 * n;
-    m.hillNear.color.setRGB(0.1 - 0.07 * n, 0.135 - 0.09 * n, 0.2 - 0.12 * n);
-    m.hillFar.color.setRGB(0.17 - 0.11 * n, 0.21 - 0.13 * n, 0.31 - 0.17 * n);
-    m.line.emissiveIntensity = 0.05 + 0.25 * n;
+    HAZE.lerpColors(HAZE_DUSK, HAZE_NIGHT, n);
+    const e = 1 - 0.75 * n;
+    res.mats.oak.uniforms.uEmissive.value.setRGB(0.009 * e, 0.014 * e, 0.006 * e);
+    res.mats.pine.uniforms.uEmissive.value.setRGB(0.004 * e, 0.007 * e, 0.005 * e);
   });
 
-  const stoneSite = lib.get('none', 'stone');
   return (
-    <group>
-      {/* wet forecourt + drive (reflector) */}
-      <mesh rotation-x={-Math.PI / 2} position={[1, 0.012, 15.6]} receiveShadow>
-        <planeGeometry args={[30, 13]} />
-        <meshStandardMaterial map={res.pav.map} roughnessMap={res.pav.rough} color="#a9a7a2" roughness={1} metalness={0.05} envMapIntensity={0.8} />
-      </mesh>
-      <WetCourt mask={res.pav.rough} repeat={res.pav.map.repeat} position={COURT_POS} size={COURT_SIZE} />
-      <mesh geometry={site.kerbs} material={res.mats.curb} receiveShadow />
-      <Instanced geometry={dashGeo} material={res.mats.line} mats={dashes} castShadow={false} />
-      {/* site walls, hedges */}
-      <mesh geometry={site.walls} material={stoneSite} castShadow receiveShadow />
-      <mesh geometry={site.hedges} material={res.mats.hedge} castShadow receiveShadow />
-      {/* vegetation */}
-      <Instanced geometry={res.palms.trunk} material={res.mats.trunk} mats={res.palmM} />
-      <PalmCrowns res={res} />
-      {/* layer 1 = rendered by the main camera only, skipped by the wet-floor reflection camera (cheap mirror) */}
-      <group ref={far}>
-        <Instanced geometry={res.cane} material={res.mats.cane} mats={res.caneM} />
-        <LeafCards res={res} />
-        <Instanced geometry={res.canopy} material={res.mats.canopy} mats={res.canopyM} colors={res.canopyC} />
-        <Instanced geometry={res.cityBox} material={res.mats.city} mats={res.cityM} castShadow={false} />
-        <mesh geometry={res.hillNear} material={res.mats.hillNear} />
-        <mesh geometry={res.hillFar} material={res.mats.hillFar} />
-        <mesh rotation-x={-Math.PI / 2} receiveShadow material={res.mats.lawn}>
-          <circleGeometry args={[340, 64]} />
-        </mesh>
-        <mesh rotation-x={-Math.PI / 2} position={[0, 0.02, 29.5]} receiveShadow material={res.mats.asphalt}>
-          <planeGeometry args={[400, 7]} />
-        </mesh>
-        <mesh rotation-x={-Math.PI / 2} position={[0, 0.03, 0]} material={res.mats.ao} renderOrder={1}>
-          <planeGeometry args={[res.aoSize, res.aoSize]} />
-        </mesh>
+    <group name="land">
+      <mesh name="lawn" geometry={res.lawn} rotation-x={-Math.PI / 2} receiveShadow material={res.lawnMat} />
+      <mesh name="grass" ref={grassMesh} geometry={res.grass} material={res.grassMat.m} receiveShadow frustumCulled={false} />
+      {/* garden trees */}
+      <group name="trees">
+      <Instanced geometry={res.oakTrunk} material={res.mats.bark} mats={res.oakM} castShadow={false} />
+      <Instanced geometry={res.oakCrown} material={res.mats.oak} mats={res.oakCrownM} colors={res.oakC} castShadow={false} />
+      <Instanced geometry={res.pineTrunk} material={res.mats.barkPine} mats={res.pineM} castShadow={false} />
+      <Instanced geometry={res.pineCrown} material={res.mats.pine} mats={res.pineCrownM} colors={res.pineC} castShadow={false} />
       </group>
-      {/* lamps */}
-      <mesh geometry={furniture.dark} material={res.mats.pole} castShadow />
-      <mesh geometry={furniture.lit} material={res.mats.lamp} />
-      {/* lamp glows: two Points draws instead of ~20 sprite draw calls */}
-      <points geometry={glowGeo.lamps} material={glowMat.lamps} renderOrder={2} />
-      <points geometry={glowGeo.bollards} material={glowMat.bollards} renderOrder={2} />
+      {/* dark leaf-card shrub masses along the flanks / back (the Poly Haven beds are in Props) */}
+      <Instanced geometry={res.shrubCrown} material={res.mats.shrub} mats={res.shrubM} colors={res.shrubC} castShadow={false} />
+      {/* tree line ring */}
+      <Instanced geometry={res.canopy} material={res.mats.shrub} mats={res.canopyM} colors={res.canopyC} castShadow={false} />
+      <Instanced geometry={res.ringPine} material={res.mats.pine} mats={res.ringPineM} colors={res.ringPineC} castShadow={false} />
     </group>
   );
-}
-
-type Res = { mats: { frond: THREE.Material; leaf: THREE.Material }; depthFrond: THREE.Material; depthLeaf: THREE.Material; palms: { crown: THREE.BufferGeometry }; palmM: THREE.Matrix4[]; leafCard: THREE.BufferGeometry; leafM: THREE.Matrix4[]; leafC: THREE.Color[] };
-
-function PalmCrowns({ res }: { res: Res }) {
-  const ref = useRef<THREE.InstancedMesh>(null);
-  useLayoutEffect(() => {
-    const m = ref.current!;
-    res.palmM.forEach((x, i) => m.setMatrixAt(i, x));
-    m.instanceMatrix.needsUpdate = true;
-    m.computeBoundingSphere();
-    m.customDepthMaterial = res.depthFrond;
-  }, [res]);
-  return <instancedMesh ref={ref} args={[res.palms.crown, res.mats.frond, res.palmM.length]} castShadow />;
-}
-
-function LeafCards({ res }: { res: Res }) {
-  const ref = useRef<THREE.InstancedMesh>(null);
-  useLayoutEffect(() => {
-    const m = ref.current!;
-    res.leafM.forEach((x, i) => m.setMatrixAt(i, x));
-    res.leafC.forEach((c, i) => m.setColorAt(i, c));
-    if (m.instanceColor) m.instanceColor.needsUpdate = true;
-    m.instanceMatrix.needsUpdate = true;
-    m.computeBoundingSphere();
-    m.customDepthMaterial = res.depthLeaf;
-  }, [res]);
-  return <instancedMesh ref={ref} args={[res.leafCard, res.mats.leaf, res.leafM.length]} castShadow />;
 }

@@ -1,9 +1,9 @@
 [
   {
-    "color": "#e7dcc6",
+    "color": "#f4ece0",
     "emissive": "#3a2610",
     "emissiveIntensity": 0,
-    "roughness": 0.95,
+    "roughness": 1,
     "metalness": 0,
     "transmission": null,
     "clearcoat": null,
@@ -11,10 +11,10 @@
     "opacity": 1
   },
   {
-    "color": "#4b5053",
+    "color": "#70757d",
     "emissive": "#3a2610",
     "emissiveIntensity": 0,
-    "roughness": 0.820001341635952,
+    "roughness": 0.7800034458920974,
     "metalness": 0,
     "transmission": null,
     "clearcoat": null,
@@ -22,10 +22,10 @@
     "opacity": 1
   },
   {
-    "color": "#c46e48",
+    "color": "#e9e7e3",
     "emissive": "#3a2610",
     "emissiveIntensity": 0,
-    "roughness": 0.9999967614940253,
+    "roughness": 0.9499941394005865,
     "metalness": 0,
     "transmission": null,
     "clearcoat": null,

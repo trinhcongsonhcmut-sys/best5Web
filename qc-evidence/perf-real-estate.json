@@ -1,8 +1,8 @@
 {
   "demo": "real-estate",
-  "idleFps": 38.84663493809121,
-  "scrollFps": 52.47583456872583,
-  "minFps": 48.275190178500054,
+  "idleFps": 37.35588452477867,
+  "scrollFps": 39.43505183203014,
+  "minFps": 39.43505183203014,
   "condition": {
     "renderer": "ANGLE (Intel, Intel(R) HD Graphics 530 (0x00001912) Direct3D11 vs_5_0 ps_5_0, D3D11)",
     "vendor": "Google Inc. (Intel)",
@@ -10,5 +10,5 @@
     "dpr": 1,
     "viewport": "1440x900"
   },
-  "at": "2026-11-05T02:47:38.944Z"
+  "at": "2026-11-05T07:11:30.658Z"
 }

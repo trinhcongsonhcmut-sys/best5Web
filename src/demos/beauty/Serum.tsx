@@ -1,33 +1,35 @@
 /**
- * Final still-life: matte pastel plinth rising into frame + a dropper serum bottle (secondary object).
- * The serum glass is NOT transmissive (keeps the scene at one transmission layer): clear-coated tinted shell
- * with depth-sorted liquid + glass pipette inside.
+ * Final still-life (ritual mark): warm satin pedestal rising into frame + a citrus half and a wheel set beside the
+ * bottle (secondary hover object "citrus"). The splash itself is the shared <Splash/> that returns around the bottle.
  */
 import { useEffect, useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { scrollState } from '../../lib/scroll';
 import { easeOutCubic } from '../../lib/math';
+import { useHoverRim } from '../../lib/rim';
 import { pose } from './anim';
 import { look } from './palette';
 import { warm, steadyHover } from './rig';
-import { addRim, useHoverRim } from '../../lib/rim';
-import { JS } from './rig';
-import { plinthGeometry, plinthTopGeometry, serumBulbGeometry, serumCollarGeometry, serumGlassGeometry, serumLiquidGeometry } from './geometry';
+import { halfGeometries, plinthGeometry, plinthTopGeometry, sliceGeometries } from './geometry';
+import { fleshMaterial, rindMaterial, skipTransmissionPass } from './materials';
+import { addRim } from '../../lib/rim';
 
-export const PLINTH_X = 0.42;
-export const SERUM_POS = new THREE.Vector3(1.08, 0, -0.3);
+export const PLINTH_X = 0.2;
+/** citrus half on the pedestal (world, pedestal top = y 0) */
+export const SERUM_POS = new THREE.Vector3(0.78, 0, 0.12);
 const WHITE = new THREE.Color('#ffffff');
 
-/** Two-tier pastel plinth: soft-touch base, foil inlay ring, lighter satin top slab (jar + serum stand on it). */
+/** Two-tier satin pedestal with a thin brass inlay ring (bottle + citrus stand on it). */
 export function Plinth() {
   const ref = useRef<THREE.Group>(null);
   const res = useMemo(() => {
-    const geos = { base: plinthGeometry(1.42, 0.4), top: plinthTopGeometry(1.3), ring: new THREE.TorusGeometry(1.36, 0.009, 8, 160) };
+    const geos = { base: plinthGeometry(1.3, 0.42), top: plinthTopGeometry(1.2), ring: new THREE.TorusGeometry(1.25, 0.008, 8, 160) };
     const mats = {
-      base: new THREE.MeshPhysicalMaterial({ color: look.plinth.clone(), roughness: 0.62, clearcoat: 0.25, clearcoatRoughness: 0.5, envMapIntensity: 0.9 }),
-      top: new THREE.MeshPhysicalMaterial({ color: look.plinth.clone(), roughness: 0.4, clearcoat: 0.5, clearcoatRoughness: 0.3, envMapIntensity: 1.1 }),
-      ring: new THREE.MeshStandardMaterial({ color: look.foil.clone(), metalness: 0.9, roughness: 0.25 }),
+      // rim-capable (never lit) only so they share the collar's compiled program
+      base: addRim(new THREE.MeshPhysicalMaterial({ color: look.plinth.clone(), roughness: 0.55, clearcoat: 0.3, clearcoatRoughness: 0.45, envMapIntensity: 0.85 })).material,
+      top: addRim(new THREE.MeshPhysicalMaterial({ color: look.plinth.clone(), roughness: 0.38, clearcoat: 0.5, clearcoatRoughness: 0.28, envMapIntensity: 1.0 })).material,
+      ring: new THREE.MeshStandardMaterial({ color: '#c9a46a', metalness: 0.9, roughness: 0.28 }),
     };
     return { geos, mats };
   }, []);
@@ -44,9 +46,8 @@ export function Plinth() {
     if (!g) return;
     g.visible = k > 0.001 || warm.on;
     g.position.set(PLINTH_X, -3.4 * (1 - k), 0);
-    res.mats.base.color.copy(look.plinth).multiplyScalar(0.94);
-    res.mats.top.color.copy(look.plinth).lerp(WHITE, 0.35);
-    res.mats.ring.color.copy(look.foil);
+    res.mats.base.color.copy(look.plinth).multiplyScalar(0.95);
+    res.mats.top.color.copy(look.plinth).lerp(WHITE, 0.3);
   });
   return (
     <group ref={ref}>
@@ -57,34 +58,28 @@ export function Plinth() {
   );
 }
 
+/** Citrus half (cut face up toward the camera) + a wheel leaning on it, on the pedestal. */
 export function Serum() {
   const ref = useRef<THREE.Group>(null);
   const res = useMemo(() => {
-    const geos = {
-      glass: serumGlassGeometry(),
-      liquid: serumLiquidGeometry(),
-      collar: serumCollarGeometry(),
-      bulb: serumBulbGeometry(),
-      pipette: new THREE.CylinderGeometry(0.018, 0.012, 0.62, 16, 1, false),
-    };
-    const mats = {
-      glass: new THREE.MeshPhysicalMaterial({ color: '#ffffff', roughness: 0.06, clearcoat: 1, clearcoatRoughness: 0.04, transparent: true, opacity: 0.32, depthWrite: false, envMapIntensity: 1.8, side: THREE.DoubleSide }),
-      liquid: new THREE.MeshPhysicalMaterial({ color: look.serum.clone(), roughness: 0.18, clearcoat: 0.6, transparent: true, opacity: 0.82, depthWrite: false, emissive: look.serum.clone(), emissiveIntensity: 0.18 }),
-      collar: new THREE.MeshStandardMaterial({ color: look.foil.clone(), metalness: 0.9, roughness: 0.24 }),
-      bulb: new THREE.MeshPhysicalMaterial({ color: look.cap.clone(), roughness: 0.55, clearcoat: 0.2 }),
-      pipette: new THREE.MeshPhysicalMaterial({ color: '#ffffff', roughness: 0.05, transparent: true, opacity: 0.35, depthWrite: false, clearcoat: 1 }),
-    };
-    const rims = [addRim(mats.glass, { color: '#ffffff', power: 2 }).uniforms, addRim(mats.bulb, { color: '#ffffff', power: 2.2 }).uniforms, addRim(mats.collar, { color: '#fff3d6', power: 2 }).uniforms];
-    return { geos, mats, rims };
+    const half = halfGeometries(0.34, 0.9);
+    const slice = sliceGeometries(0.27, 0.05, Math.PI * 2, 2, 2.4);
+    const flesh = fleshMaterial(true);
+    const rind = rindMaterial([9, 0.4], true);
+    const dome = rindMaterial([7, 2.2], true);
+    [flesh, rind, dome].forEach((x) => skipTransmissionPass(x.material));
+    return { half, slice, flesh, rind, dome };
   }, []);
   useEffect(
     () => () => {
-      Object.values(res.geos).forEach((g) => g.dispose());
-      Object.values(res.mats).forEach((m) => m.dispose());
+      [res.half.dome, res.half.face, res.slice.face, res.slice.rind].forEach((g) => g.dispose());
+      [res.flesh.material, res.rind.material, res.dome.material].forEach((m) => m.dispose());
+      res.rind.material.normalMap?.dispose();
+      res.dome.material.normalMap?.dispose();
     },
     [res],
   );
-  const { bind, value: hover } = useHoverRim(() => res.rims, 'serum', 1.8);
+  const { bind, value: hover } = useHoverRim(() => [res.flesh.uniforms!, res.rind.uniforms!, res.dome.uniforms!], 'citrus', 1.6);
   useFrame(({ clock }) => {
     const a = pose(scrollState.smooth);
     const g = ref.current;
@@ -93,21 +88,21 @@ export function Serum() {
     g.visible = k > 0.001 || warm.on;
     const s = 0.4 + 0.6 * easeOutCubic(k);
     g.position.set(SERUM_POS.x, SERUM_POS.y - 3.4 * (1 - a.plinth) + (1 - k) * 0.5, SERUM_POS.z);
-    g.scale.setScalar(s * 1.35 * JS * (1 + 0.05 * hover.current));
-    g.rotation.y = -0.5 + (1 - k) * 1.2 + Math.sin(clock.elapsedTime * 0.3) * 0.03;
-    res.mats.liquid.color.copy(look.serum);
-    res.mats.liquid.emissive.copy(look.serum);
-    res.mats.liquid.emissiveIntensity = 0.18 + 0.4 * hover.current;
-    res.mats.collar.color.copy(look.foil);
-    res.mats.bulb.color.copy(look.cap);
+    g.scale.setScalar(s * (1 + 0.05 * hover.current));
+    g.rotation.y = -0.35 + (1 - k) * 1.2 + Math.sin(clock.elapsedTime * 0.3) * 0.03;
   });
   return (
     <group ref={ref} {...steadyHover(bind)}>
-      <mesh geometry={res.geos.liquid} material={res.mats.liquid} renderOrder={3} />
-      <mesh geometry={res.geos.pipette} material={res.mats.pipette} position-y={0.4} renderOrder={4} />
-      <mesh geometry={res.geos.glass} material={res.mats.glass} renderOrder={5} />
-      <mesh geometry={res.geos.collar} material={res.mats.collar} />
-      <mesh geometry={res.geos.bulb} material={res.mats.bulb} />
+      {/* half resting on its dome, cut face tipped toward the camera */}
+      <group position-y={0.3} rotation={[0.55, 0, 0.12]}>
+        <mesh geometry={res.half.face} material={res.flesh.material} />
+        <mesh geometry={res.half.dome} material={res.dome.material} />
+      </group>
+      {/* wheel leaning against the half */}
+      <group position={[0.34, 0.255, -0.2]} rotation={[1.25, 0.2, -0.38]}>
+        <mesh geometry={res.slice.face} material={res.flesh.material} />
+        <mesh geometry={res.slice.rind} material={res.rind.material} />
+      </group>
     </group>
   );
 }

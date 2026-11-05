@@ -155,3 +155,57 @@
   /* phones: the chapter labels under the progress bar are the navigation; the side dots would sit on the truck */
   .demo-automotive .stage-dots { display: none; }
 }
+
+/* ── v2 · golden-hour road: the lower third of the frame is dark asphalt → bottom HUD in light ink ── */
+.demo-automotive { background: #d69a68; }
+.ax-credit {
+  position: absolute; left: 50%; bottom: 8px; transform: translateX(-50%); margin: 0; pointer-events: auto;
+  font: 400 9px/1.3 var(--ax-mono); letter-spacing: 0.08em; color: rgba(244, 233, 216, 0.78); white-space: nowrap;
+}
+.ax-credit a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+@media (max-width: 720px) {
+  .ax-credit { left: 14px; right: 14px; bottom: 116px; transform: none; white-space: normal; text-align: center; font-size: 8px; letter-spacing: 0.04em; }
+  .ax-credit-x { display: none; }
+}
+
+/* bottom chrome sits on the asphalt → light ink */
+.demo-automotive .ax-progress li { color: rgba(240, 228, 210, 0.62); }
+.demo-automotive .ax-progress li.on { color: #ff7b52; }
+.demo-automotive .ax-track { background: repeating-linear-gradient(-55deg, rgba(240, 228, 210, 0.36) 0 1px, transparent 1px 5px); }
+.demo-automotive .ax-fill { background: rgba(240, 228, 210, 0.16); }
+.demo-automotive .ax-thumb { background: #f3e8d8; }
+.demo-automotive .ax .ax-picker .variant-label { color: #f3e8d8; }
+.demo-automotive .ax .ax-picker .chip { box-shadow: inset 0 0 0 3px rgba(20, 16, 13, 0.55); }
+.demo-automotive .ax .ax-picker .chip.on { box-shadow: inset 0 0 0 3px rgba(20, 16, 13, 0.55), 0 0 0 2px #ff7b52; }
+.demo-automotive .hud-help { color: #f0e4d2; opacity: 0.7; }
+.demo-automotive .scroll-hint { color: #f3e8d8; }
+.demo-automotive .scroll-hint i { background: linear-gradient(#f3e8d8, transparent); }
+/* .02 is shot from above → the copy sits on asphalt: same layout/type, light ink */
+.ax[data-stage='2'] { --ax-ink: #f6ecdf; --ax-mute: #d9c7b0; --ax-line: rgba(246, 236, 223, 0.28); color: var(--ax-ink); }
+.ax[data-stage='2'] .ax-left p { color: #eadccb; }
+.ax[data-stage='2'] .ax-left, .ax[data-stage='2'] .ax-right { text-shadow: 0 1px 14px rgba(20, 14, 10, 0.45); }
+.ax[data-stage='2'] .ax-mark { color: #f6ecdf; }
+/* copy that lands on the hazy ridge band (.03 / Fin) keeps a soft sky-coloured halo for legibility */
+.ax[data-stage='1'] .ax-left p, .ax[data-stage='3'] .ax-left p, .ax[data-stage='4'] .ax-final p,
+.ax[data-stage='3'] .ax-right li { text-shadow: 0 0 10px rgba(246, 222, 186, 0.85), 0 0 2px rgba(246, 222, 186, 0.9); }
+.ax[data-stage='3'] .ax-left p, .ax[data-stage='3'] .ax-right li { color: #2a2420; }
+
+/* v2 · legibility scrims: a soft field of the page tone behind each copy block (dark ink → warm light field,
+   light ink at .02 → dark field), so the copy reads over sky, ridges or asphalt from any orbit angle */
+.ax-left::before, .ax-right::before, .ax-final::before {
+  content: ''; position: absolute; z-index: -1; pointer-events: none;
+  inset: -48px -64px -40px -72px; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(244, 226, 200, 0.62), rgba(244, 226, 200, 0.32) 55%, rgba(244, 226, 200, 0) 100%);
+  opacity: 0; transition: opacity 0.45s ease;
+}
+.ax-final::before { inset: auto; left: -40px; top: 40px; width: min(760px, 70vw); height: 380px; }
+.ax-ch.on .ax-left::before, .ax-ch.on .ax-right::before, .ax-final.on::before { opacity: 1; }
+.ax-left, .ax-right { isolation: isolate; }
+.ax-final { isolation: isolate; }
+.ax[data-stage='2'] .ax-left::before, .ax[data-stage='2'] .ax-right::before {
+  background: radial-gradient(closest-side, rgba(28, 20, 16, 0.5), rgba(28, 20, 16, 0.24) 55%, rgba(28, 20, 16, 0) 100%);
+}
+@media (max-width: 720px) {
+  .ax-right ul { grid-template-columns: 1fr; }
+  .ax-left::before, .ax-right::before { inset: -24px -18px; }
+}

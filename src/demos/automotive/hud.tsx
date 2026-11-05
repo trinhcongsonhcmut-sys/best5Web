@@ -25,34 +25,34 @@ const CHAPTERS: Record<number, Chapter> = {
   1: {
     no: '.01',
     title: ['Performance', '& range'],
-    line: 'Ba mô-tơ trên khung pin phẳng — mô-men tức thì trên cát, đá và nhựa đường.',
+    line: 'Hai mô-tơ trên nền pin 800 V phẳng — lực kéo tức thì, êm như lướt trên đường đèo.',
     specs: [
-      { k: 'Range · WLTP', v: '610', u: 'km' },
-      { k: 'Towing', v: '4.9', u: 't' },
+      { k: 'Range · WLTP', v: '640', u: 'km' },
+      { k: 'Power', v: '560', u: 'kW · dual motor' },
       { k: '0–100 km/h', v: '2.9', u: 's' },
     ],
   },
   2: {
     no: '.02',
-    title: ['Exo-', 'skeleton'],
-    line: 'Vỏ thép cán nguội 3 mm chịu lực: khung xương nằm bên ngoài, không phải bên trong.',
+    title: ['Open', 'architecture'],
+    line: 'Clamshell trước/sau, cửa mở rộng, bánh tách ra — vỏ liền khối nhấc khỏi khung pin để lộ cabin.',
     specs: [
-      { k: 'Shell', v: '3.0', u: 'mm cold-rolled steel' },
-      { k: 'Glass', v: '6', u: 'layer laminated' },
-      { k: 'Frame', v: 'Skate', u: 'board · 4-link' },
+      { k: 'Shell', v: 'Carbon', u: 'one-piece composite' },
+      { k: 'Glass', v: '4', u: 'layer acoustic' },
+      { k: 'Frame', v: 'Skate', u: 'board · 800 V' },
     ],
   },
   3: {
     no: '.03',
-    title: ['Versatile', 'utility'],
-    line: 'Thùng 1,9 m khoá kín, dải đèn sau liền khối 1,88 m.',
-    list: ['Vault bed · 1.9 m', 'Rugged steel shell', 'Adaptive air ride +100 mm', 'On-board 240 V power'],
+    title: ['Signature', 'light'],
+    line: 'Dải đèn hậu liền khối, sáng dần khi hoàng hôn tắt.',
+    list: ['Full-width light bar', 'Pearl tri-coat paint', 'Adaptive air ride −30 mm', '800 V · 10–80 % in 18 min'],
   },
 };
 
 export function AutomotiveHud({ variants }: { variants: VariantDef[] }) {
   const idx = useStageIndex();
-  // once the visitor starts orbiting, the "Scroll" hint has done its job — hide it (it would sit on the truck in top views)
+  // once the visitor starts orbiting, the "Scroll" hint has done its job — hide it (it would sit on the car in top views)
   useEffect(() => {
     const root = document.querySelector('.demo-automotive');
     const canvas = root?.querySelector('canvas');
@@ -66,19 +66,19 @@ export function AutomotiveHud({ variants }: { variants: VariantDef[] }) {
       <div className="ax-mark" aria-hidden>
         <span>AXIOM</span>
         <i />
-        <em>T1 · concept</em>
+        <em>GT · concept</em>
       </div>
 
       <section className={`ax-hero${idx === 0 ? ' on' : ''}`} aria-hidden={idx !== 0}>
         <p className="ax-kicker">BAHA motion lab — concept 05</p>
         <h1>
           <span>AXIOM</span>
-          <span className="ax-t1">T1</span>
+          <span className="ax-t1">GT</span>
         </h1>
         <p className="ax-tag">
-          <span>Electric utility</span>
+          <span>Electric grand tourer</span>
           <span className="ax-sep"> · </span>
-          <span>Folded steel · zero compromise</span>
+          <span>Pearl &amp; carbon · zero compromise</span>
         </p>
       </section>
 
@@ -127,7 +127,7 @@ export function AutomotiveHud({ variants }: { variants: VariantDef[] }) {
           <span>Built for the</span>
           <span>long way round.</span>
         </h2>
-        <p>Chọn lớp hoàn thiện — thép chải, graphite nhám, dune hay mist.</p>
+        <p>Chọn lớp sơn — trắng ngọc trai, đỏ carmine, graphite hay đồng hoàng hôn.</p>
         <p className="ax-fine">Thiết kế gốc BAHA · số liệu minh hoạ</p>
       </section>
 
@@ -147,7 +147,16 @@ export function AutomotiveHud({ variants }: { variants: VariantDef[] }) {
         </ol>
       </nav>
 
-      <VariantPicker variants={variants} label="Lớp hoàn thiện" className="ax-picker" />
+      <VariantPicker variants={variants} label="Lớp sơn" className="ax-picker" />
+
+      {/* CC BY 4.0 attribution (required by the model licence — see ASSET_LICENSES.md) */}
+      <p className="ax-credit">
+        Car model: CarConcept © 2024 Eric Chadwick / Darmstadt Graphics Group —{' '}
+        <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">
+          CC BY 4.0
+        </a>
+        <span className="ax-credit-x"> · modified (paint, lights, logos removed)</span>
+      </p>
     </div>
   );
 }

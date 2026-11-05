@@ -1,33 +1,41 @@
 /**
- * Demo 5 — Automotive: AXIOM T1, an ORIGINAL BAHA faceted electric utility truck (no third-party brand / shape copy).
- * Mechanics reproduced from reference F: chaptered scroll orbit · side profile · exoskeleton explode · rear light bar.
+ * Demo 5 — Automotive v2: AXIOM GT, a pearl-white electric grand tourer at golden hour on a mountain road.
+ * Photoreal model: CarConcept (© 2024 Eric Chadwick / Darmstadt Graphics Group, CC BY 4.0 — credited on the page),
+ * re-rigged into the v1 motion (chaptered scroll orbit · side profile · open-architecture reveal · tail-light signature).
  */
+import { useEffect } from 'react';
 import { Stage } from '../../lib/Stage';
 import { ShowcasePage, type DemoMeta } from '../../lib/ui';
 import { AutomotiveScene } from './Scene';
 import { AutomotiveHud } from './hud';
+import { holdReady, releaseReady } from './anim';
 
 const META: DemoMeta = {
   id: 'automotive',
-  title: 'AXIOM T1 — Automotive 3D',
+  title: 'AXIOM GT — Automotive 3D',
   scrollVh: 720,
   ink: '#1d1d1b',
-  paper: '#ece5d6',
+  paper: '#efe2cf',
   accent: '#d9452b',
   variants: [
-    { id: 'stainless', label: 'Brushed Stainless', swatch: ['#eef0f0', '#9a9d9f'] },
-    { id: 'graphite', label: 'Graphite Matte', swatch: ['#3a3b3e', '#1d1e20'] },
-    { id: 'dune', label: 'Dune Metallic', swatch: ['#cbb895', '#8f7b5c'] },
-    { id: 'mist', label: 'Mist Blue', swatch: ['#9ab4bf', '#56717c'] },
+    { id: 'pearl', label: 'Pearl White', swatch: ['#fbfaf6', '#d6d0c6'] },
+    { id: 'carmine', label: 'Carmine Candy', swatch: ['#c11f2c', '#4f060c'] },
+    { id: 'graphite', label: 'Torched Graphite', swatch: ['#5a5d63', '#1b1c1f'] },
+    { id: 'bronze', label: 'Dusk Bronze', swatch: ['#c39b6c', '#5e4026'] },
   ],
 };
 
 export default function Automotive() {
+  // bridge.ready waits for the car to be parsed, mounted, shadow-baked and compiled (released in Car.tsx)
+  useEffect(() => {
+    holdReady();
+    return releaseReady;
+  }, []);
   return (
     <ShowcasePage
       meta={META}
       scene={
-        <Stage background="#e4dccb" fov={28} tone="neutral" exposure={1.0} shadows={false} dprMax={1.75}>
+        <Stage background="#d69a68" fov={27} tone="aces" exposure={0.88} shadows={false} dprMax={1.5}>
           <AutomotiveScene />
         </Stage>
       }

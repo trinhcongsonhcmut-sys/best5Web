@@ -1,7 +1,17 @@
 # MASTER_STATUS — BAHA 3D SHOWCASE V2
 
-> Mọi phiên/agent mới: **đọc file này trước**, rồi `TASKS.md`, `QC_REPORT.md`. Spec gốc: `../MASTER_PROMPT.md`.
+> **Mục tiêu hiện hành: `../CURRENT_GOAL.md` (đọc TRƯỚC file này).** Sau đó đọc file này, rồi `TASKS.md`, `QC_REPORT.md`. `../MASTER_PROMPT.md` (04/11/2026) chỉ còn là tài liệu lịch sử + nguồn kế thừa yêu cầu kỹ thuật; khi mâu thuẫn, `CURRENT_GOAL.md` thắng. Các bảng "giai đoạn/đội agent" phía dưới phần V2 là **lịch sử v1**.
 > Cập nhật lần cuối: 04/11/2026 — Ralph Loop vòng 1/20.
+
+> **Ralph Loop đã HỦY** theo lệnh `/ralph-loop:cancel-ralph` của Founder (05/11/2026; đang ở iteration 1 vì Stop hook chưa từng nạp lại prompt; đã xóa `.claude/ralph-loop.local.md`). Promise `BAHA_3D_ALL_PASS` chưa từng được phát. Công việc v2 tiếp tục theo chỉ đạo trực tiếp của Founder.
+
+## ⚑ GIAI ĐOẠN V2 — PHOTOREAL (từ 05/11/2026, quyết định của Founder — mục tiêu chính thức: `../CURRENT_GOAL.md`)
+- Chỉ nâng cấp **automotive, beauty, real-estate**; **fashion + fnb tạm dừng** (đóng băng ở v1).
+- v1 bảo toàn: branch `showcase/baseline-v1` (commit `96dcaf4` mã + `db8eaf1` gói baseline), tag `showcase-v1-baseline`; branch làm việc `showcase/v2-photoreal` (hiện trỏ cùng commit). Cây làm việc vẫn ở `main` (có thay đổi CMS chưa commit của Founder — không đụng).
+- Gói baseline: `baseline/v1/<id>/` (ảnh 9 mốc/8 góc orbit/biến thể/hover/mobile, `baseline.json`, `MOTION_SPEC.md`, video `*-preview.mp4`; video đầy đủ local).
+- Mẫu chuẩn hình ảnh v2: `reference/v2/*-ref-1.webp` (local). Kế hoạch: `ASSET_SWAP_PLAN.md`; brief builder: `V2_BUILDER_BRIEF.md`.
+- Tài sản Founder đã duyệt và đã tải (05/11): `public/assets/models/CarConcept.glb` (CC-BY 4.0, ghi công bắt buộc, gỡ logo Khronos), 3 HDRI CC0, 5 bộ texture CC0 2K — xem `ASSET_LICENSES.md`. Công cụ: `scripts/inspect-glb.mjs` (+ `@gltf-transform/*` devDependencies).
+- Đang chạy: 3 builder v2 (automotive cổng 5195, beauty 5191, real-estate 5193). Sau đó: `capture-baseline.mjs --tag v2` so trước/sau, QC 10/10, `measure-prod.mjs`, giám khảo độc lập.
 
 ## Lệnh tiếp tục
 ```
@@ -12,7 +22,7 @@ npm run build && npm run preview  # http://localhost:5181 (bản build — dùng
 npx playwright test -g "beauty"   # QC 1 demo (desktop + mobile)  ·  `npx playwright test` = cả 5
 BAHA_3D_START.cmd                 # Founder: bấm đúp để build + mở website
 ```
-Prompt tiếp tục cho phiên mới: *"Đọc BAHA_3D_SHOWCASE/MASTER_STATUS.md và TASKS.md, tiếp tục các hạng mục chưa PASS."*
+Prompt tiếp tục cho phiên mới: *"Đọc CURRENT_GOAL.md, rồi BAHA_3D_SHOWCASE/MASTER_STATUS.md và TASKS.md (phần 'Việc hiện hành'); tiếp tục các hạng mục V2 chưa xong."*
 
 ## Quyết định kiến trúc (và lý do)
 | Quyết định | Lý do |
@@ -40,7 +50,7 @@ Prompt tiếp tục cho phiên mới: *"Đọc BAHA_3D_SHOWCASE/MASTER_STATUS.md
 ## Công cụ / Skill (đã xác minh thật, không giả vờ)
 | Công cụ | Trạng thái | Ghi chú |
 |---|---|---|
-| Ralph Loop | **STATE FILE OK, STOP HOOK CHƯA QUAN SÁT ĐƯỢC HOẠT ĐỘNG** — `.claude/ralph-loop.local.md` đúng (max 20, promise `BAHA_3D_ALL_PASS`), `hooks.json` đăng ký Stop; nhưng sau nhiều lần kết thúc lượt `iteration` vẫn = 1 (hook không nạp lại prompt) — plugin được cài sau khi phiên này mở nên hook có thể chưa nạp. ⇒ **vòng lặp đang chạy THỦ CÔNG trong phiên** (build → test → chấm → sửa), đúng quy định "không giả vờ đã kích hoạt". Để dùng hook thật: mở phiên Claude Code MỚI rồi chạy lại lệnh `/ralph-loop "…" --max-iterations 20 --completion-promise "BAHA_3D_ALL_PASS"` (prompt đầy đủ ở `.claude/ralph-loop.local.md`). | Chỉ phát promise khi 5 demo PASS thật. |
+| Ralph Loop | **ĐÃ HỦY 05/11/2026** (lệnh `/ralph-loop:cancel-ralph` của Founder; state file đã xóa; plugin `ralph-loop@claude-plugins-official` 1.0.1 vẫn cài nhưng không có vòng lặp nào chạy; không tự kích hoạt lại). Ghi chú lịch sử: **STATE FILE OK, STOP HOOK CHƯA QUAN SÁT ĐƯỢC HOẠT ĐỘNG** — `.claude/ralph-loop.local.md` đúng (max 20, promise `BAHA_3D_ALL_PASS`), `hooks.json` đăng ký Stop; nhưng sau nhiều lần kết thúc lượt `iteration` vẫn = 1 (hook không nạp lại prompt) — plugin được cài sau khi phiên này mở nên hook có thể chưa nạp. ⇒ **vòng lặp đang chạy THỦ CÔNG trong phiên** (build → test → chấm → sửa), đúng quy định "không giả vờ đã kích hoạt". Để dùng hook thật: mở phiên Claude Code MỚI rồi chạy lại lệnh `/ralph-loop "…" --max-iterations 20 --completion-promise "BAHA_3D_ALL_PASS"` (prompt đầy đủ ở `.claude/ralph-loop.local.md`). | Chỉ phát promise khi 5 demo PASS thật. |
 | Three.js skills (13) | **INSTALLED** vào `.claude/skills/` (`npx skills add cesartevisual/threejs-skills`, đã đọc nguồn trước: chỉ Markdown, MIT) | |
 | frontend-design, webapp-testing, web-design-guidelines, vercel-react-best-practices | có sẵn | |
 | Playwright MCP | **AVAILABLE** (`mcp__playwright__*`), Playwright Test chạy Chrome thật (GPU Intel HD 530 / D3D11) | |

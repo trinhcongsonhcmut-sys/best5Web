@@ -1,8 +1,8 @@
 {
   "demo": "beauty",
-  "idleFps": 51.02392462057425,
-  "scrollFps": 57.883636619673766,
-  "minFps": 51.02392462057425,
+  "idleFps": 62.821258686376225,
+  "scrollFps": 71.7076323646917,
+  "minFps": 65.36620846476066,
   "condition": {
     "renderer": "ANGLE (Intel, Intel(R) HD Graphics 530 (0x00001912) Direct3D11 vs_5_0 ps_5_0, D3D11)",
     "vendor": "Google Inc. (Intel)",
@@ -10,5 +10,5 @@
     "dpr": 1,
     "viewport": "1440x900"
   },
-  "at": "2026-11-04T19:14:55.323Z"
+  "at": "2026-11-05T07:06:33.243Z"
 }

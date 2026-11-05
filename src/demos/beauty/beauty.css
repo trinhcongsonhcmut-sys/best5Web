@@ -3,7 +3,7 @@
   --bt-serif: 'Bodoni Moda', 'Didot', 'Bodoni 72', serif;
   --bt-sans: 'Manrope Variable', 'Manrope', system-ui, sans-serif;
   --bt-pill: rgba(255, 255, 255, 0.55);
-  background: #b9dcf2;
+  background: #f4ebdf;
   font-family: var(--bt-sans);
 }
 .demo-beauty .hud { font-family: var(--bt-sans); font-weight: 600; letter-spacing: 0.14em; font-size: 11px; }
@@ -11,7 +11,7 @@
 .demo-beauty .hud-controls button { border-color: color-mix(in srgb, var(--ink) 18%, transparent); background: var(--bt-pill); }
 .demo-beauty .stage-dots button.on { color: var(--ink); }
 .demo-beauty .scroll-hint { bottom: 26px; }
-/* hint sits on a frosted pill (it can fall over the aloe blades) and steps back once the visitor scrolls */
+/* hint sits on a frosted pill (it can fall over the citrus + bokeh) and steps back once the visitor scrolls */
 .demo-beauty .hud-help {
   opacity: calc(0.85 - var(--p, 0) * 6); padding: 7px 12px; border-radius: 12px;
   background: var(--bt-pill); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
@@ -75,7 +75,7 @@
 .bt-fine { position: absolute; left: 50%; bottom: 74px; transform: translateX(-50%); margin: 0; font: 600 9px/1 var(--bt-sans); letter-spacing: 0.2em; text-transform: uppercase; opacity: 0; transition: opacity 0.6s; white-space: nowrap; }
 .bt[data-stage='4'] .bt-fine { opacity: 0.55; }
 
-/* variant picker on a frosted pill (stays legible over the aloe blades) */
+/* variant picker on a frosted pill (stays legible over the citrus + bokeh) */
 .bt-picker {
   position: absolute; right: clamp(20px, 4vw, 64px); bottom: 72px; padding: 7px 8px 7px 16px; border-radius: 999px;
   background: var(--bt-pill); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
