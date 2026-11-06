@@ -1,18 +1,18 @@
 import { useEffect, useMemo, useRef } from 'react';
-import { useFrame, useThree, type ThreeEvent } from '@react-three/fiber';
+import { useFrame, useLoader, useThree, type ThreeEvent } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
-import { HorizontalBlurShader } from 'three/examples/jsm/shaders/HorizontalBlurShader.js';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
-import { VerticalBlurShader } from 'three/examples/jsm/shaders/VerticalBlurShader.js';
 import { addRim, useHoverRim, type RimUniforms } from '../../lib/rim';
 import { bridge } from '../../lib/bridge';
 import { scrollState } from '../../lib/scroll';
 import { variantStore } from '../../lib/store';
 import { damp, smoothstep } from '../../lib/math';
-import { FINISHES, createCarMaterials, plateTexture, sunRim, sweep, type CarMaterials } from './materials';
-import { SUN, anim, carDims, releaseReady } from './anim';
+import { FINISHES, createCarMaterials, plateTexture, sunRim, type CarMaterials } from './materials';
+import { SUN, anim, carDims, carFrame, releaseReady } from './anim';
 import { FX_LAYER } from './layers';
+import { SHADOW_BAKE } from './contract';
+import shadowUrl from './bake/road-shadow.png';
 
 /**
  * AXIOM GT — the approved photoreal GLB (CarConcept, CC-BY 4.0) re-rigged into the v1 motion mount points:
@@ -79,6 +79,8 @@ function buildRig(src: THREE.Object3D, mats: CarMaterials, plateMap: THREE.Textu
   const bb = new THREE.Box3().setFromObject(turn, true); // precise: the rolled wheels' AABBs would lift the car ~16 cm
   const c = bb.getCenter(new THREE.Vector3());
   turn.position.set(-c.x, -bb.min.y, -c.z);
+  carFrame.rotY = turn.rotation.y;
+  carFrame.offset = [turn.position.x, turn.position.y, turn.position.z];
   car.updateMatrixWorld(true);
   const size = bb.getSize(new THREE.Vector3());
 
@@ -212,6 +214,10 @@ function buildRig(src: THREE.Object3D, mats: CarMaterials, plateMap: THREE.Textu
     } else if (name.startsWith('Interior 3')) {
       adopt(mats.interior, m, 1);
       mesh.material = mats.interior;
+    } else if (/^(Interior [12]|Floormat|Dashboard|Panel Sides|Hardware)/.test(name) && !m.userData.bahaCabin) {
+      // no realtime cabin occlusion: the roof / glass hide most of the sky in the Cycles target → damp the cabin IBL
+      m.userData.bahaCabin = true;
+      m.envMapIntensity = 0.35;
     } else if (name === 'License') {
       adopt(mats.plate, m);
       mats.plate.map = plateMap;
@@ -223,8 +229,8 @@ function buildRig(src: THREE.Object3D, mats: CarMaterials, plateMap: THREE.Textu
       m.metalness = 0;
       m.envMapIntensity = 1;
     } else if (name === 'Tireside' || name === 'Tiretread') {
-      m.roughness = 1; // rubber: the sample's 0.4 mirrored the orange sky / back-light as a rim around every tyre
-      m.envMapIntensity = 0.3;
+      m.roughness = 0.82; // rubber: soft sheen, reads as a tyre (not a black hole, not a mirror)
+      m.envMapIntensity = 1;
     } else if (name === 'Disc') {
       m.color.set('#4d4f53'); // cast-iron rotor: the sample's white metal mirrored the sunset like gold behind the spokes
       m.envMapIntensity = 0.6;
@@ -285,77 +291,30 @@ function applyPose(r: Rig, a: Pose) {
   for (const w of r.wheels) w.root.position.z = w.z0 + w.side * a.wheelsOut * WHEEL_OUT;
 }
 
-/* ───────────── baked contact shadows (closed + open pose, cross-faded) ───────────── */
-const SH = { w: 7.4, h: 4.6, far: 1.6, res: 512 };
-function useShadowBake() {
+/* ───────────── road shadow + AO baked in Cycles (closed + open pose, cross-faded) ───────────── */
+/**
+ * bake/road-shadow.png: R = closed, G = open (.02 reveal) — fraction of light the car blocks on the road, rendered by
+ * automotive-flagship/blender/build_scene.py --mode bake (shadow catcher, sun = SUN, sky = the graded HDRI) and packed by
+ * tools/pack-shadow.mjs. Drawn as a black decal with that alpha → the road keeps its own lighting, only occluded.
+ */
+function useRoadShadow() {
+  const tex = useLoader(THREE.TextureLoader, shadowUrl);
   return useMemo(() => {
-    const mk = () => {
-      const t = new THREE.WebGLRenderTarget(SH.res, SH.res);
-      t.texture.generateMipmaps = false;
-      return t;
-    };
-    const a = mk(), b = mk(), tmp = mk();
-    const cam = new THREE.OrthographicCamera(-SH.w / 2, SH.w / 2, SH.h / 2, -SH.h / 2, 0, SH.far);
-    cam.rotation.x = Math.PI / 2; // looks straight up from the road
-    cam.position.y = 0.003;
-    cam.updateMatrixWorld(true);
-    const depth = new THREE.MeshDepthMaterial();
-    depth.depthTest = depth.depthWrite = false;
-    depth.onBeforeCompile = (shader) => {
-      shader.fragmentShader = shader.fragmentShader.replace(
-        'vec4( vec3( 1.0 - fragCoordZ ), opacity );',
-        'vec4( vec3( 0.0 ), pow( 1.0 - fragCoordZ, 1.6 ) );',
-      );
-    };
-    const hb = new THREE.ShaderMaterial(HorizontalBlurShader);
-    const vb = new THREE.ShaderMaterial(VerticalBlurShader);
-    hb.depthTest = vb.depthTest = false;
-    const quad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), hb);
-    quad.position.z = -0.5;
-    const qcam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+    tex.colorSpace = THREE.NoColorSpace;
+    tex.anisotropy = 4;
     const display = new THREE.ShaderMaterial({
       transparent: true,
       depthWrite: false,
-      uniforms: { tA: { value: a.texture }, tB: { value: b.texture }, uMix: { value: 0 }, uOpacity: { value: 0.92 } },
+      polygonOffset: true,
+      polygonOffsetFactor: -2,
+      uniforms: { tS: { value: tex }, uMix: { value: 0 }, uOpacity: { value: 1 } },
       vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }',
       fragmentShader:
-        'uniform sampler2D tA; uniform sampler2D tB; uniform float uMix; uniform float uOpacity; varying vec2 vUv;' +
-        'void main(){ float s = mix(texture2D(tA, vUv).a, texture2D(tB, vUv).a, uMix); gl_FragColor = vec4(0.035, 0.025, 0.02, min(1.0, s * 1.5) * uOpacity); }',
+        'uniform sampler2D tS; uniform float uMix; uniform float uOpacity; varying vec2 vUv;' +
+        'void main(){ vec2 s = texture2D(tS, vUv).rg; gl_FragColor = vec4(0.0, 0.0, 0.0, mix(s.r, s.g, uMix) * uOpacity); }',
     });
-    const bake = (gl: THREE.WebGLRenderer, scene: THREE.Scene, out: THREE.WebGLRenderTarget) => {
-      const bg = scene.background;
-      const cc = gl.getClearColor(new THREE.Color());
-      const ca = gl.getClearAlpha();
-      scene.background = null;
-      scene.overrideMaterial = depth;
-      gl.setClearColor(0x000000, 0);
-      gl.setRenderTarget(out);
-      gl.clear();
-      gl.render(scene, cam);
-      scene.overrideMaterial = null;
-      for (const k of [3.2, 1.4]) {
-        quad.material = hb;
-        hb.uniforms.tDiffuse.value = out.texture;
-        hb.uniforms.h.value = k / SH.res;
-        gl.setRenderTarget(tmp);
-        gl.render(quad, qcam);
-        quad.material = vb;
-        vb.uniforms.tDiffuse.value = tmp.texture;
-        vb.uniforms.v.value = k / SH.res;
-        gl.setRenderTarget(out);
-        gl.render(quad, qcam);
-      }
-      gl.setRenderTarget(null);
-      gl.setClearColor(cc, ca);
-      scene.background = bg;
-    };
-    const dispose = () => {
-      [a, b, tmp].forEach((t) => t.dispose());
-      [depth, hb, vb, display].forEach((m) => m.dispose());
-      quad.geometry.dispose();
-    };
-    return { a, b, bake, display, dispose };
-  }, []);
+    return { display, dispose: () => display.dispose() };
+  }, [tex]);
 }
 
 /* additive glow decal (tail-light halo, light pools on the asphalt) */
@@ -378,7 +337,7 @@ export function Car() {
   const mats = useMemo(() => createCarMaterials(), []);
   const plateMap = useMemo(() => plateTexture(), []);
   const rig = useMemo(() => buildRig(gltf.scene, mats, plateMap), [gltf.scene, mats, plateMap]);
-  const shadow = useShadowBake();
+  const shadow = useRoadShadow();
   const baked = useRef(false);
   const bakeWait = useRef(0);
   const readyWait = useRef(0);
@@ -386,8 +345,6 @@ export function Car() {
   const events = useThree((st) => st.events);
   const lastP = useRef(-1);
   const driveAcc = useRef(0);
-  const sweepOn = useRef(false);
-  const sweepT = useRef(2);
 
   const halo = useMemo(() => glowMaterial('#ff2a34', 'bar'), []);
   // .02 "structure lines": the skateboard outline + cross members glow while the shell is lifted (v1 exoskeleton cue)
@@ -451,18 +408,12 @@ export function Car() {
     const dt = Math.min(delta, 0.05);
     const p = scrollState.smooth;
 
-    // one-time: bake the closed + open contact shadows (car on layer 0 only; world/FX live on layer 1) — only once the
-    // car is really on screen (a sibling still loading keeps the Suspense boundary hidden for a few frames)
+    // one-time, once the car is really on screen (a sibling still loading keeps the Suspense boundary hidden for a few
+    // frames): compile every program (incl. later-beat FX) before reporting ready
     let shown = true;
     for (let o: THREE.Object3D | null = rig.car; o; o = o.parent) if (!o.visible) shown = false;
     if (!baked.current && shown && ++bakeWait.current > 2) {
       baked.current = true;
-      applyPose(rig, { doors: 0, wheelsOut: 0, lift: 0, clams: 0 });
-      rig.car.updateMatrixWorld(true);
-      shadow.bake(state.gl, state.scene, shadow.a);
-      applyPose(rig, { doors: 1, wheelsOut: 1, lift: 1, clams: 1 });
-      rig.car.updateMatrixWorld(true);
-      shadow.bake(state.gl, state.scene, shadow.b);
       const hidden: THREE.Object3D[] = [];
       state.scene.traverse((o) => {
         if (!o.visible) {
@@ -472,7 +423,7 @@ export function Car() {
       });
       state.gl.compile(state.scene, state.camera); // every program (incl. later-beat FX) built before we report ready
       hidden.forEach((o) => (o.visible = false));
-      if (import.meta.env.DEV) (window as unknown as Record<string, unknown>).__axDebug = { gl: state.gl, shadow, rig, scene: state.scene };
+      if (import.meta.env.DEV) (window as unknown as Record<string, unknown>).__axDebug = { THREE, gl: state.gl, shadow, rig, scene: state.scene, camera: state.camera, mats };
     }
     if (baked.current && ++readyWait.current === 4) releaseReady();
 
@@ -504,7 +455,7 @@ export function Car() {
     rig.body.position.y += drive * (Math.sin(t * 11.0) * 0.0025 + Math.sin(t * 3.7) * 0.002);
     rig.body.rotation.z = drive * (-0.004 + Math.sin(t * 2.3) * 0.0015);
     shadow.display.uniforms.uMix.value = anim.explode;
-    shadow.display.uniforms.uOpacity.value = 0.92 - anim.lift * 0.12;
+    shadow.display.uniforms.uOpacity.value = 1;
     skate.m.opacity = anim.lift;
 
     // ── hover emphasis per part ──
@@ -513,19 +464,11 @@ export function Car() {
     const h = value.current;
     mats.paintRim.uRim.value = h * (0.4 + 0.75 * pa.body);
     mats.accentRim.uRim.value = 0; // carbon trim keeps its colour on hover
-    // light sweep: travels across the panels once each time the pointer lands on the car, then a soft hold
-    if (h > 0.05 && !sweepOn.current) {
-      sweepOn.current = true;
-      sweepT.current = 0;
-    } else if (h <= 0.02) sweepOn.current = false;
-    sweepT.current = Math.min(1.4, sweepT.current + dt);
-    sweep.pos.value = -0.55 + Math.min(1, sweepT.current / 0.9) * 1.1;
-    sweep.amount.value = h * (sweepT.current < 0.9 ? 0.9 : 0.25);
     const hb = h * pa.body;
     mats.glassRim.uRim.value = h * (0.12 + 0.9 * pa.glass);
     mats.glass.envMapIntensity = 0.85 + 1.6 * h * pa.glass;
-    mats.rimDarkRim.uRim.value = h * (0.15 + 1.0 * pa.wheels);
-    mats.rimLipRim.uRim.value = h * (0.15 + 1.0 * pa.wheels);
+    mats.rimDarkRim.uRim.value = h * 0.6 * pa.wheels; // only when the wheel itself is hovered (else gunmetal reads gold)
+    mats.rimLipRim.uRim.value = h * 0.6 * pa.wheels;
     mats.caliper.emissiveIntensity = 1.5 * h * pa.wheels;
     if (rig.mechRim) rig.mechRim.uRim.value = h * (0.05 + 0.9 * pa.chassis);
     const lh = pa.lights * h;
@@ -584,9 +527,9 @@ export function Car() {
     >
       <primitive object={rig.car} />
       <mesh geometry={skate.g} material={skate.m} raycast={noRay} onUpdate={fx} />
-      {/* baked contact shadow (closed ↔ open cross-fade) */}
-      <mesh material={shadow.display} rotation-x={-Math.PI / 2} scale={[1, -1, 1]} position-y={0.006} raycast={noRay} onUpdate={fx} renderOrder={1}>
-        <planeGeometry args={[SH.w, SH.h]} />
+      {/* Cycles-baked road shadow + AO (closed ↔ open cross-fade) */}
+      <mesh material={shadow.display} rotation-x={-Math.PI / 2} position={[SHADOW_BAKE.cx, 0.006, SHADOW_BAKE.cz]} raycast={noRay} onUpdate={fx} renderOrder={2}>
+        <planeGeometry args={[SHADOW_BAKE.size, SHADOW_BAKE.size]} />
       </mesh>
       {/* .03 tail-light halo + red spill on the asphalt */}
       <mesh material={halo} position={[rig.tail.min.x - 0.05, tailC.y, tailC.z]} rotation-y={-Math.PI / 2} raycast={noRay} onUpdate={fx}>

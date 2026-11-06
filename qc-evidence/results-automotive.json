@@ -206,12 +206,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 11780,
+                      "duration": 11480,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-05T07:15:28.248Z",
+                      "startTime": "2026-11-05T10:19:02.318Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -240,12 +240,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 18214,
+                      "duration": 15518,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-05T07:15:40.521Z",
+                      "startTime": "2026-11-05T10:19:14.243Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -274,12 +274,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 16853,
+                      "duration": 14875,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-05T07:15:58.782Z",
+                      "startTime": "2026-11-05T10:19:29.803Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -308,12 +308,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 10797,
+                      "duration": 10115,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-05T07:16:15.748Z",
+                      "startTime": "2026-11-05T10:19:44.718Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -342,12 +342,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 19690,
+                      "duration": 20495,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-05T07:16:26.615Z",
+                      "startTime": "2026-11-05T10:19:54.874Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -376,12 +376,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 13204,
+                      "duration": 14988,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-05T07:16:46.356Z",
+                      "startTime": "2026-11-05T10:20:15.430Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -410,12 +410,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 12608,
+                      "duration": 13883,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-05T07:16:59.594Z",
+                      "startTime": "2026-11-05T10:20:30.455Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -444,12 +444,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 11304,
+                      "duration": 12649,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-05T07:17:12.259Z",
+                      "startTime": "2026-11-05T10:20:44.414Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -478,12 +478,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 12911,
+                      "duration": 13503,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-05T07:17:23.602Z",
+                      "startTime": "2026-11-05T10:20:57.107Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -508,7 +508,7 @@
       "specs": [
         {
           "title": "automotive · mobile touch: swipe-x orbits, swipe-y scrolls, no overflow",
-          "ok": false,
+          "ok": true,
           "tags": [],
           "tests": [
             {
@@ -519,27 +519,20 @@
               "projectName": "mobile",
               "results": [
                 {
-                  "workerIndex": -1,
-                  "parallelIndex": -1,
-                  "status": "failed",
-                  "duration": 0,
-                  "error": {
-                    "message": "Error: worker process exited unexpectedly (code=3221225794, signal=null)"
-                  },
-                  "errors": [
-                    {
-                      "message": "Error: worker process exited unexpectedly (code=3221225794, signal=null)"
-                    }
-                  ],
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 14364,
+                  "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-05T07:17:37.801Z",
+                  "startTime": "2026-11-05T10:21:12.076Z",
                   "annotations": [],
                   "attachments": []
                 }
               ],
-              "status": "unexpected"
+              "status": "expected"
             }
           ],
           "id": "e79c838550b25e92508e-ed43b052a1dc9375f142",
@@ -552,11 +545,11 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-11-05T07:15:27.394Z",
-    "duration": 130409.004,
-    "expected": 9,
+    "startTime": "2026-11-05T10:19:01.492Z",
+    "duration": 145742.78,
+    "expected": 10,
     "skipped": 0,
-    "unexpected": 1,
+    "unexpected": 0,
     "flaky": 0
   }
 }

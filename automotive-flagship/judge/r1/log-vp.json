@@ -1,0 +1,56 @@
+{
+ "base": "http://localhost:5196",
+ "started": "2026-11-05T10:31:44.177Z",
+ "chrome": "156.0.8078.80",
+ "viewports": {
+  "1920x1080": {
+   "ready": 7015,
+   "overflowX": false,
+   "idle": {
+    "fps": 48,
+    "p95": 27.4,
+    "worst": 28.9,
+    "over50": 0
+   },
+   "scroll": {
+    "fps": 44.1,
+    "p95": 28.7,
+    "worst": 66.6,
+    "over50": 4
+   }
+  },
+  "1440x900": {
+   "ready": 3653,
+   "overflowX": false
+  },
+  "390x844": {
+   "ready": 3378,
+   "overflowX": false,
+   "touchH": {
+    "yawBefore": 0,
+    "yawAfter": -1.3919998177052122,
+    "scrollBefore": 0,
+    "scrollAfter": 0
+   },
+   "touchV": {
+    "yawBefore": -0.0000015925747767833219,
+    "yawAfter": -7.085555482897902e-19,
+    "scrollBefore": 0,
+    "scrollAfter": 0.083126,
+    "winY": 435
+   },
+   "idle": {
+    "fps": 75.1,
+    "p95": 13.5,
+    "worst": 13.7,
+    "over50": 0
+   }
+  }
+ },
+ "errors": [
+  "[1920] warning: THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.",
+  "[1440] warning: THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.",
+  "[m390] warning: THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."
+ ],
+ "finished": "2026-11-05T10:33:16.611Z"
+}

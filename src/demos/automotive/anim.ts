@@ -1,7 +1,6 @@
-import { DefaultLoadingManager, Vector3 } from 'three';
+import { DefaultLoadingManager } from 'three';
 
-/** low golden-hour sun, just right of the hero frame and behind the car (back-light + rim) */
-export const SUN = new Vector3(-0.15, 0.13, -1).normalize();
+export { SUN } from './contract';
 
 /** Per-frame scene state derived ONLY from scroll progress (pure function of p → reversible). */
 export const anim = {
@@ -32,6 +31,9 @@ export const carDims = {
   noseX: 2.18,
   tailX: -2.18,
 };
+
+/** GLB → car frame (filled by buildRig): world = T(offset) · Ry(rotY) · glb. Exported into the scene contract. */
+export const carFrame = { rotY: Math.PI / 2, offset: [0, 0, 0] as [number, number, number] };
 
 /**
  * Readiness gate: the GLB finishes DOWNLOADING (loading manager idle → Stage's probe could flag `ready`) well before it

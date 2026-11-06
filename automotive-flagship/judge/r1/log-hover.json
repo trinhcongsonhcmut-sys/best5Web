@@ -1,0 +1,135 @@
+{
+ "parts": {
+  "body": [
+   484,
+   410
+  ],
+  "glass": [
+   532,
+   410
+  ],
+  "wheels": [
+   340,
+   490
+  ],
+  "chassis": [
+   796,
+   490
+  ],
+  "lights": [
+   1012,
+   510
+  ]
+ },
+ "results": [
+  {
+   "part": "body",
+   "at": [
+    484,
+    410
+   ],
+   "hover": {
+    "value": 0.9999585573494044,
+    "id": "axiom-gt"
+   },
+   "hoverPart": "body",
+   "rims": {
+    "paint": 1.149965569001039,
+    "glass": 0.11999782539503633,
+    "rear": 7.328377340550046e-99
+   },
+   "localDiff": {
+    "mean": 2.52,
+    "max": 86
+   }
+  },
+  {
+   "part": "glass",
+   "at": [
+    532,
+    410
+   ],
+   "hover": {
+    "value": 0.9999588546648608,
+    "id": "axiom-gt"
+   },
+   "hoverPart": "glass",
+   "rims": {
+    "paint": 0.3999913149667921,
+    "glass": 1.0199583114894022,
+    "rear": 1.2750894890880587e-108
+   },
+   "localDiff": {
+    "mean": 2.96,
+    "max": 76
+   }
+  },
+  {
+   "part": "wheels",
+   "at": [
+    340,
+    490
+   ],
+   "hover": {
+    "value": 0.9999658790843791,
+    "id": "axiom-gt"
+   },
+   "hoverPart": "wheels",
+   "rims": {
+    "paint": 0.39999261079740217,
+    "glass": 0.11999778342312661,
+    "rear": 2.1028015650356565e-118
+   },
+   "localDiff": {
+    "mean": 3.05,
+    "max": 213
+   }
+  },
+  {
+   "part": "chassis",
+   "at": [
+    796,
+    490
+   ],
+   "hover": {
+    "value": 0.9999529735336161,
+    "id": "axiom-gt"
+   },
+   "hoverPart": "chassis",
+   "rims": {
+    "paint": 0.3999898241239462,
+    "glass": 0.11999694723718385,
+    "rear": 3.8601826335832173e-128
+   },
+   "localDiff": {
+    "mean": 0.84,
+    "max": 67
+   }
+  },
+  {
+   "part": "lights",
+   "at": [
+    1012,
+    510
+   ],
+   "hover": {
+    "value": 0.9999578889339304,
+    "id": "axiom-gt"
+   },
+   "hoverPart": "lights",
+   "rims": {
+    "paint": 0.3999908877485006,
+    "glass": 0.11999726632455017,
+    "rear": 0.9999544392614601
+   },
+   "localDiff": {
+    "mean": 1.26,
+    "max": 71
+   }
+  }
+ ],
+ "off": {
+  "value": 0,
+  "id": null
+ }
+}

@@ -63,6 +63,8 @@ export function AutomotiveHud({ variants }: { variants: VariantDef[] }) {
   });
   return (
     <div className="ax" data-stage={idx}>
+      {/* lens finish over the canvas (compositor-only, 0 ms of WebGL): soft vignette + static film grain ~3 % */}
+      <div className="ax-lens" aria-hidden />
       <div className="ax-mark" aria-hidden>
         <span>AXIOM</span>
         <i />

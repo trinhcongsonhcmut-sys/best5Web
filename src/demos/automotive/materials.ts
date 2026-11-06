@@ -22,14 +22,15 @@ export interface Finish {
 }
 
 export const FINISHES: Finish[] = [
-  // 0 · Pearl White — tri-coat pearl over a white base (the default, as in the v2 reference)
-  { color: '#dbd8d2', metalness: 0.04, roughness: 0.08, clearcoat: 1, clearcoatRoughness: 0.03, env: 1.7, accent: '#383a3f', accentMetal: 0.25, accentRough: 0.22, interior: '#7b4a2e' },
-  // 1 · Carmine Candy — deep candy red over silver flake
-  { color: '#7a0a12', metalness: 0.45, roughness: 0.1, clearcoat: 1, clearcoatRoughness: 0.03, env: 1.7, accent: '#383a3f', accentMetal: 0.25, accentRough: 0.22, interior: '#3b0b0e' },
+  // 0 · Pearl White — tri-coat pearl over a white base (the default, as in the v2 reference); albedo ≈ #d9d6d0 so the
+  //     sky reflection and the horizon line can still rise above the base colour
+  { color: '#d9d6d0', metalness: 0.04, roughness: 0.08, clearcoat: 1, clearcoatRoughness: 0.025, env: 1.0, accent: '#383a3f', accentMetal: 0.25, accentRough: 0.22, interior: '#7b4a2e' },
+  // 1 · Carmine Candy — candy red over silver flake, brighter + more saturated than v2 (#7a0a12 read as plum-brown at sunset)
+  { color: '#b3121f', metalness: 0.35, roughness: 0.1, clearcoat: 1, clearcoatRoughness: 0.025, env: 1.0, accent: '#383a3f', accentMetal: 0.25, accentRough: 0.22, interior: '#3b0b0e' },
   // 2 · Torched Graphite — dark metallic grey
-  { color: '#2c2e33', metalness: 0.75, roughness: 0.12, clearcoat: 1, clearcoatRoughness: 0.03, env: 1.7, accent: '#303236', accentMetal: 0.25, accentRough: 0.26, interior: '#1c2633' },
+  { color: '#2c2e33', metalness: 0.75, roughness: 0.12, clearcoat: 1, clearcoatRoughness: 0.03, env: 1.0, accent: '#303236', accentMetal: 0.25, accentRough: 0.26, interior: '#1c2633' },
   // 3 · Dusk Bronze — warm metallic
-  { color: '#7d5a3a', metalness: 0.72, roughness: 0.12, clearcoat: 1, clearcoatRoughness: 0.03, env: 1.7, accent: '#383a3f', accentMetal: 0.25, accentRough: 0.22, interior: '#2a221d' },
+  { color: '#7d5a3a', metalness: 0.72, roughness: 0.12, clearcoat: 1, clearcoatRoughness: 0.03, env: 1.0, accent: '#383a3f', accentMetal: 0.25, accentRough: 0.22, interior: '#2a221d' },
 ];
 
 export interface CarMaterials {
@@ -56,18 +57,16 @@ export interface CarMaterials {
 const RIM_WARM = '#ffcf9e';
 
 /** Shared per-frame uniforms of the paint shader: low sun direction in VIEW space + back-light rim strength. */
-export const sunRim = { dir: { value: new THREE.Vector3(0, 0, -1) }, amount: { value: 0.75 }, color: { value: new THREE.Color(1.0, 0.56, 0.24) } };
-/** hover light sweep across the body (screen-space band travelling left → right) — driven from Car.tsx */
-export const sweep = { pos: { value: -2 }, amount: { value: 0 } };
+export const sunRim = { dir: { value: new THREE.Vector3(0, 0, -1) }, amount: { value: 0.2 }, color: { value: new THREE.Color(1.0, 0.62, 0.32) } };
 
 /**
  * Paint shader additions (chained after the hover rim):
  *  - pearl: facing/grazing hue shift (warm cream face → faint cool silver flank), weighted by `amount` (pearl finish only)
- *  - golden-hour back-light: a warm Fresnel rim only on the edges that face the low sun (roof line, shoulders, tail)
+ *  - golden-hour back-light: a faint warm Fresnel rim only on the paint edges that face the low sun (roof line, tail)
+ * (v2's screen-space hover sweep is gone: hover = the soft rim of lib/rim only)
  */
-function paintShader(mat: THREE.MeshPhysicalMaterial, amount: { value: number }, key: string, sunMul = 1, sweepMul = 1) {
+function paintShader(mat: THREE.MeshPhysicalMaterial, amount: { value: number }, key: string, sunMul = 1) {
   const mul = { value: sunMul };
-  const swMul = { value: sweepMul };
   const prev = mat.onBeforeCompile;
   mat.onBeforeCompile = (shader, renderer) => {
     prev.call(mat, shader, renderer);
@@ -76,11 +75,8 @@ function paintShader(mat: THREE.MeshPhysicalMaterial, amount: { value: number },
     shader.uniforms.uSunRim = sunRim.amount;
     shader.uniforms.uSunCol = sunRim.color;
     shader.uniforms.uSunMul = mul;
-    shader.uniforms.uSweepPos = sweep.pos;
-    shader.uniforms.uSweepAmt = sweep.amount;
-    shader.uniforms.uSweepMul = swMul;
     shader.fragmentShader = shader.fragmentShader
-      .replace('#include <common>', '#include <common>\nuniform float uPearl;\nuniform vec3 uSunView;\nuniform float uSunRim;\nuniform vec3 uSunCol;\nuniform float uSunMul;\nuniform float uSweepPos;\nuniform float uSweepAmt;\nuniform float uSweepMul;')
+      .replace('#include <common>', '#include <common>\nuniform float uPearl;\nuniform vec3 uSunView;\nuniform float uSunRim;\nuniform vec3 uSunCol;\nuniform float uSunMul;')
       .replace(
         '#include <color_fragment>',
         '#include <color_fragment>\n{ float pf = 1.0 - saturate(dot(normalize(vNormal), normalize(vViewPosition)));\n' +
@@ -89,13 +85,7 @@ function paintShader(mat: THREE.MeshPhysicalMaterial, amount: { value: number },
       .replace(
         '#include <opaque_fragment>',
         '{ vec3 vv = normalize(vViewPosition); float sf = pow(1.0 - saturate(dot(normal, vv)), 3.0);\n' +
-          '  outgoingLight += uSunCol * sf * saturate(dot(normal, uSunView) + 0.3) * uSunRim * uSunMul;\n' +
-          // hover: a soft studio light band sweeping across the panels (screen-space slope, slightly tilted)
-          '  float sx = (vViewPosition.x + 0.35 * vViewPosition.y) / max(vViewPosition.z, 0.1);\n' +
-          '  float band = exp(-pow((sx - uSweepPos) * 16.0, 2.0)); float swa = uSweepAmt * uSweepMul;\n' +
-          // reads on white too: the panel dims 14 % outside the band while a specular streak rides inside it
-          '  outgoingLight *= 1.0 - 0.2 * swa * (1.0 - band);\n' +
-          '  outgoingLight += vec3(0.6, 0.55, 0.48) * band * swa * (0.45 + 0.55 * sf); }\n#include <opaque_fragment>',
+          '  outgoingLight += uSunCol * sf * saturate(dot(normal, uSunView) + 0.3) * uSunRim * uSunMul; }\n#include <opaque_fragment>',
       );
   };
   mat.customProgramCacheKey = () => key;
@@ -112,31 +102,30 @@ export function createCarMaterials(): CarMaterials & { pearl: { value: number } 
       clearcoat: f.clearcoat,
       clearcoatRoughness: f.clearcoatRoughness,
       envMapIntensity: f.env,
-      ior: 1.8,
-      specularIntensity: 2.2, // F0 ≈ 0.15 under the clearcoat → the sky reads in the white paint (no flake / grain)
+      ior: 1.5, // physical base coat (F0 0.04) under a 0.04 clear coat — same as the Cycles Principled target
       side: THREE.DoubleSide, // separated panels at .02 show a painted inner skin, not a see-through edge
     }),
     { color: RIM_WARM, power: 2.4 },
   );
   const pearl = { value: 1 };
-  paintShader(paint.material, pearl, 'baha-car-paint-v5');
+  paintShader(paint.material, pearl, 'baha-car-paint-v6');
 
   const accent = addRim(
     // gloss carbon-black skirts / diffuser: dark but never a hole — clear-coated, reflective, AO'd
     new THREE.MeshPhysicalMaterial({ name: 'BAHA Accent', color: f.accent, metalness: f.accentMetal, roughness: f.accentRough, clearcoat: 1, clearcoatRoughness: 0.04, envMapIntensity: 1.6, side: THREE.DoubleSide }),
     { color: RIM_WARM, power: 2.4 },
   );
-  paintShader(accent.material, { value: 0 }, 'baha-car-accent-v5', 0.15, 0); // trim keeps its colour on hover
+  paintShader(accent.material, { value: 0 }, 'baha-car-accent-v6', 0); // trim: no fake rim, keeps its colour on hover
   // tinted glazing, no transmission pass (one extra full-scene render would cost the iGPU ~40% of its frame)
   const glass = addRim(
     new THREE.MeshPhysicalMaterial({
       name: 'BAHA Glass',
-      color: '#050608',
+      color: '#0b0d10',
       metalness: 0,
       roughness: 0.02,
-      envMapIntensity: 0.85,
+      envMapIntensity: 1.0,
       transparent: true,
-      opacity: 0.86,
+      opacity: 0.55, // the cabin reads through the glazing (no transmission pass: iGPU budget)
       depthWrite: false,
     }),
     { color: '#ffe6c8', power: 1.8 },
@@ -150,16 +139,16 @@ export function createCarMaterials(): CarMaterials & { pearl: { value: number } 
     power: 1.5,
   });
   const signal = new THREE.MeshStandardMaterial({ name: 'BAHA Signal', color: '#1a0f04', emissive: '#ff8a1c', emissiveIntensity: 0.25, roughness: 0.3 });
-  const rimDark = addRim(new THREE.MeshStandardMaterial({ name: 'BAHA Rim', color: '#0d0e10', metalness: 0.1, roughness: 0.3, envMapIntensity: 1.1, emissive: '#fff1de', emissiveIntensity: 0 }), {
+  const rimDark = addRim(new THREE.MeshStandardMaterial({ name: 'BAHA Rim', color: '#3b3d42', metalness: 1, roughness: 0.3, envMapIntensity: 1, emissive: '#fff1de', emissiveIntensity: 0 }), {
     color: RIM_WARM,
     power: 2,
   });
-  const rimLip = addRim(new THREE.MeshStandardMaterial({ name: 'BAHA Rim lip', color: '#0c0d0f', metalness: 0, roughness: 0.12, envMapIntensity: 1.5, emissive: '#fff1de', emissiveIntensity: 0 }), {
+  const rimLip = addRim(new THREE.MeshStandardMaterial({ name: 'BAHA Rim lip', color: '#b9bbbe', metalness: 1, roughness: 0.16, envMapIntensity: 1, emissive: '#fff1de', emissiveIntensity: 0 }), {
     color: RIM_WARM,
     power: 2,
   });
   const caliper = new THREE.MeshStandardMaterial({ name: 'BAHA Caliper', color: '#c2361c', metalness: 0.25, roughness: 0.36, emissive: '#ff5a1f', emissiveIntensity: 0 });
-  const interior = new THREE.MeshStandardMaterial({ name: 'BAHA Leather', color: f.interior, roughness: 0.55, metalness: 0 });
+  const interior = new THREE.MeshStandardMaterial({ name: 'BAHA Leather', color: f.interior, roughness: 0.55, metalness: 0, envMapIntensity: 0.35 }); // cabin: occluded by the roof
   const plate = new THREE.MeshStandardMaterial({ name: 'BAHA Plate', color: '#ffffff', roughness: 0.45, metalness: 0.05 });
 
   return {

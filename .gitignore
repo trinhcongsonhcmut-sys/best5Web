@@ -13,3 +13,7 @@ reference/v2/*.png
 # full-resolution baseline videos stay local; compressed *-preview.mp4 are committed
 baseline/**/*.mp4
 !baseline/**/*-preview.mp4
+# Automotive flagship: reference frames show a real branded car (local only); heavy render outputs and source models stay local
+automotive-flagship/ref-frames/
+automotive-flagship/renders/**/*.exr
+automotive-flagship/source/

@@ -9,6 +9,7 @@ import { ShowcasePage, type DemoMeta } from '../../lib/ui';
 import { AutomotiveScene } from './Scene';
 import { AutomotiveHud } from './hud';
 import { holdReady, releaseReady } from './anim';
+import { TONE } from './contract';
 
 const META: DemoMeta = {
   id: 'automotive',
@@ -35,7 +36,7 @@ export default function Automotive() {
     <ShowcasePage
       meta={META}
       scene={
-        <Stage background="#d69a68" fov={27} tone="aces" exposure={0.88} shadows={false} dprMax={1.5}>
+        <Stage background={TONE.background} fov={27} tone={TONE.mapping} exposure={TONE.exposure} shadows={false} dprMax={1.5}>
           <AutomotiveScene />
         </Stage>
       }

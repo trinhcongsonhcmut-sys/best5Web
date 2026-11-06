@@ -13,6 +13,12 @@
 - Tài sản Founder đã duyệt và đã tải (05/11): `public/assets/models/CarConcept.glb` (CC-BY 4.0, ghi công bắt buộc, gỡ logo Khronos), 3 HDRI CC0, 5 bộ texture CC0 2K — xem `ASSET_LICENSES.md`. Công cụ: `scripts/inspect-glb.mjs` (+ `@gltf-transform/*` devDependencies).
 - Đang chạy: 3 builder v2 (automotive cổng 5195, beauty 5191, real-estate 5193). Sau đó: `capture-baseline.mjs --tag v2` so trước/sau, QC 10/10, `measure-prod.mjs`, giám khảo độc lập.
 
+## Trang chủ mới — card cascade (06/11/2026, Founder giao)
+- Thay hoàn toàn trang chủ cũ (danh sách chữ) bằng hub **card cascade**: chữ **Baha** (đen, trên) + **3D** (gradient, dưới), 5 card xếp lớp có thumbnail hero của từng route, rail số thứ tự bên phải. Chỉ đụng trang chủ; 5 route demo giữ nguyên.
+- Mã: `src/home/` (`Home.tsx` component + vòng lặp chuyển động, `cascade.ts` toán tư thế card, `data.ts` cấu hình card, `home.css`). `src/App.tsx` trỏ `/` và `*` vào `Home`. Đã xóa `src/routes/Gallery.tsx` và CSS `.gallery*` (bản cũ còn trong branch `showcase/v2-photoreal`, `showcase/baseline-v1`, `showcase/standalone`).
+- Thumbnail: `public/thumbs/<id>.jpg` (5:4), chụp lại bằng `node scripts/capture-home-thumbs.mjs` (cần dev server). QC: `node scripts/qc-home.mjs [--base URL] [--out DIR]` — 49 kiểm tra (layout 5 cỡ màn hình, wheel/phím/kéo/chạm, hover, click từng card → đúng route, reduced-motion, nhịp khung hình). Kết quả 06/11/2026: 49/49 PASS trên bản dev và bản build production.
+- Chưa deploy: bản `dist/` đang chạy ở `nhap-5website.bahagroup.vn` và Cloudflare Pages vẫn là trang chủ cũ cho tới khi build + deploy lại.
+
 ## Lệnh tiếp tục
 ```
 cd "C:\Users\Baha Group\Desktop\repWeb\BAHA_3D_SHOWCASE"

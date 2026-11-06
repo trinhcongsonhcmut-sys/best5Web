@@ -1,0 +1,63 @@
+{
+ "condition": {
+  "mode": "vite dev",
+  "viewport": "1440x900",
+  "dpr": 1,
+  "gpu": "ANGLE (Intel, Intel(R) HD Graphics 530 (0x00001912) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "chrome": "156.0.8078.80"
+ },
+ "readyMs": 7211,
+ "idle": {
+  "fps": 63.8,
+  "p95": 27.2,
+  "worst": 40
+ },
+ "scroll": {
+  "fps": 69.4,
+  "p95": 26.6,
+  "worst": 40.1
+ },
+ "marks": [
+  {
+   "p": 0,
+   "calls": 119,
+   "tris": 437055,
+   "fps": 64.2,
+   "p95": 28,
+   "worst": 41.2
+  },
+  {
+   "p": 0.25,
+   "calls": 120,
+   "tris": 437055,
+   "fps": 70.6,
+   "p95": 26.6,
+   "worst": 53.3
+  },
+  {
+   "p": 0.5,
+   "calls": 119,
+   "tris": 437055,
+   "fps": 66.9,
+   "p95": 26.8,
+   "worst": 27.6
+  },
+  {
+   "p": 0.75,
+   "calls": 119,
+   "tris": 437055,
+   "fps": 73.6,
+   "p95": 13.7,
+   "worst": 27.9
+  },
+  {
+   "p": 1,
+   "calls": 119,
+   "tris": 437055,
+   "fps": 75.3,
+   "p95": 13.4,
+   "worst": 13.5
+  }
+ ],
+ "errors": []
+}
